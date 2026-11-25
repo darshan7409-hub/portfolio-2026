@@ -2,11 +2,13 @@
 
 import { useRef, useEffect, useState, type ReactNode } from 'react';
 import {
+  LazyMotion,
   m,
-  useInView,
   useScroll,
   useTransform,
 } from 'framer-motion';
+
+const loadFeatures = () => import('framer-motion').then((mod) => mod.domAnimation);
 
 type RevealCallback = (revealed: boolean) => void;
 const revealCallbacks = new WeakMap<Element, RevealCallback>();
@@ -118,33 +120,37 @@ export function StatCounter({
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const numRef = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, amount: 0.4 });
   const finalFormatted = `${padZero && end < 10 ? `0${end}` : end}${suffix}`;
 
   useEffect(() => {
-    if (!inView || !numRef.current) return;
+    const el = ref.current;
+    if (!el || !numRef.current) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const duration = 1100;
-    const start = performance.now();
     let rafId = 0;
+    const unobserve = observeOnce(el, () => {
+      const duration = 1100;
+      const start = performance.now();
+      const tick = (now: number) => {
+        const t = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - t, 3);
+        const rounded = Math.round(end * eased);
+        const formatted = padZero && rounded < 10 ? `0${rounded}` : `${rounded}`;
+        if (numRef.current) {
+          numRef.current.textContent = `${formatted}${suffix}`;
+        }
+        if (t < 1) {
+          rafId = requestAnimationFrame(tick);
+        }
+      };
+      rafId = requestAnimationFrame(tick);
+    });
 
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 3);
-      const rounded = Math.round(end * eased);
-      const formatted = padZero && rounded < 10 ? `0${rounded}` : `${rounded}`;
-      if (numRef.current) {
-        numRef.current.textContent = `${formatted}${suffix}`;
-      }
-      if (t < 1) {
-        rafId = requestAnimationFrame(tick);
-      }
+    return () => {
+      unobserve();
+      if (rafId) cancelAnimationFrame(rafId);
     };
-
-    rafId = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafId);
-  }, [inView, end, padZero, suffix]);
+  }, [end, padZero, suffix]);
 
   return (
     <div ref={ref} className="glass-panel px-4 py-3.5 rounded-[14px]">
@@ -216,7 +222,11 @@ function DesktopParallaxInner({
   });
   const y = useTransform(scrollYProgress, [0, 1], range);
 
-  return <m.div style={{ y }}>{children}</m.div>;
+  return (
+    <LazyMotion features={loadFeatures} strict>
+      <m.div style={{ y }}>{children}</m.div>
+    </LazyMotion>
+  );
 }
 
 export function ParallaxFrame({

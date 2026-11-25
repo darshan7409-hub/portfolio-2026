@@ -1,86 +1,215 @@
-import {
-  ShieldCheck,
-  Layers,
-  CheckCircle2,
-  Target,
-  Cpu,
-  Code2,
-  Terminal,
-  Bug,
-  Globe,
-  Zap,
-  FileText,
-  GitBranch,
-} from 'lucide-react';
+import { ShieldCheck, CheckSquare, Cpu, Users } from 'lucide-react';
 import GlassPanel from './GlassPanel';
-import SectionHeader from './SectionHeader';
-import { ScrollReveal } from './MotionPrimitives';
-import { SKILL_COLUMNS, type SkillColumn } from '@/data/portfolio';
+import { ScrollReveal, TypeInEyebrow } from './MotionPrimitives';
 
-function SkillIcon({ iconKey }: { iconKey: SkillColumn['items'][number]['iconKey'] }) {
-  const props = { size: 15, className: 'text-accent shrink-0', 'aria-hidden': true as const };
-  switch (iconKey) {
-    case 'shield':
-      return <ShieldCheck {...props} />;
-    case 'layers':
-      return <Layers {...props} />;
-    case 'check':
-      return <CheckCircle2 {...props} />;
-    case 'target':
-      return <Target {...props} />;
-    case 'cpu':
-      return <Cpu {...props} />;
-    case 'code':
-      return <Code2 {...props} />;
-    case 'terminal':
-      return <Terminal {...props} />;
-    case 'bug':
-      return <Bug {...props} />;
-    case 'globe':
-      return <Globe {...props} />;
-    case 'zap':
-      return <Zap {...props} />;
-    case 'file':
-      return <FileText {...props} />;
-    case 'git':
-      return <GitBranch {...props} />;
-  }
+interface TechTool {
+  name: string;
+  icon: string;
+  darkIcon?: string;
 }
+
+const TECH_TOOLS: TechTool[] = [
+  { name: 'BROWSERSTACK', icon: '/tech/browserstack-light.svg', darkIcon: '/tech/browserstack-dark.svg' },
+  { name: 'KATALON', icon: '/tech/katalon-light.svg', darkIcon: '/tech/katalon-dark.svg' },
+  { name: 'JIRA', icon: '/tech/jira.svg' },
+  { name: 'FIGMA', icon: '/tech/figma.svg' },
+  { name: 'GOOGLE SHEETS', icon: '/tech/googlesheets.svg' },
+  { name: 'TRELLO', icon: '/tech/trello.svg' },
+  { name: 'POSTMAN', icon: '/tech/postman.svg' },
+  { name: 'JMETER', icon: '/tech/jmeter.svg' },
+  { name: 'CLICKUP', icon: '/tech/clickup.svg' },
+  { name: 'SENTRY', icon: '/tech/sentry.svg' },
+  { name: 'BITBUCKET', icon: '/tech/bitbucket.svg' },
+];
+
+const SKILL_PILLARS = [
+  {
+    id: 'qa-strategy',
+    title: 'Quality Assurance',
+    icon: ShieldCheck,
+    items: ['Test Planning', 'Test Design', 'Requirement Analysis', 'Risk Assessment', 'API Testing'],
+  },
+  {
+    id: 'qa-validation',
+    title: 'Quality Validation',
+    icon: CheckSquare,
+    items: ['Functional Testing', 'Regression Testing', 'Cross-Browser Testing', 'Smoke & Sanity Gates', 'Mobile App QA'],
+  },
+  {
+    id: 'automation-tooling',
+    title: 'Automation & Tools',
+    icon: Cpu,
+    items: ['Selenium WebDriver', 'Katalon Studio', 'Playwright', 'Postman', 'JMeter', 'BrowserStack', 'Sentry'],
+  },
+  {
+    id: 'delivery-code',
+    title: 'Delivery & Languages',
+    icon: Users,
+    items: ['Agile', 'Jira', 'Git & CI/CD', 'TypeScript / JS', 'Python', 'SQL', 'PHP'],
+  },
+];
 
 export default function SkillsMatrix() {
   return (
-    <section id="skills" className="py-24 sm:py-32 safe-x max-w-7xl mx-auto">
-      <SectionHeader
-        eyebrow="03 // Capabilities Matrix"
-        title="Skills & Tooling"
-        description="Four focused pillars spanning QA test strategy, UI & API automation, cross-browser diagnostic tools, and scripting languages."
-      />
+    <section id="skills" className="py-24 sm:py-32 safe-x max-w-7xl mx-auto overflow-hidden">
+      <ScrollReveal className="mb-16 sm:mb-20 text-center">
+        <div className="flex justify-center mb-3">
+          <TypeInEyebrow text="03 // Capabilities Matrix" />
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {SKILL_COLUMNS.map((col, idx) => (
-          <ScrollReveal key={col.id} delay={idx * 0.05}>
-            <GlassPanel as="article" className="p-6 h-full flex flex-col gap-5">
-              <div className="pb-3 border-b border-border flex items-center justify-between">
-                <h3 className="font-serif text-2xl text-ink-primary">{col.title}</h3>
-                <span className="mono-meta text-[11px] text-ink-muted">0{idx + 1}</span>
+        <h2 className="section-display font-normal text-ink-primary uppercase tracking-tight">
+          Technologies <span className="italic text-accent">I Use</span>
+        </h2>
+
+        {/* Decorative wave underline matching reference Skills section */}
+        <div className="flex justify-center mt-4 mb-10">
+          <svg
+            width="120"
+            height="12"
+            viewBox="0 0 100 10"
+            fill="none"
+            aria-hidden="true"
+            className="text-accent/60"
+          >
+            <path
+              d="M0 5C20 0 30 10 50 5C70 0 80 10 100 5"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+            />
+          </svg>
+        </div>
+
+        {/* Continuous Tech Tools Ticker on tablet/desktop, crisp wrap grid on mobile */}
+        <div className="relative w-full overflow-hidden py-4 mb-10">
+          <div className="tech-marquee-track flex whitespace-nowrap gap-12 sm:gap-20 items-center w-max">
+            {TECH_TOOLS.map((tool) => (
+              <div
+                key={`primary-${tool.name}`}
+                className="flex flex-col items-center gap-2.5 px-2 group select-none"
+              >
+                <div className="w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                  {tool.darkIcon ? (
+                    <>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={tool.icon}
+                        alt={tool.name}
+                        width={44}
+                        height={44}
+                        className="w-full h-full object-contain theme-light-only"
+                      />
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={tool.darkIcon}
+                        alt=""
+                        aria-hidden="true"
+                        width={44}
+                        height={44}
+                        className="w-full h-full object-contain theme-dark-only"
+                      />
+                    </>
+                  ) : (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      src={tool.icon}
+                      alt={tool.name}
+                      width={44}
+                      height={44}
+                      className="w-full h-full object-contain"
+                    />
+                  )}
+                </div>
+                <span className="mono-meta text-[10px] font-bold text-ink-muted tracking-[0.2em] uppercase transition-colors duration-250 group-hover:text-accent">
+                  {tool.name}
+                </span>
               </div>
+            ))}
+            {TECH_TOOLS.map((tool) => (
+              <div
+                key={`dup-${tool.name}`}
+                aria-hidden="true"
+                className="hidden md:flex flex-col items-center gap-2.5 px-2 group select-none"
+              >
+                <div className="w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+                  {tool.darkIcon ? (
+                    <>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={tool.icon}
+                        alt=""
+                        width={44}
+                        height={44}
+                        className="w-full h-full object-contain theme-light-only"
+                      />
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={tool.darkIcon}
+                        alt=""
+                        width={44}
+                        height={44}
+                        className="w-full h-full object-contain theme-dark-only"
+                      />
+                    </>
+                  ) : (
+                    /* eslint-disable-next-line @next/next/no-img-element */
+                    <img
+                      src={tool.icon}
+                      alt=""
+                      width={44}
+                      height={44}
+                      className="w-full h-full object-contain"
+                    />
+                  )}
+                </div>
+                <span className="mono-meta text-[10px] font-bold text-ink-muted tracking-[0.2em] uppercase transition-colors duration-250 group-hover:text-accent">
+                  {tool.name}
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
 
-              <ul className="flex flex-col gap-2.5">
-                {col.items.map((item) => (
-                  <li
-                    key={item.name}
-                    className="glass-panel !rounded-[12px] px-3.5 py-2.5 flex items-center gap-2.5 text-sm text-ink-secondary hover:text-ink-primary hover:border-accent/45 hover:-translate-y-0.5 transition-all duration-250"
-                  >
-                    <SkillIcon iconKey={item.iconKey} />
-                    <span>{item.name}</span>
-                  </li>
-                ))}
-              </ul>
-            </GlassPanel>
-          </ScrollReveal>
-        ))}
+        <p className="text-ink-secondary text-base sm:text-lg max-w-2xl mx-auto leading-relaxed">
+          Technical skills and tools that support software excellence — committed to delivering stable, reliable, and user-friendly products.
+        </p>
+      </ScrollReveal>
+
+      {/* 4-Column Reference Cards with Wrapped Pill Chips */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+        {SKILL_PILLARS.map((pillar, idx) => {
+          const Icon = pillar.icon;
+          return (
+            <ScrollReveal key={pillar.id} delay={idx * 0.05}>
+              <GlassPanel
+                as="article"
+                interactive
+                className="p-6 sm:p-7 rounded-[24px] flex flex-col h-full"
+              >
+                <div className="mb-5">
+                  <div className="w-11 h-11 rounded-2xl bg-accent-muted border border-accent/20 flex items-center justify-center mb-4 text-accent">
+                    <Icon size={21} aria-hidden="true" />
+                  </div>
+                  <h3 className="font-serif text-2xl text-ink-primary leading-tight">
+                    {pillar.title}
+                  </h3>
+                </div>
+
+                <ul className="flex flex-wrap gap-2">
+                  {pillar.items.map((skill) => (
+                    <li
+                      key={skill}
+                      className="px-3 py-1.5 rounded-xl bg-surface-1 border border-border-strong text-xs sm:text-[13px] font-medium text-ink-secondary hover:bg-accent hover:text-accent-ink hover:border-accent transition-all duration-200 cursor-default"
+                    >
+                      {skill}
+                    </li>
+                  ))}
+                </ul>
+              </GlassPanel>
+            </ScrollReveal>
+          );
+        })}
       </div>
     </section>
   );
 }
-

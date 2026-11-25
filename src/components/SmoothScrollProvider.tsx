@@ -8,9 +8,6 @@ import {
   useCallback,
   type ReactNode,
 } from 'react';
-import { LazyMotion, MotionConfig } from 'framer-motion';
-
-const loadFeatures = () => import('framer-motion').then((mod) => mod.domAnimation);
 
 interface LenisLike {
   scrollTo: (target: number | string | HTMLElement, options?: { duration?: number }) => void;
@@ -102,9 +99,7 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
 
   return (
     <SmoothScrollContext.Provider value={{ scrollToTop, scrollToTarget }}>
-      <LazyMotion features={loadFeatures} strict>
-        <MotionConfig reducedMotion="user">{children}</MotionConfig>
-      </LazyMotion>
+      {children}
     </SmoothScrollContext.Provider>
   );
 }

@@ -1,14 +1,42 @@
 'use client';
 
-import { m, useScroll } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 
 export function NavbarScrollProgress() {
-  const { scrollYProgress } = useScroll();
+  const barRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const bar = barRef.current;
+    if (!bar) return;
+
+    let rafId = 0;
+    const update = () => {
+      rafId = 0;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+      bar.style.transform = `scaleX(${progress.toFixed(4)})`;
+    };
+
+    const onScroll = () => {
+      if (!rafId) {
+        rafId = requestAnimationFrame(update);
+      }
+    };
+
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', onScroll);
+    };
+  }, []);
+
   return (
-    <m.div
+    <div
+      ref={barRef}
       aria-hidden="true"
       style={{
-        scaleX: scrollYProgress,
+        transform: 'scaleX(0)',
         transformOrigin: '0% 50%',
         background: 'linear-gradient(90deg, var(--token-accent), var(--token-accent-hover))',
       }}
@@ -19,10 +47,9 @@ export function NavbarScrollProgress() {
 
 export function NavActivePill() {
   return (
-    <m.span
-      layoutId="nav-active-pill"
-      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-      className="absolute inset-x-1 inset-y-1.5 rounded-[10px] bg-accent-muted border border-accent/25 -z-10"
+    <span
+      aria-hidden="true"
+      className="absolute inset-x-1 inset-y-1.5 rounded-[10px] bg-accent-muted border border-accent/25 -z-10 transition-all duration-250"
     />
   );
 }

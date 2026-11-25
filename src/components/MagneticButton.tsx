@@ -3,12 +3,10 @@
 import {
   useRef,
   useEffect,
-  useState,
   type ReactNode,
   type AnchorHTMLAttributes,
   type ButtonHTMLAttributes,
 } from 'react';
-import { m, useMotionValue, useSpring } from 'framer-motion';
 
 type BaseProps = {
   children: ReactNode;
@@ -33,58 +31,41 @@ export default function MagneticButton(props: MagneticButtonProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const rectRef = useRef<DOMRect | null>(null);
   const canMagnetRef = useRef(false);
-  const [hovered, setHovered] = useState(false);
-
-  const xRaw = useMotionValue(0);
-  const yRaw = useMotionValue(0);
-  const x = useSpring(xRaw, { stiffness: 165, damping: 16 });
-  const y = useSpring(yRaw, { stiffness: 165, damping: 16 });
 
   useEffect(() => {
     const finePointer = window.matchMedia('(pointer: fine)').matches;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     canMagnetRef.current = finePointer && !reducedMotion;
-
-    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
-    const invalidate = () => {
-      if (resizeTimer) clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        rectRef.current = null;
-      }, 150);
-    };
-
-    const observer =
-      typeof ResizeObserver !== 'undefined' && wrapperRef.current
-        ? new ResizeObserver(invalidate)
-        : null;
-    if (observer && wrapperRef.current) observer.observe(wrapperRef.current);
-
-    return () => {
-      if (resizeTimer) clearTimeout(resizeTimer);
-      observer?.disconnect();
-    };
   }, []);
 
   const strength = props.strength ?? 0.25;
 
   const handleMouseEnter = () => {
-    if (!canMagnetRef.current || !wrapperRef.current) return;
-    rectRef.current = wrapperRef.current.getBoundingClientRect();
-    setHovered(true);
+    const el = wrapperRef.current;
+    if (!canMagnetRef.current || !el) return;
+    rectRef.current = el.getBoundingClientRect();
+    el.style.transition = 'transform 110ms cubic-bezier(0.16, 1, 0.3, 1)';
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const el = wrapperRef.current;
+    if (!canMagnetRef.current || !el) return;
+    if (!rectRef.current) {
+      rectRef.current = el.getBoundingClientRect();
+    }
     const rect = rectRef.current;
-    if (!canMagnetRef.current || !rect) return;
-    xRaw.set((e.clientX - (rect.left + rect.width / 2)) * strength);
-    yRaw.set((e.clientY - (rect.top + rect.height / 2)) * strength);
+    const dx = (e.clientX - (rect.left + rect.width / 2)) * strength;
+    const dy = (e.clientY - (rect.top + rect.height / 2)) * strength;
+    el.style.transform = `translate3d(${dx.toFixed(2)}px, ${dy.toFixed(2)}px, 0)`;
   };
 
   const handleMouseLeave = () => {
-    setHovered(false);
+    const el = wrapperRef.current;
     rectRef.current = null;
-    xRaw.set(0);
-    yRaw.set(0);
+    if (el) {
+      el.style.transition = 'transform 340ms cubic-bezier(0.16, 1, 0.3, 1)';
+      el.style.transform = '';
+    }
   };
 
   const innerElement =
@@ -113,19 +94,14 @@ export default function MagneticButton(props: MagneticButtonProps) {
         })();
 
   return (
-    <m.div
+    <div
       ref={wrapperRef}
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={
-        hovered
-          ? { x, y, transform: 'translateZ(0)', willChange: 'transform' }
-          : { x, y }
-      }
       className="inline-flex"
     >
       {innerElement}
-    </m.div>
+    </div>
   );
 }

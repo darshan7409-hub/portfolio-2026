@@ -1,7 +1,6 @@
 'use client';
 
 import { useRef, useEffect, type ReactNode, type CSSProperties } from 'react';
-import { m, useMotionValue, useSpring } from 'framer-motion';
 
 interface GlassPanelProps {
   children: ReactNode;
@@ -23,11 +22,6 @@ export default function GlassPanel({
   const ref = useRef<HTMLDivElement>(null);
   const rectRef = useRef<DOMRect | null>(null);
   const canHoverRef = useRef(false);
-
-  const rotateXRaw = useMotionValue(0);
-  const rotateYRaw = useMotionValue(0);
-  const rotateX = useSpring(rotateXRaw, { stiffness: 180, damping: 20 });
-  const rotateY = useSpring(rotateYRaw, { stiffness: 180, damping: 20 });
 
   useEffect(() => {
     const hoverFine =
@@ -57,8 +51,12 @@ export default function GlassPanel({
   }, []);
 
   const handleMouseEnter = () => {
-    if (!canHoverRef.current || !ref.current) return;
-    rectRef.current = ref.current.getBoundingClientRect();
+    const el = ref.current;
+    if (!canHoverRef.current || !el) return;
+    rectRef.current = el.getBoundingClientRect();
+    if (tilt) {
+      el.style.transition = 'border-color 400ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1)';
+    }
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -77,51 +75,41 @@ export default function GlassPanel({
     if (tilt) {
       const nx = (px / rect.width - 0.5) * 2;
       const ny = (py / rect.height - 0.5) * 2;
-      rotateXRaw.set(-ny * 5.5);
-      rotateYRaw.set(nx * 5.5);
+      const rx = (-ny * 5.5).toFixed(3);
+      const ry = (nx * 5.5).toFixed(3);
+      el.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg)`;
     }
   };
 
   const handleMouseLeave = () => {
+    const el = ref.current;
     rectRef.current = null;
-    if (tilt) {
-      rotateXRaw.set(0);
-      rotateYRaw.set(0);
+    if (tilt && el) {
+      el.style.transition =
+        'transform 350ms cubic-bezier(0.16, 1, 0.3, 1), border-color 400ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 400ms cubic-bezier(0.16, 1, 0.3, 1)';
+      el.style.transform = '';
     }
   };
 
   const combinedClass = `glass-panel ${interactive ? 'glass-interactive' : ''} ${tilt ? 'glass-tilt' : ''} ${className}`.trim();
-
-  if (tilt) {
-    const MotionTag = as === 'article' ? m.article : m.div;
-    return (
-      <div style={{ perspective: '1000px' }}>
-        <MotionTag
-          ref={ref}
-          onMouseEnter={handleMouseEnter}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleMouseLeave}
-          style={{ ...style, rotateX, rotateY, transformPerspective: 1000, transformStyle: 'preserve-3d' }}
-          className={combinedClass}
-        >
-          {children}
-        </MotionTag>
-      </div>
-    );
-  }
-
   const Tag = as;
-  return (
+
+  const node = (
     <Tag
       ref={ref}
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={style}
+      style={tilt ? { ...style, transformStyle: 'preserve-3d' } : style}
       className={combinedClass}
     >
       {children}
     </Tag>
   );
-}
 
+  if (tilt) {
+    return <div style={{ perspective: '1000px' }}>{node}</div>;
+  }
+
+  return node;
+}

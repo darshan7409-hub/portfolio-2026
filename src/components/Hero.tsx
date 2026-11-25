@@ -33,7 +33,7 @@ export default function Hero({ hasRealCv }: { hasRealCv: boolean }) {
         {/* Left Editorial Column */}
         <div className="lg:col-span-8 space-y-6 relative z-10 pt-8 lg:pt-4">
           <HeroTextReveal
-            lines={['QA engineer turning', 'ambiguous requirements', 'into bulletproof releases.']}
+            lines={['QA Lead & Analyst', 'turning ambiguous specs', 'into bulletproof releases.']}
             highlightWord="ambiguous"
           />
 
@@ -85,13 +85,12 @@ export default function Hero({ hasRealCv }: { hasRealCv: boolean }) {
 
           <SocialLinks variant="hero" />
 
-          <dl className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 max-w-lg">
+          <dl className="grid grid-cols-2 gap-4 pt-4 max-w-sm">
             {PROFILE.metrics.map((metric) => (
               <StatCounter
                 key={metric.label}
                 end={metric.value}
                 suffix={metric.suffix}
-                padZero={metric.padZero}
                 label={metric.label}
               />
             ))}
@@ -109,8 +108,7 @@ export default function Hero({ hasRealCv }: { hasRealCv: boolean }) {
                   width={PORTRAIT_ASSET.width}
                   height={PORTRAIT_ASSET.height}
                   priority
-                  placeholder="blur"
-                  blurDataURL={PORTRAIT_ASSET.blurDataURL}
+                  fetchPriority="high"
                   sizes="(max-width: 640px) 90vw, (max-width: 1024px) 384px, 32vw"
                   className="w-full h-full object-cover object-top"
                 />
@@ -127,7 +125,7 @@ export default function Hero({ hasRealCv }: { hasRealCv: boolean }) {
                       className="mono-meta text-[10px] uppercase tracking-[0.16em]"
                       style={{ color: 'oklch(0.78 0.14 68)' }}
                     >
-                      QA Automation Lead
+                      {PROFILE.role}
                     </p>
                     <p className="text-sm font-semibold">{PROFILE.name}</p>
                   </div>

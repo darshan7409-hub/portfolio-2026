@@ -61,9 +61,9 @@ function makeBlurDataUrl(fillCss: string): string {
 
 export const PORTRAIT_ASSET = {
   src: '/My_image.png',
-  alt: 'Darshan Patel — Senior QA Analyst and Automation Specialist portrait',
-  width: 3024,
-  height: 4032,
+  alt: 'Darshan Patel — QA Lead & Analyst portrait',
+  width: 1000,
+  height: 1250,
   blurDataURL: makeBlurDataUrl('oklch(0.21 0.008 60)'),
 };
 
@@ -71,16 +71,16 @@ export const PROFILE = {
   name: 'Darshan Patel',
   shortName: 'Darshan',
   initials: 'DP',
-  role: 'Senior QA Analyst & Automation Specialist',
+  role: 'QA Lead & Analyst',
   location: 'Ahmedabad, Gujarat, India',
   email: 'darshan7409@gmail.com',
-  phone: '+91 8000456527',
-  phoneHref: 'tel:+918000456527',
-  whatsappHref: 'https://wa.me/918000456527',
+  phone: '+91 9687940988',
+  phoneHref: 'tel:+919687940988',
+  whatsappHref: 'https://wa.me/919687940988',
   cvPath: 'public/Darshan_Patel_CV.pdf',
   cvUrl: '/Darshan_Patel_CV.pdf',
   siteUrl: 'https://darshanpatel.com',
-  positioning: 'QA engineer turning ambiguous requirements into bulletproof releases.',
+  positioning: 'QA Lead & Analyst turning ambiguous requirements into bulletproof releases.',
   subpositioning:
     'Grounded in test strategy, Selenium & Katalon automation, and Postman API verification across fast-shipping web and mobile teams.',
   responseSignal: 'Usually responds within 24 hours',
@@ -90,9 +90,8 @@ export const PROFILE = {
     '[Philosophy paragraph 2: Replace with Darshan’s own first-person note on balancing structured manual exploratory testing, API contract verification, and automated regression safety nets.]',
   ],
   metrics: [
-    { value: 2, suffix: '+', label: 'Years Exp' },
-    { value: 20, suffix: '+', label: 'Projects' },
-    { value: 7, suffix: '', label: 'Case Studies', padZero: true },
+    { value: 8, suffix: '+', label: 'Years Exp' },
+    { value: 30, suffix: '+', label: 'Projects' },
   ],
   recentProjectChips: [
     { label: 'Captain Up', targetId: 'captain-up' },
@@ -103,7 +102,7 @@ export const PROFILE = {
   ],
   socials: [
     { id: 'github' as const, label: 'GitHub', href: 'https://github.com/darshan7409-hub' },
-    { id: 'linkedin' as const, label: 'LinkedIn', href: 'https://www.linkedin.com/in/darshanpatel' },
+    { id: 'linkedin' as const, label: 'LinkedIn', href: 'https://www.linkedin.com/in/darshan-patel-619901106' },
     { id: 'instagram' as const, label: 'Instagram', href: 'https://www.instagram.com/darshanpatel' },
   ],
 };

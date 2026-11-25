@@ -4,6 +4,7 @@ import { ThemeProvider } from 'next-themes';
 import './globals.css';
 import SmoothScrollProvider from '@/components/SmoothScrollProvider';
 import Navbar from '@/components/Navbar';
+import BackToTop from '@/components/BackToTop';
 import Footer from '@/components/Footer';
 import { PROFILE } from '@/data/portfolio';
 
@@ -34,7 +35,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PROFILE.siteUrl;
 const seoDescription =
-  'Senior QA Analyst in Ahmedabad specializing in QA automation, test strategy, Selenium, Katalon, and Postman API validation for reliable production releases.';
+  'QA Lead & Analyst in Ahmedabad specializing in QA automation, test strategy, Selenium, Katalon, and Postman API validation for reliable production releases.';
 
 export const viewport: Viewport = {
   themeColor: [
@@ -55,8 +56,7 @@ export const metadata: Metadata = {
   description: seoDescription,
   keywords: [
     'Darshan Patel',
-    'Senior QA Analyst',
-    'QA Automation Specialist',
+    'QA Lead & Analyst',
     'Software Quality Assurance',
     'Test Strategy',
     'Selenium',
@@ -135,8 +135,8 @@ export default function RootLayout({
 
         <ThemeProvider
           attribute="data-theme"
-          defaultTheme="dark"
-          enableSystem
+          defaultTheme="light"
+          enableSystem={false}
           disableTransitionOnChange
         >
           <SmoothScrollProvider>
@@ -145,6 +145,7 @@ export default function RootLayout({
               {children}
             </main>
             <Footer />
+            <BackToTop />
           </SmoothScrollProvider>
         </ThemeProvider>
       </body>

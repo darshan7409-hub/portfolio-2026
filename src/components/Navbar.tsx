@@ -67,34 +67,40 @@ export default function Navbar() {
 
     if (elements.length === 0) return;
 
-    const visibleHeights = new Map<string, number>();
+    let cachedPositions: { id: string; top: number }[] = [];
+    const recomputePositions = () => {
+      cachedPositions = elements.map((el) => ({ id: el.id, top: el.offsetTop }));
+    };
+    recomputePositions();
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            visibleHeights.set(entry.target.id, entry.intersectionRect.height);
-          } else {
-            visibleHeights.delete(entry.target.id);
-          }
-        }
-        let bestId = '';
-        let bestHeight = -1;
-        for (const [id, height] of visibleHeights.entries()) {
-          if (height > bestHeight) {
-            bestHeight = height;
-            bestId = id;
-          }
-        }
-        if (bestId) {
-          setActiveId(bestId);
-        }
-      },
-      { rootMargin: '-18% 0px -60% 0px', threshold: 0 }
-    );
+    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
+    const resizeObserver =
+      typeof ResizeObserver !== 'undefined'
+        ? new ResizeObserver(() => {
+            if (resizeTimer) clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(recomputePositions, 150);
+          })
+        : null;
+    resizeObserver?.observe(document.body);
 
-    elements.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    const updateActiveFromScroll = () => {
+      const marker = window.scrollY + window.innerHeight * 0.35;
+      let current = cachedPositions[0]?.id || 'top';
+      for (const sec of cachedPositions) {
+        if (sec.top <= marker) {
+          current = sec.id;
+        }
+      }
+      setActiveId((prev) => (prev === current ? prev : current));
+    };
+
+    updateActiveFromScroll();
+    window.addEventListener('scroll', updateActiveFromScroll, { passive: true });
+    return () => {
+      if (resizeTimer) clearTimeout(resizeTimer);
+      resizeObserver?.disconnect();
+      window.removeEventListener('scroll', updateActiveFromScroll);
+    };
   }, []);
 
   useEffect(() => {

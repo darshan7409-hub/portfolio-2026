@@ -379,6 +379,110 @@ body {
 }
 
 /* BrandMark Hero Draw-In (1.5s stroke-dasharray + notch scale) */
+@keyframes tech-marquee {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+.tech-marquee-track {
+  animation: tech-marquee 55s linear infinite;
+  transform: translate3d(0, 0, 0);
+}
+.tech-marquee-track:hover {
+  animation-play-state: paused;
+}
+@media (max-width: 767px) {
+  .tech-marquee-track {
+    animation: none;
+    transform: none;
+    width: 100% !important;
+    white-space: normal !important;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem 1.75rem !important;
+  }
+}
+
+/* Social link authentic brand hover colors */
+.social-brand-link {
+  position: relative;
+  overflow: hidden;
+  transition:
+    color 240ms ease,
+    background-color 240ms ease,
+    border-color 240ms ease,
+    transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 240ms ease;
+}
+.social-brand-github:hover,
+.social-brand-github:focus-visible {
+  background: #24292f !important;
+  border-color: #24292f !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 20px -6px rgba(36, 41, 47, 0.45);
+}
+:root:not([data-theme="light"]) .social-brand-github:hover,
+:root:not([data-theme="light"]) .social-brand-github:focus-visible {
+  background: #ffffff !important;
+  border-color: #ffffff !important;
+  color: #181717 !important;
+}
+.social-brand-linkedin:hover,
+.social-brand-linkedin:focus-visible {
+  background: #0a66c2 !important;
+  border-color: #0a66c2 !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 20px -6px rgba(10, 102, 194, 0.5);
+}
+.social-brand-instagram::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
+  transition: opacity 240ms ease;
+  pointer-events: none;
+  z-index: 0;
+}
+.social-brand-instagram:hover::before,
+.social-brand-instagram:focus-visible::before {
+  opacity: 1;
+}
+.social-brand-instagram:hover,
+.social-brand-instagram:focus-visible {
+  border-color: transparent !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 22px -6px rgba(214, 36, 159, 0.55);
+}
+.social-brand-whatsapp:hover,
+.social-brand-whatsapp:focus-visible {
+  background: #128c7e !important;
+  border-color: #128c7e !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 20px -6px rgba(18, 140, 126, 0.5);
+}
+.social-brand-email:hover,
+.social-brand-email:focus-visible {
+  background: #d93025 !important;
+  border-color: #d93025 !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 20px -6px rgba(217, 48, 37, 0.5);
+}
+.social-brand-phone:hover,
+.social-brand-phone:focus-visible {
+  background: #059669 !important;
+  border-color: #059669 !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 20px -6px rgba(5, 150, 105, 0.5);
+}
+
+/* Theme-switched SVG logos without client JS re-renders */
+:root[data-theme="light"] .theme-dark-only {
+  display: none;
+}
+:root:not([data-theme="light"]) .theme-light-only {
+  display: none;
+}
+
 @keyframes hero-word-in {
   from {
     transform: translate3d(0, 12px, 0);
@@ -420,7 +524,7 @@ body {
   to { stroke-dashoffset: 0; }
 }
 @keyframes draw-check {
-  0%, 55% { stroke-dashoffset: 48; opacity: 0; transform: scale(0.86); }
+  0%, 40% { stroke-dashoffset: 110; opacity: 0; transform: scale(0.92); }
   100% { stroke-dashoffset: 0; opacity: 1; transform: scale(1); }
 }
 .brandmark-draw-d {
@@ -429,8 +533,8 @@ body {
   animation: draw-d 1.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 .brandmark-draw-check {
-  stroke-dasharray: 48;
-  stroke-dashoffset: 48;
+  stroke-dasharray: 110;
+  stroke-dashoffset: 110;
   transform-origin: 40px 32px;
   animation: draw-check 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

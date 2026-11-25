@@ -15,27 +15,6 @@ export default function BrandMark({
 }: BrandMarkProps) {
   const isSimplified = size <= 20;
 
-  if (isSimplified) {
-    return (
-      <svg
-        width={size}
-        height={size}
-        viewBox="0 0 64 64"
-        fill="none"
-        aria-hidden="true"
-        className={className}
-      >
-        <path
-          d="M15 13H32C42.5 13 50 20.4 50 31.5C50 34 49.5 36.2 48.6 38.2M45 43.8C41.8 48 37.2 50.5 32 50.5H15V13Z"
-          stroke={color}
-          strokeWidth="6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        />
-      </svg>
-    );
-  }
-
   return (
     <svg
       width={size}
@@ -45,18 +24,20 @@ export default function BrandMark({
       aria-hidden="true"
       className={className}
     >
+      {/* Letter D — architectural outer spine and arc */}
       <path
-        d="M15 13H32C42.5 13 50 20.4 50 31.5C50 34 49.5 36.2 48.6 38.2M45 43.8C41.8 48 37.2 50.5 32 50.5H15V13Z"
+        d="M10 14H22C33 14 39 21 39 32C39 43 33 50 22 50H10V14Z"
         stroke={color}
-        strokeWidth="4.25"
+        strokeWidth={isSimplified ? 6 : 4.75}
         strokeLinecap="round"
         strokeLinejoin="round"
         className={animated ? 'brandmark-draw-d' : undefined}
       />
+      {/* Letter P — interlocking crisp stem and upper bowl */}
       <path
-        d="M29 33L35.5 39.5L51 24"
+        d="M27 50V14H42C50 14 55 18.8 55 26C55 33.2 50 38 42 38H27"
         stroke={notchColor}
-        strokeWidth="4.25"
+        strokeWidth={isSimplified ? 6 : 4.75}
         strokeLinecap="round"
         strokeLinejoin="round"
         className={animated ? 'brandmark-draw-check' : undefined}
@@ -64,4 +45,3 @@ export default function BrandMark({
     </svg>
   );
 }
-
