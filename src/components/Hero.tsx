@@ -1,101 +1,154 @@
 import Image from 'next/image';
-import { ArrowDownRight, FileText } from 'lucide-react';
+import { ArrowUpRight, ChevronDown, FileText, Mail } from 'lucide-react';
+import BrandMark from './BrandMark';
+import GlassPanel from './GlassPanel';
+import HeroSpotlight from './HeroSpotlight';
 import MagneticButton from './MagneticButton';
 import SocialLinks from './SocialLinks';
+import { HeroTextReveal, ParallaxFrame, StatCounter } from './MotionPrimitives';
 import { PORTRAIT_ASSET, PROFILE } from '@/data/portfolio';
 
-export default function Hero() {
+export default function Hero({ hasRealCv }: { hasRealCv: boolean }) {
   return (
     <section
       id="top"
-      className="relative min-h-[100dvh] flex items-center pt-24 pb-24 sm:pt-32 sm:pb-32 safe-x"
+      className="relative min-h-[100dvh] flex flex-col justify-between pt-24 pb-10 sm:pt-28 sm:pb-12 safe-x overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-        {/* Left editorial column */}
-        <div className="lg:col-span-8 space-y-7">
-          <div className="inline-flex items-center gap-3 px-3.5 py-2 rounded-[8px] border border-border bg-surface-1">
-            <span className="h-2 w-2 rounded-full bg-accent" aria-hidden="true" />
-            <span className="mono-meta text-xs uppercase tracking-[0.14em] text-ink-secondary">
-              {PROFILE.availability} · {PROFILE.location}
-            </span>
-          </div>
+      <HeroSpotlight />
 
-          <h1 className="hero-display font-bold text-ink-primary">
-            Precision
-            <br />
-            In <span className="text-accent-text">Quality</span>.
-          </h1>
+      <div className="max-w-7xl mx-auto w-full my-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center relative">
+        {/* Large animated BrandMark anchor behind left column */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-6 left-0 sm:-left-2 opacity-20 select-none"
+        >
+          <BrandMark
+            size={140}
+            color="var(--token-accent)"
+            notchColor="var(--token-ink-primary)"
+            animated
+          />
+        </div>
 
-          <p className="text-base sm:text-lg text-ink-secondary max-w-2xl leading-relaxed">
-            {PROFILE.tagline}
+        {/* Left Editorial Column */}
+        <div className="lg:col-span-8 space-y-6 relative z-10 pt-8 lg:pt-4">
+          <HeroTextReveal
+            lines={['QA engineer turning', 'ambiguous requirements', 'into bulletproof releases.']}
+            highlightWord="ambiguous"
+          />
+
+          <p className="mono-meta text-xs sm:text-sm uppercase tracking-[0.16em] text-accent">
+            {PROFILE.name} · {PROFILE.role}
           </p>
 
-          {/* Strict Button Hierarchy: 1 Primary + 1 Secondary + Socials */}
+          <p className="text-base sm:text-lg text-ink-secondary max-w-2xl leading-relaxed">
+            {PROFILE.subpositioning}
+          </p>
+
+          {/* 2 CTAs + Conditional CV File Size Gate */}
           <div className="flex flex-wrap items-center gap-4 pt-1">
             <MagneticButton
               as="a"
-              href="#projects"
-              className="min-h-[44px] inline-flex items-center gap-2.5 px-6 py-3 rounded-[8px] bg-accent text-accent-ink mono-meta text-xs sm:text-sm font-semibold uppercase tracking-[0.12em] hover:bg-accent-hover transition-colors"
+              href="#work"
+              className="min-h-[44px] inline-flex items-center gap-2.5 px-6 py-3 rounded-[12px] bg-accent text-accent-ink mono-meta text-xs sm:text-sm font-bold uppercase tracking-[0.12em] transition-[background-color,transform,box-shadow] duration-200 hover:bg-accent-hover hover:scale-[1.03] hover:shadow-[0_0_0_4px_var(--token-accent-muted),0_12px_28px_-8px_var(--token-accent)]"
             >
-              <span>View Case Studies</span>
-              <ArrowDownRight size={16} aria-hidden="true" />
+              <span>See case studies</span>
+              <ArrowUpRight
+                size={16}
+                aria-hidden="true"
+                className="transition-transform duration-200 group-hover:rotate-45"
+              />
             </MagneticButton>
 
-            <MagneticButton
-              as="a"
-              href={PROFILE.cvUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="min-h-[44px] inline-flex items-center gap-2.5 px-6 py-3 rounded-[8px] border border-border bg-surface-1 text-ink-primary mono-meta text-xs sm:text-sm uppercase tracking-[0.12em] hover:border-border-strong hover:bg-surface-2 transition-colors"
-            >
-              <FileText size={15} aria-hidden="true" />
-              <span>Open Resume (PDF)</span>
-            </MagneticButton>
+            {hasRealCv ? (
+              <MagneticButton
+                as="a"
+                href={PROFILE.cvUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="glass-panel glass-interactive min-h-[44px] !rounded-[12px] inline-flex items-center gap-2.5 px-6 py-3 mono-meta text-xs sm:text-sm uppercase tracking-[0.12em] text-ink-primary"
+              >
+                <FileText size={15} aria-hidden="true" />
+                <span>Download CV</span>
+              </MagneticButton>
+            ) : (
+              <MagneticButton
+                as="a"
+                href={`mailto:${PROFILE.email}`}
+                className="glass-panel glass-interactive min-h-[44px] !rounded-[12px] inline-flex items-center gap-2.5 px-6 py-3 mono-meta text-xs sm:text-sm tracking-[0.06em] text-ink-primary"
+              >
+                <Mail size={15} aria-hidden="true" className="text-accent" />
+                <span>Email me instead → {PROFILE.email}</span>
+              </MagneticButton>
+            )}
           </div>
 
           <SocialLinks variant="hero" />
 
-          <dl className="grid grid-cols-2 sm:grid-cols-3 gap-6 pt-8 border-t border-border max-w-xl">
+          <dl className="grid grid-cols-2 sm:grid-cols-3 gap-4 pt-4 max-w-lg">
             {PROFILE.metrics.map((metric) => (
-              <div key={metric.label}>
-                <dt className="mono-meta text-[11px] uppercase tracking-[0.14em] text-ink-muted">
-                  {metric.label}
-                </dt>
-                <dd className="text-3xl sm:text-4xl font-bold tracking-[-0.02em] text-ink-primary mt-1">
-                  {metric.value}
-                </dd>
-              </div>
+              <StatCounter
+                key={metric.label}
+                end={metric.value}
+                suffix={metric.suffix}
+                padZero={metric.padZero}
+                label={metric.label}
+              />
             ))}
           </dl>
         </div>
 
-        {/* Right portrait LCP frame */}
-        <div className="lg:col-span-4">
-          <figure className="swiss-panel rounded-[24px] p-3 max-w-sm mx-auto lg:max-w-none">
-            <div className="relative aspect-[4/5] w-full overflow-hidden rounded-[16px] bg-surface-2">
-              <Image
-                src={PORTRAIT_ASSET.src}
-                alt={PORTRAIT_ASSET.alt}
-                width={PORTRAIT_ASSET.width}
-                height={PORTRAIT_ASSET.height}
-                priority
-                placeholder="blur"
-                blurDataURL={PORTRAIT_ASSET.blurDataURL}
-                sizes="(max-width: 640px) 90vw, (max-width: 1024px) 384px, 32vw"
-                className="w-full h-full object-cover object-top"
-              />
-              <figcaption className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-[8px] bg-surface-1/90 nav-blur border border-border">
-                <div>
-                  <p className="mono-meta text-[10px] uppercase tracking-[0.16em] text-accent-text">
-                    QA Automation Lead
-                  </p>
-                  <p className="text-sm font-semibold text-ink-primary">{PROFILE.name}</p>
-                </div>
-                <span className="mono-meta text-[11px] text-ink-muted">2023—26</span>
-              </figcaption>
-            </div>
-          </figure>
+        {/* Right Portrait with Glass Frame & Scroll Parallax */}
+        <div className="lg:col-span-4 relative z-10">
+          <ParallaxFrame range={[0, 40]}>
+            <GlassPanel className="p-3 max-w-sm mx-auto lg:max-w-none" interactive>
+              <figure className="relative aspect-[4/5] w-full overflow-hidden rounded-[14px] bg-surface-2">
+                <Image
+                  src={PORTRAIT_ASSET.src}
+                  alt={PORTRAIT_ASSET.alt}
+                  width={PORTRAIT_ASSET.width}
+                  height={PORTRAIT_ASSET.height}
+                  priority
+                  placeholder="blur"
+                  blurDataURL={PORTRAIT_ASSET.blurDataURL}
+                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 384px, 32vw"
+                  className="w-full h-full object-cover object-top"
+                />
+                <figcaption
+                  style={{
+                    backgroundColor: 'oklch(0.14 0.006 60 / 0.84)',
+                    color: 'oklch(0.97 0.005 60)',
+                    borderColor: 'oklch(0.97 0.005 60 / 0.16)',
+                  }}
+                  className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-[12px] backdrop-blur-md border"
+                >
+                  <div>
+                    <p
+                      className="mono-meta text-[10px] uppercase tracking-[0.16em]"
+                      style={{ color: 'oklch(0.78 0.14 68)' }}
+                    >
+                      QA Automation Lead
+                    </p>
+                    <p className="text-sm font-semibold">{PROFILE.name}</p>
+                  </div>
+                  <span className="mono-meta text-[11px] opacity-80">AHMEDABAD</span>
+                </figcaption>
+              </figure>
+            </GlassPanel>
+          </ParallaxFrame>
         </div>
+      </div>
+
+      {/* Scroll Hint */}
+      <div className="max-w-7xl mx-auto w-full flex justify-center pt-6">
+        <a
+          href="#recent-projects"
+          aria-label="Scroll to recent projects"
+          className="min-h-[44px] min-w-[44px] inline-flex flex-col items-center justify-center gap-1 text-ink-muted hover:text-accent transition-colors"
+        >
+          <span className="mono-meta text-[10px] uppercase tracking-[0.2em]">Scroll</span>
+          <ChevronDown size={18} aria-hidden="true" className="animate-bounce" />
+        </a>
       </div>
     </section>
   );

@@ -1,23 +1,32 @@
 import type { Metadata, Viewport } from 'next';
-import { Inter, JetBrains_Mono } from 'next/font/google';
+import { Instrument_Serif, Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
 import { ThemeProvider } from 'next-themes';
 import './globals.css';
-import SmoothScrollClient from '@/components/SmoothScrollProvider';
+import SmoothScrollProvider from '@/components/SmoothScrollProvider';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { PROFILE } from '@/data/portfolio';
 
-const inter = Inter({
+const instrumentSerif = Instrument_Serif({
+  subsets: ['latin'],
+  weight: ['400'],
+  style: ['normal', 'italic'],
+  variable: '--font-instrument-serif',
+  display: 'swap',
+  preload: true,
+});
+
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700'],
-  variable: '--font-inter',
+  variable: '--font-jakarta',
   display: 'swap',
   preload: true,
 });
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  weight: ['400', '500', '600'],
+  weight: ['400', '500', '700'],
   variable: '--font-jetbrains-mono',
   display: 'swap',
   preload: true,
@@ -29,8 +38,8 @@ const seoDescription =
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
-    { media: '(prefers-color-scheme: light)', color: '#fafafc' },
+    { media: '(prefers-color-scheme: dark)', color: '#0d0c0b' },
+    { media: '(prefers-color-scheme: light)', color: '#f9f7f3' },
   ],
   colorScheme: 'dark light',
   width: 'device-width',
@@ -110,7 +119,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} ${jetbrainsMono.variable}`}
+      className={`${instrumentSerif.variable} ${plusJakarta.variable} ${jetbrainsMono.variable}`}
     >
       <body className="min-h-[100dvh] antialiased flex flex-col">
         <a href="#main-content" className="skip-link">
@@ -130,12 +139,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <SmoothScrollClient />
-          <Navbar />
-          <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
-            {children}
-          </main>
-          <Footer />
+          <SmoothScrollProvider>
+            <Navbar />
+            <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+              {children}
+            </main>
+            <Footer />
+          </SmoothScrollProvider>
         </ThemeProvider>
       </body>
     </html>

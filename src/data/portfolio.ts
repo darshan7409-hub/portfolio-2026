@@ -1,21 +1,20 @@
-export interface CardPalette {
-  bg: string;
-  surface: string;
-  ink: string;
-  muted: string;
-  divider: string;
-  accent: string;
-  accentInk: string;
-  plateBg: string;
+export interface ProjectAccent {
+  dark: string;
+  light: string;
 }
 
 export interface ProjectCaseStudy {
   id: string;
+  featuredIndex?: string;
   index: string;
+  featured: boolean;
   title: string;
   domain: string;
   year: string;
-  role: string;
+  roleScope: string;
+  problemStatement: string;
+  approach: string;
+  metricPills: [string, string, string];
   shortDescription: string;
   longDescription: string;
   highlights: string[];
@@ -23,10 +22,10 @@ export interface ProjectCaseStudy {
   imageSrc: string;
   imageWidth: number;
   imageHeight: number;
+  plateMode: 'dark' | 'light';
   blurDataURL: string;
   demoLink?: string;
-  darkTheme: CardPalette;
-  lightTheme: CardPalette;
+  accent: ProjectAccent;
 }
 
 export interface ExperienceEntry {
@@ -35,7 +34,9 @@ export interface ExperienceEntry {
   role: string;
   duration: string;
   location: string;
+  current: boolean;
   responsibilities: string[];
+  tags: string[];
 }
 
 export interface EducationEntry {
@@ -47,17 +48,10 @@ export interface EducationEntry {
   description: string;
 }
 
-export interface CapabilityGroup {
+export interface SkillColumn {
   id: string;
   title: string;
-  items: string[];
-}
-
-export interface TechToolItem {
-  name: string;
-  icon: string;
-  width: number;
-  height: number;
+  items: { name: string; iconKey: 'shield' | 'layers' | 'check' | 'target' | 'cpu' | 'code' | 'terminal' | 'bug' | 'globe' | 'zap' | 'file' | 'git' }[];
 }
 
 function makeBlurDataUrl(fillCss: string): string {
@@ -68,9 +62,9 @@ function makeBlurDataUrl(fillCss: string): string {
 export const PORTRAIT_ASSET = {
   src: '/My_image.png',
   alt: 'Darshan Patel — Senior QA Analyst and Automation Specialist portrait',
-  width: 928,
-  height: 1136,
-  blurDataURL: makeBlurDataUrl('oklch(0.18 0.008 258)'),
+  width: 3024,
+  height: 4032,
+  blurDataURL: makeBlurDataUrl('oklch(0.21 0.008 60)'),
 };
 
 export const PROFILE = {
@@ -83,19 +77,29 @@ export const PROFILE = {
   phone: '+91 8000456527',
   phoneHref: 'tel:+918000456527',
   whatsappHref: 'https://wa.me/918000456527',
+  cvPath: 'public/Darshan_Patel_CV.pdf',
   cvUrl: '/Darshan_Patel_CV.pdf',
   siteUrl: 'https://darshanpatel.com',
-  availability: 'Available for Senior QA & Automation roles',
-  tagline:
-    'Engineering reliable software releases through structured test architecture, Selenium and Katalon automation, and Postman API verification.',
-  bioPrimary:
-    'Dedicated Quality Assurance engineer focused on turning complex product specifications into deterministic verification suites across web and mobile ecosystems.',
-  bioSecondary:
-    'From exploratory edge-case hunting and Jira defect triage to Katalon, Playwright, and Postman API pipelines, every release ships with measurable confidence.',
+  positioning: 'QA engineer turning ambiguous requirements into bulletproof releases.',
+  subpositioning:
+    'Grounded in test strategy, Selenium & Katalon automation, and Postman API verification across fast-shipping web and mobile teams.',
+  responseSignal: 'Usually responds within 24 hours',
+  aboutPullQuote: 'Quality is designed in, not tested in.',
+  aboutParagraphs: [
+    '[Philosophy paragraph 1: Replace with Darshan’s own first-person perspective on how he approaches ambiguity, requirement risk, and early defect prevention across development cycles.]',
+    '[Philosophy paragraph 2: Replace with Darshan’s own first-person note on balancing structured manual exploratory testing, API contract verification, and automated regression safety nets.]',
+  ],
   metrics: [
-    { value: '2+', label: 'Years Experience' },
-    { value: '20+', label: 'Projects Validated' },
-    { value: '07', label: 'Featured Case Studies' },
+    { value: 2, suffix: '+', label: 'Years Exp' },
+    { value: 20, suffix: '+', label: 'Projects' },
+    { value: 7, suffix: '', label: 'Case Studies', padZero: true },
+  ],
+  recentProjectChips: [
+    { label: 'Captain Up', targetId: 'captain-up' },
+    { label: 'Client Notes', targetId: 'client-notes' },
+    { label: 'AutoAviso', targetId: 'auto-aviso' },
+    { label: 'DateCheck', targetId: 'datecheck' },
+    { label: 'Selloctave', targetId: 'selloctave' },
   ],
   socials: [
     { id: 'github' as const, label: 'GitHub', href: 'https://github.com/darshan7409-hub' },
@@ -107,13 +111,24 @@ export const PROFILE = {
 export const PROJECTS: ProjectCaseStudy[] = [
   {
     id: 'captain-up',
+    featuredIndex: '01 / 03',
     index: '01 / 07',
+    featured: true,
     title: 'Captain Up',
     domain: 'Gamification & Loyalty SaaS',
     year: '2024',
-    role: 'QA Analyst',
+    roleScope: '[Role scope — e.g. Solo QA owner across web & mobile]',
+    problemStatement:
+      'High-concurrency reward rules, tournament leaderboards, and mission triggers required deterministic validation across web and mobile surfaces.',
+    approach:
+      'Executed structured functional and cross-browser regression suites while pairing directly with product and engineering on Jira defect triage.',
+    metricPills: [
+      '↓ [metric]% regression cycle',
+      '↑ [metric]% mission coverage',
+      '[metric] P0 bugs escaped',
+    ],
     shortDescription:
-      'End-to-end validation of a gamification and retention platform featuring rewards, tournaments, leaderboards, and personalized missions across web and mobile.',
+      'End-to-end validation of a gamification and retention platform featuring rewards, tournaments, leaderboards, and personalized missions.',
     longDescription:
       'Led functional and regression quality assurance for Captain Up, a high-traffic customer engagement and loyalty platform. Validated reward state transitions, real-time leaderboard calculations, tournament triggers, and multi-device responsiveness while collaborating closely with product and engineering teams to safeguard every release cycle.',
     highlights: [
@@ -125,120 +140,29 @@ export const PROJECTS: ProjectCaseStudy[] = [
     imageSrc: '/projects/captainup-dark.svg',
     imageWidth: 440,
     imageHeight: 128,
-    blurDataURL: makeBlurDataUrl('oklch(0.18 0.02 162)'),
+    plateMode: 'dark',
+    blurDataURL: makeBlurDataUrl('oklch(0.17 0.015 155)'),
     demoLink: 'https://captainup.com/',
-    darkTheme: {
-      bg: 'oklch(0.18 0.025 162)',
-      surface: 'oklch(0.22 0.03 162)',
-      ink: 'oklch(0.96 0.008 162)',
-      muted: 'oklch(0.76 0.02 162)',
-      divider: 'oklch(0.96 0.008 162 / 0.14)',
-      accent: 'oklch(0.76 0.14 156)',
-      accentInk: 'oklch(0.14 0.02 156)',
-      plateBg: 'oklch(0.14 0.02 162)',
-    },
-    lightTheme: {
-      bg: 'oklch(0.955 0.018 162)',
-      surface: 'oklch(0.915 0.024 162)',
-      ink: 'oklch(0.20 0.035 162)',
-      muted: 'oklch(0.38 0.028 162)',
-      divider: 'oklch(0.20 0.035 162 / 0.14)',
-      accent: 'oklch(0.42 0.13 156)',
-      accentInk: 'oklch(0.98 0.005 162)',
-      plateBg: 'oklch(0.16 0.025 162)',
-    },
-  },
-  {
-    id: 'challenge-entertainment',
-    index: '02 / 07',
-    title: 'Challenge Entertainment',
-    domain: 'Live Events & Trivia Mobile App',
-    year: '2024',
-    role: 'QA Tester',
-    shortDescription:
-      'Quality assurance for an interactive live trivia and National Trivia League platform covering real-time leaderboards, game schedules, and venue workflows.',
-    longDescription:
-      'Validated both the player-facing mobile experience and administrative event management dashboard for Challenge Entertainment. Audited real-time leaderboard synchronization, team collaboration flows, schedule filtering, and push-notification triggers across devices.',
-    highlights: [
-      'Tested live scoring and league ranking updates under concurrent session scenarios.',
-      'Validated venue schedule filtering, geo-lookup flows, and team invite states.',
-      'Performed cross-browser admin console checks prior to tournament broadcasts.',
-    ],
-    techStack: ['Mobile QA', 'Functional Testing', 'Regression Testing', 'Cross-Browser', 'Bug Tracking'],
-    imageSrc: '/projects/challenge-entertainment.png',
-    imageWidth: 456,
-    imageHeight: 136,
-    blurDataURL: makeBlurDataUrl('oklch(0.19 0.03 268)'),
-    darkTheme: {
-      bg: 'oklch(0.185 0.03 268)',
-      surface: 'oklch(0.225 0.036 268)',
-      ink: 'oklch(0.96 0.008 268)',
-      muted: 'oklch(0.76 0.022 268)',
-      divider: 'oklch(0.96 0.008 268 / 0.14)',
-      accent: 'oklch(0.74 0.16 258)',
-      accentInk: 'oklch(0.14 0.02 258)',
-      plateBg: 'oklch(0.95 0.004 268)',
-    },
-    lightTheme: {
-      bg: 'oklch(0.955 0.018 268)',
-      surface: 'oklch(0.915 0.024 268)',
-      ink: 'oklch(0.20 0.045 268)',
-      muted: 'oklch(0.38 0.035 268)',
-      divider: 'oklch(0.20 0.045 268 / 0.14)',
-      accent: 'oklch(0.44 0.16 260)',
-      accentInk: 'oklch(0.98 0.005 268)',
-      plateBg: 'oklch(0.98 0.003 268)',
-    },
-  },
-  {
-    id: 'selloctave',
-    index: '03 / 07',
-    title: 'Selloctave',
-    domain: 'Cloud Retail Audio Automation',
-    year: '2024',
-    role: 'QA Tester',
-    shortDescription:
-      'Audited a cloud-based in-store music management platform handling multi-timezone playlist scheduling, voice announcements, and retail playback continuity.',
-    longDescription:
-      'Executed comprehensive QA cycles for Selloctave, an enterprise retail audio platform built for supermarkets, malls, and commercial spaces. Verified global timezone scheduling rules, promotional voice-announcement injection, break-time silence windows, and uninterrupted playback recovery.',
-    highlights: [
-      'Verified timezone boundary transitions and multi-location playlist scheduling conflicts.',
-      'Tested automated promotional announcement ducking and break-time silence rules.',
-      'Validated offline playback resilience and state recovery after network drops.',
-    ],
-    techStack: ['Audio Automation QA', 'Scheduling Logic', 'Regression Testing', 'Cross-Browser', 'Jira'],
-    imageSrc: '/projects/selloctave.png',
-    imageWidth: 680,
-    imageHeight: 148,
-    blurDataURL: makeBlurDataUrl('oklch(0.19 0.025 45)'),
-    darkTheme: {
-      bg: 'oklch(0.19 0.025 45)',
-      surface: 'oklch(0.23 0.03 45)',
-      ink: 'oklch(0.96 0.008 60)',
-      muted: 'oklch(0.77 0.02 55)',
-      divider: 'oklch(0.96 0.008 60 / 0.14)',
-      accent: 'oklch(0.79 0.14 64)',
-      accentInk: 'oklch(0.16 0.03 50)',
-      plateBg: 'oklch(0.95 0.006 60)',
-    },
-    lightTheme: {
-      bg: 'oklch(0.96 0.016 55)',
-      surface: 'oklch(0.92 0.022 55)',
-      ink: 'oklch(0.22 0.04 45)',
-      muted: 'oklch(0.40 0.03 50)',
-      divider: 'oklch(0.22 0.04 45 / 0.14)',
-      accent: 'oklch(0.46 0.13 52)',
-      accentInk: 'oklch(0.98 0.005 55)',
-      plateBg: 'oklch(0.985 0.004 55)',
-    },
+    accent: { dark: 'oklch(0.70 0.12 155)', light: 'oklch(0.45 0.12 155)' },
   },
   {
     id: 'client-notes',
-    index: '04 / 07',
+    featuredIndex: '02 / 03',
+    index: '02 / 07',
+    featured: true,
     title: 'Client Notes',
     domain: 'AI Stylist CRM & Reminders',
     year: '2024',
-    role: 'QA Analyst',
+    roleScope: '[Role scope — e.g. Embedded QA lead with X devs]',
+    problemStatement:
+      'AI-generated consultation summaries, voice note attachments, and SMS rebooking reminders introduced non-deterministic workflow edge cases.',
+    approach:
+      'Audited end-to-end stylist workflows, photo upload persistence, and reminder scheduling boundaries across desktop and mobile browsers.',
+    metricPills: [
+      '↑ [metric]% workflow pass rate',
+      '↓ [metric]h triage turnaround',
+      '[metric] reminder sync issues',
+    ],
     shortDescription:
       'Validated an AI-powered client management workspace for hairstylists covering treatment histories, voice notes, photo records, and automated rebooking.',
     longDescription:
@@ -252,119 +176,28 @@ export const PROJECTS: ProjectCaseStudy[] = [
     imageSrc: '/projects/clientnotes-dark.png',
     imageWidth: 768,
     imageHeight: 512,
-    blurDataURL: makeBlurDataUrl('oklch(0.19 0.03 325)'),
-    darkTheme: {
-      bg: 'oklch(0.19 0.03 325)',
-      surface: 'oklch(0.23 0.036 325)',
-      ink: 'oklch(0.96 0.008 325)',
-      muted: 'oklch(0.77 0.024 325)',
-      divider: 'oklch(0.96 0.008 325 / 0.14)',
-      accent: 'oklch(0.78 0.14 335)',
-      accentInk: 'oklch(0.16 0.03 330)',
-      plateBg: 'oklch(0.15 0.025 325)',
-    },
-    lightTheme: {
-      bg: 'oklch(0.955 0.018 325)',
-      surface: 'oklch(0.915 0.024 325)',
-      ink: 'oklch(0.21 0.045 325)',
-      muted: 'oklch(0.39 0.032 325)',
-      divider: 'oklch(0.21 0.045 325 / 0.14)',
-      accent: 'oklch(0.45 0.15 330)',
-      accentInk: 'oklch(0.98 0.005 325)',
-      plateBg: 'oklch(0.16 0.028 325)',
-    },
-  },
-  {
-    id: 'datecheck',
-    index: '05 / 07',
-    title: 'DateCheck',
-    domain: 'AI Trust & Profile Safety',
-    year: '2024',
-    role: 'QA Analyst',
-    shortDescription:
-      'Tested an AI dating-profile verification platform engineered to detect synthetic accounts, identity mismatches, and catfishing risks.',
-    longDescription:
-      'Led functional, security-flow, and cross-browser validation for DateCheck. Audited AI face-match scoring, social-profile cross-referencing, user safety report generation, and responsive alert states across desktop and mobile viewports.',
-    highlights: [
-      'Verified identity verification flows, confidence score displays, and error states.',
-      'Tested image upload validation, aspect-ratio edge cases, and report export integrity.',
-      'Ensured consistent responsive layout and alert clarity across mobile browsers.',
-    ],
-    techStack: ['AI Verification QA', 'Functional Testing', 'Cross-Browser', 'Security Flows', 'Jira'],
-    imageSrc: '/projects/DateCheck.png',
-    imageWidth: 919,
-    imageHeight: 428,
-    blurDataURL: makeBlurDataUrl('oklch(0.19 0.032 18)'),
-    darkTheme: {
-      bg: 'oklch(0.19 0.032 18)',
-      surface: 'oklch(0.23 0.038 18)',
-      ink: 'oklch(0.96 0.008 20)',
-      muted: 'oklch(0.77 0.024 20)',
-      divider: 'oklch(0.96 0.008 20 / 0.14)',
-      accent: 'oklch(0.76 0.15 22)',
-      accentInk: 'oklch(0.16 0.03 18)',
-      plateBg: 'oklch(0.95 0.006 20)',
-    },
-    lightTheme: {
-      bg: 'oklch(0.955 0.018 20)',
-      surface: 'oklch(0.915 0.024 20)',
-      ink: 'oklch(0.21 0.045 18)',
-      muted: 'oklch(0.39 0.032 20)',
-      divider: 'oklch(0.21 0.045 18 / 0.14)',
-      accent: 'oklch(0.46 0.16 20)',
-      accentInk: 'oklch(0.98 0.005 20)',
-      plateBg: 'oklch(0.985 0.004 20)',
-    },
-  },
-  {
-    id: 'gitarth-ganga',
-    index: '06 / 07',
-    title: 'Gitarth Ganga',
-    domain: 'Digital Research & Archive Platform',
-    year: '2023',
-    role: 'QA Tester',
-    shortDescription:
-      'Quality validation for a scholarly digital archive featuring multilingual scriptural dictionaries, book catalogs, and full-text research search.',
-    longDescription:
-      'Performed deep functional, content-indexing, and accessibility-oriented QA for Gitarth Ganga. Validated subject dictionary queries, multi-script search indexing, catalog pagination, and archival document workflows across web browsers.',
-    highlights: [
-      'Audited Unicode and diacritic search accuracy across large dictionary datasets.',
-      'Validated book catalog filters, cross-reference links, and pagination state.',
-      'Tested editorial CMS workflows for publishing and updating archival records.',
-    ],
-    techStack: ['Search QA', 'Functional Testing', 'Regression Testing', 'Cross-Browser', 'Content QA'],
-    imageSrc: '/projects/gg_logo.png',
-    imageWidth: 360,
-    imageHeight: 165,
-    blurDataURL: makeBlurDataUrl('oklch(0.20 0.028 82)'),
-    darkTheme: {
-      bg: 'oklch(0.195 0.028 82)',
-      surface: 'oklch(0.235 0.034 82)',
-      ink: 'oklch(0.96 0.008 85)',
-      muted: 'oklch(0.78 0.022 85)',
-      divider: 'oklch(0.96 0.008 85 / 0.14)',
-      accent: 'oklch(0.80 0.14 86)',
-      accentInk: 'oklch(0.16 0.03 82)',
-      plateBg: 'oklch(0.95 0.008 85)',
-    },
-    lightTheme: {
-      bg: 'oklch(0.96 0.018 85)',
-      surface: 'oklch(0.92 0.024 85)',
-      ink: 'oklch(0.22 0.04 82)',
-      muted: 'oklch(0.40 0.028 82)',
-      divider: 'oklch(0.22 0.04 82 / 0.14)',
-      accent: 'oklch(0.45 0.12 78)',
-      accentInk: 'oklch(0.98 0.005 85)',
-      plateBg: 'oklch(0.985 0.005 85)',
-    },
+    plateMode: 'dark',
+    blurDataURL: makeBlurDataUrl('oklch(0.18 0.015 320)'),
+    accent: { dark: 'oklch(0.68 0.11 320)', light: 'oklch(0.46 0.11 320)' },
   },
   {
     id: 'auto-aviso',
-    index: '07 / 07',
+    featuredIndex: '03 / 03',
+    index: '03 / 07',
+    featured: true,
     title: 'AutoAviso',
     domain: 'Bilingual Automotive Marketplace',
     year: '2025',
-    role: 'Junior QA Analyst',
+    roleScope: '[Role scope — e.g. Junior QA Analyst, bilingual web & mobile]',
+    problemStatement:
+      'Bilingual English/Spanish vehicle search, dealer inventory, and auto loan calculators risked localization drift and calculation discrepancies.',
+    approach:
+      'Verified EN/ES UI parity, multi-photo seller uploads, and financial amortization edge cases across mobile and desktop viewports.',
+    metricPills: [
+      '[metric]% EN/ES parity',
+      '↓ [metric]% post-release defects',
+      '[metric] loan edge cases',
+    ],
     shortDescription:
       'Tested a bilingual English/Spanish U.S. automotive marketplace covering vehicle search, dealer inventory, private listings, and auto loan calculators.',
     longDescription:
@@ -378,27 +211,145 @@ export const PROJECTS: ProjectCaseStudy[] = [
     imageSrc: '/projects/auto-aviso.png',
     imageWidth: 500,
     imageHeight: 190,
-    blurDataURL: makeBlurDataUrl('oklch(0.185 0.028 208)'),
-    darkTheme: {
-      bg: 'oklch(0.185 0.028 208)',
-      surface: 'oklch(0.225 0.034 208)',
-      ink: 'oklch(0.96 0.008 205)',
-      muted: 'oklch(0.77 0.022 205)',
-      divider: 'oklch(0.96 0.008 205 / 0.14)',
-      accent: 'oklch(0.78 0.13 200)',
-      accentInk: 'oklch(0.14 0.03 205)',
-      plateBg: 'oklch(0.95 0.006 205)',
-    },
-    lightTheme: {
-      bg: 'oklch(0.955 0.018 205)',
-      surface: 'oklch(0.915 0.024 205)',
-      ink: 'oklch(0.20 0.04 208)',
-      muted: 'oklch(0.38 0.03 205)',
-      divider: 'oklch(0.20 0.04 208 / 0.14)',
-      accent: 'oklch(0.43 0.12 202)',
-      accentInk: 'oklch(0.98 0.005 205)',
-      plateBg: 'oklch(0.985 0.004 205)',
-    },
+    plateMode: 'light',
+    blurDataURL: makeBlurDataUrl('oklch(0.18 0.015 200)'),
+    accent: { dark: 'oklch(0.68 0.11 200)', light: 'oklch(0.45 0.11 200)' },
+  },
+  {
+    id: 'challenge-entertainment',
+    index: '04 / 07',
+    featured: false,
+    title: 'Challenge Entertainment',
+    domain: 'Live Events & Trivia Mobile App',
+    year: '2024',
+    roleScope: '[Role scope — Mobile & Admin QA]',
+    problemStatement:
+      'Live trivia leaderboards and tournament schedules demanded real-time consistency between mobile players and the admin console.',
+    approach:
+      'Validated concurrent leaderboard updates, venue geo-lookups, and cross-browser tournament scheduling flows.',
+    metricPills: [
+      '[metric] concurrent flows',
+      '↑ [metric]% release stability',
+      '[metric] browsers verified',
+    ],
+    shortDescription:
+      'Quality assurance for an interactive live trivia and National Trivia League platform covering real-time leaderboards and venue workflows.',
+    longDescription:
+      'Validated both the player-facing mobile experience and administrative event management dashboard for Challenge Entertainment. Audited real-time leaderboard synchronization, team collaboration flows, schedule filtering, and push-notification triggers across devices.',
+    highlights: [
+      'Tested live scoring and league ranking updates under concurrent session scenarios.',
+      'Validated venue schedule filtering, geo-lookup flows, and team invite states.',
+      'Performed cross-browser admin console checks prior to tournament broadcasts.',
+    ],
+    techStack: ['Mobile QA', 'Functional Testing', 'Regression Testing', 'Cross-Browser', 'Bug Tracking'],
+    imageSrc: '/projects/challenge-entertainment.png',
+    imageWidth: 456,
+    imageHeight: 136,
+    plateMode: 'light',
+    blurDataURL: makeBlurDataUrl('oklch(0.19 0.015 255)'),
+    accent: { dark: 'oklch(0.65 0.13 255)', light: 'oklch(0.47 0.13 255)' },
+  },
+  {
+    id: 'selloctave',
+    index: '05 / 07',
+    featured: false,
+    title: 'Selloctave',
+    domain: 'Cloud Retail Audio Automation',
+    year: '2024',
+    roleScope: '[Role scope — Retail Audio Platform QA]',
+    problemStatement:
+      'Multi-timezone playlist schedules and promotional voice ducking required uninterrupted playback recovery in retail venues.',
+    approach:
+      'Audited timezone boundary transitions, break-time silence rules, and offline playback recovery scenarios.',
+    metricPills: [
+      '[metric] timezones tested',
+      '↓ [metric]% playback gaps',
+      '[metric] schedule rules',
+    ],
+    shortDescription:
+      'Audited a cloud-based in-store music management platform handling multi-timezone playlist scheduling and retail playback continuity.',
+    longDescription:
+      'Executed comprehensive QA cycles for Selloctave, an enterprise retail audio platform built for supermarkets, malls, and commercial spaces. Verified global timezone scheduling rules, promotional voice-announcement injection, break-time silence windows, and uninterrupted playback recovery.',
+    highlights: [
+      'Verified timezone boundary transitions and multi-location playlist scheduling conflicts.',
+      'Tested automated promotional announcement ducking and break-time silence rules.',
+      'Validated offline playback resilience and state recovery after network drops.',
+    ],
+    techStack: ['Audio Automation QA', 'Scheduling Logic', 'Regression Testing', 'Cross-Browser', 'Jira'],
+    imageSrc: '/projects/selloctave.png',
+    imageWidth: 680,
+    imageHeight: 148,
+    plateMode: 'light',
+    blurDataURL: makeBlurDataUrl('oklch(0.19 0.015 50)'),
+    accent: { dark: 'oklch(0.68 0.11 50)', light: 'oklch(0.46 0.11 50)' },
+  },
+  {
+    id: 'datecheck',
+    index: '06 / 07',
+    featured: false,
+    title: 'DateCheck',
+    domain: 'AI Trust & Profile Safety',
+    year: '2024',
+    roleScope: '[Role scope — Functional & Safety Flow QA]',
+    problemStatement:
+      'AI identity verification and social profile cross-referencing needed clear error states and consistent responsive alert UX.',
+    approach:
+      'Tested image upload validation, face-match scoring displays, and report export integrity across mobile and desktop browsers.',
+    metricPills: [
+      '[metric] safety checks',
+      '↑ [metric]% mobile pass rate',
+      '[metric] upload edge cases',
+    ],
+    shortDescription:
+      'Tested an AI dating-profile verification platform engineered to detect synthetic accounts, identity mismatches, and catfishing risks.',
+    longDescription:
+      'Led functional, security-flow, and cross-browser validation for DateCheck. Audited AI face-match scoring, social-profile cross-referencing, user safety report generation, and responsive alert states across desktop and mobile viewports.',
+    highlights: [
+      'Verified identity verification flows, confidence score displays, and error states.',
+      'Tested image upload validation, aspect-ratio edge cases, and report export integrity.',
+      'Ensured consistent responsive layout and alert clarity across mobile browsers.',
+    ],
+    techStack: ['AI Verification QA', 'Functional Testing', 'Cross-Browser', 'Security Flows', 'Jira'],
+    imageSrc: '/projects/DateCheck.png',
+    imageWidth: 919,
+    imageHeight: 428,
+    plateMode: 'light',
+    blurDataURL: makeBlurDataUrl('oklch(0.19 0.015 22)'),
+    accent: { dark: 'oklch(0.66 0.13 22)', light: 'oklch(0.47 0.13 22)' },
+  },
+  {
+    id: 'gitarth-ganga',
+    index: '07 / 07',
+    featured: false,
+    title: 'Gitarth Ganga',
+    domain: 'Digital Research & Archive Platform',
+    year: '2023',
+    roleScope: '[Role scope — Search & CMS QA]',
+    problemStatement:
+      'Multilingual scriptural dictionaries and archival book catalogs required accurate Unicode indexing and cross-reference search.',
+    approach:
+      'Audited diacritic query accuracy, catalog filter pagination, and editorial publishing workflows across web browsers.',
+    metricPills: [
+      '[metric] search queries',
+      '↓ [metric]% indexing defects',
+      '[metric] catalog modules',
+    ],
+    shortDescription:
+      'Quality validation for a scholarly digital archive featuring multilingual scriptural dictionaries, book catalogs, and full-text research search.',
+    longDescription:
+      'Performed deep functional, content-indexing, and accessibility-oriented QA for Gitarth Ganga. Validated subject dictionary queries, multi-script search indexing, catalog pagination, and archival document workflows across web browsers.',
+    highlights: [
+      'Audited Unicode and diacritic search accuracy across large dictionary datasets.',
+      'Validated book catalog filters, cross-reference links, and pagination state.',
+      'Tested editorial CMS workflows for publishing and updating archival records.',
+    ],
+    techStack: ['Search QA', 'Functional Testing', 'Regression Testing', 'Cross-Browser', 'Content QA'],
+    imageSrc: '/projects/gg_logo.png',
+    imageWidth: 360,
+    imageHeight: 165,
+    plateMode: 'light',
+    blurDataURL: makeBlurDataUrl('oklch(0.20 0.015 82)'),
+    accent: { dark: 'oklch(0.72 0.10 82)', light: 'oklch(0.46 0.10 82)' },
   },
 ];
 
@@ -409,11 +360,13 @@ export const EXPERIENCES: ExperienceEntry[] = [
     role: 'Junior QA Analyst',
     duration: 'Dec 2024 – Jun 2025',
     location: 'Ahmedabad, India',
+    current: true,
     responsibilities: [
-      'Performed end-to-end functional and regression testing across production web applications to safeguard release stability.',
-      'Authored and maintained structured test suites, tracked defects, and verified patches in tight loops with engineering.',
-      'Contributed directly to release sign-off criteria and smoke validation cycles for rapid shipping cadences.',
+      'Executed end-to-end functional and regression cycles across [metric] production web releases to safeguard launch stability.',
+      'Authored and maintained [metric] structured test cases, verifying defect patches in tight loops with engineering.',
+      'Reduced release sign-off bottlenecks by [metric] through standardized smoke validation gates prior to deployment.',
     ],
+    tags: ['End-to-End QA', 'Regression', 'Release Gates', 'Jira'],
   },
   {
     id: 'rayo',
@@ -421,11 +374,13 @@ export const EXPERIENCES: ExperienceEntry[] = [
     role: 'QA Tester',
     duration: 'Jan 2023 – Dec 2024',
     location: 'Ahmedabad, India',
+    current: false,
     responsibilities: [
-      'Executed cross-browser and multi-device manual test matrices across customer-facing web platforms.',
-      'Ran API sanity and schema checks via Postman ahead of frontend integration milestones.',
-      'Documented reproducible high-severity regressions in Jira and began transitioning key flows into Playwright UI scripts.',
+      'Validated cross-browser and multi-device interfaces across [metric] browser/viewport combinations via BrowserStack.',
+      'Verified REST API contracts and sanity payloads in Postman ahead of [metric] frontend integration milestones.',
+      'Tracked [metric] reproducible regressions in Jira while transitioning repetitive UI flows into Playwright and Katalon.',
     ],
+    tags: ['Cross-Browser', 'Postman API', 'Playwright', 'BrowserStack'],
   },
 ];
 
@@ -450,33 +405,49 @@ export const EDUCATION: EducationEntry[] = [
   },
 ];
 
-export const CAPABILITIES: CapabilityGroup[] = [
+export const SKILL_COLUMNS: SkillColumn[] = [
   {
-    id: 'qa-arch',
-    title: 'Quality Architecture',
-    items: ['Test Planning', 'Test Case Design', 'API Testing (Postman)', 'Requirement Analysis'],
+    id: 'test-strategy',
+    title: 'Test Strategy',
+    items: [
+      { name: 'Test Planning', iconKey: 'target' },
+      { name: 'Requirement Analysis', iconKey: 'file' },
+      { name: 'Risk Assessment', iconKey: 'shield' },
+      { name: 'Regression Suites', iconKey: 'layers' },
+      { name: 'Smoke & Sanity Gates', iconKey: 'check' },
+    ],
   },
   {
-    id: 'validation',
-    title: 'Release Validation',
-    items: ['Functional Testing', 'Regression Suites', 'Cross-Browser & Device', 'Smoke & Sanity Gates'],
+    id: 'automation',
+    title: 'Automation',
+    items: [
+      { name: 'Katalon Studio', iconKey: 'zap' },
+      { name: 'Selenium WebDriver', iconKey: 'cpu' },
+      { name: 'Playwright', iconKey: 'terminal' },
+      { name: 'API Testing (Postman)', iconKey: 'globe' },
+      { name: 'CI/CD Test Gates', iconKey: 'git' },
+    ],
   },
   {
-    id: 'delivery',
-    title: 'Delivery & Tooling',
-    items: ['Defect Triage (Jira)', 'Risk Assessment', 'Agile / Scrum', 'Git & CI/CD Pipelines'],
+    id: 'tools',
+    title: 'Tools',
+    items: [
+      { name: 'BrowserStack', iconKey: 'globe' },
+      { name: 'Jira Defect Triage', iconKey: 'bug' },
+      { name: 'JMeter Performance', iconKey: 'zap' },
+      { name: 'Sentry Telemetry', iconKey: 'shield' },
+      { name: 'Bitbucket & Figma', iconKey: 'layers' },
+    ],
   },
-];
-
-export const TECH_TOOLS: TechToolItem[] = [
-  { name: 'BrowserStack', icon: '/tech/browserstack-dark.svg', width: 32, height: 32 },
-  { name: 'Katalon', icon: '/tech/katalon-dark.svg', width: 32, height: 32 },
-  { name: 'Postman', icon: '/tech/postman.svg', width: 32, height: 32 },
-  { name: 'Jira', icon: '/tech/jira.svg', width: 32, height: 32 },
-  { name: 'JMeter', icon: '/tech/jmeter.svg', width: 32, height: 32 },
-  { name: 'Sentry', icon: '/tech/sentry.svg', width: 32, height: 32 },
-  { name: 'Bitbucket', icon: '/tech/bitbucket.svg', width: 32, height: 32 },
-  { name: 'Figma', icon: '/tech/figma.svg', width: 32, height: 32 },
-  { name: 'ClickUp', icon: '/tech/clickup.svg', width: 32, height: 32 },
-  { name: 'Trello', icon: '/tech/trello.svg', width: 32, height: 32 },
+  {
+    id: 'languages',
+    title: 'Languages',
+    items: [
+      { name: 'TypeScript / JS', iconKey: 'code' },
+      { name: 'Python', iconKey: 'terminal' },
+      { name: 'SQL', iconKey: 'layers' },
+      { name: 'HTML / CSS', iconKey: 'file' },
+      { name: 'PHP', iconKey: 'code' },
+    ],
+  },
 ];

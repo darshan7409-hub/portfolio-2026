@@ -110,16 +110,18 @@ export default function SocialLinks({
 
   if (variant === 'header') {
     return (
-      <div className="flex items-center gap-1" aria-label="Social and contact links">
+      <div className="flex items-center gap-1.5" aria-label="Social and contact links">
         {items.map((item) => (
           <a
             key={item.id}
             href={item.href}
             aria-label={item.label}
             {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-            className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-[8px] text-ink-secondary hover:text-ink-primary hover:bg-surface-2 transition-colors"
+            className="group glass-panel min-h-[44px] min-w-[44px] !rounded-[12px] inline-flex items-center justify-center text-ink-secondary hover:text-accent transition-all duration-250 hover:border-accent/40"
           >
-            <BrandIcon id={item.id} />
+            <span className="transition-transform duration-250 group-hover:scale-110 group-hover:-rotate-6 inline-flex">
+              <BrandIcon id={item.id} />
+            </span>
           </a>
         ))}
       </div>
@@ -128,17 +130,19 @@ export default function SocialLinks({
 
   if (variant === 'hero') {
     return (
-      <div className="flex flex-wrap items-center gap-2 pt-2" aria-label="Connect directly">
+      <div className="flex flex-wrap items-center gap-2.5 pt-2" aria-label="Connect directly">
         {items.map((item) => (
           <a
             key={item.id}
             href={item.href}
             aria-label={item.label}
             {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-            className="group min-h-[44px] min-w-[44px] px-3 inline-flex items-center gap-2 rounded-[8px] border border-border bg-surface-1 text-ink-secondary hover:border-border-strong hover:text-ink-primary transition-colors"
+            className="group glass-panel glass-interactive min-h-[44px] min-w-[44px] !rounded-[12px] px-3 inline-flex items-center gap-2 text-ink-secondary hover:text-accent"
           >
-            <BrandIcon id={item.id} />
-            <span className="mono-meta text-xs max-w-0 overflow-hidden whitespace-nowrap opacity-0 group-hover:max-w-[90px] group-hover:opacity-100 group-focus-visible:max-w-[90px] group-focus-visible:opacity-100 transition-all duration-200">
+            <span className="transition-transform duration-250 group-hover:scale-110 group-hover:-rotate-6 inline-flex">
+              <BrandIcon id={item.id} />
+            </span>
+            <span className="mono-meta text-xs max-w-0 overflow-hidden whitespace-nowrap opacity-0 group-hover:max-w-[90px] group-hover:opacity-100 group-focus-visible:max-w-[90px] group-focus-visible:opacity-100 transition-all duration-250">
               {item.shortLabel}
             </span>
           </a>
@@ -148,20 +152,21 @@ export default function SocialLinks({
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-2" aria-label="Footer social and contact links">
+    <div className="flex flex-wrap items-center gap-2.5" aria-label="Footer social and contact links">
       {items.map((item) => (
         <a
           key={item.id}
           href={item.href}
           aria-label={item.label}
           {...(item.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-          className="min-h-[44px] min-w-[44px] px-3 inline-flex items-center gap-2 rounded-[8px] border border-border bg-surface-2 text-ink-secondary hover:border-border-strong hover:text-ink-primary transition-colors mono-meta text-xs"
+          className="group glass-panel glass-interactive min-h-[44px] min-w-[44px] !rounded-[12px] px-3.5 inline-flex items-center gap-2 text-ink-secondary hover:text-accent mono-meta text-xs"
         >
-          <BrandIcon id={item.id} />
+          <span className="transition-transform duration-250 group-hover:scale-110 inline-flex">
+            <BrandIcon id={item.id} />
+          </span>
           <span>{item.shortLabel}</span>
         </a>
       ))}
     </div>
   );
 }
-

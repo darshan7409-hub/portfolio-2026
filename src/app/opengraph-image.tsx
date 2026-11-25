@@ -14,8 +14,8 @@ export default async function OpenGraphImage() {
     margin: 1,
     width: 152,
     color: {
-      dark: '#0a0b0e',
-      light: '#f5f6f8',
+      dark: '#141210',
+      light: '#f7f4ef',
     },
   });
 
@@ -29,8 +29,10 @@ export default async function OpenGraphImage() {
           flexDirection: 'column',
           justifyContent: 'space-between',
           padding: '56px 64px',
-          backgroundColor: 'rgb(10, 11, 14)',
-          color: 'rgb(245, 246, 248)',
+          backgroundColor: 'rgb(16, 14, 12)',
+          backgroundImage:
+            'radial-gradient(circle at 84% 16%, rgba(226, 154, 59, 0.22), transparent 46%), radial-gradient(circle at 18% 84%, rgba(110, 134, 178, 0.16), transparent 48%)',
+          color: 'rgb(247, 244, 239)',
           fontFamily: 'sans-serif',
         }}
       >
@@ -39,39 +41,48 @@ export default async function OpenGraphImage() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            borderBottom: '1px solid rgba(245, 246, 248, 0.14)',
+            borderBottom: '1px solid rgba(247, 244, 239, 0.12)',
             paddingBottom: '22px',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-            <div
-              style={{
-                width: '12px',
-                height: '12px',
-                borderRadius: '999px',
-                backgroundColor: 'rgb(59, 130, 246)',
-              }}
-            />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <svg width="38" height="38" viewBox="0 0 64 64" fill="none">
+              <path
+                d="M15 13H32C42.5 13 50 20.4 50 31.5C50 34 49.5 36.2 48.6 38.2M45 43.8C41.8 48 37.2 50.5 32 50.5H15V13Z"
+                stroke="rgb(226, 154, 59)"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M29 33L35.5 39.5L51 24"
+                stroke="rgb(247, 244, 239)"
+                strokeWidth="5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
             <span
               style={{
                 fontSize: 20,
-                letterSpacing: '0.16em',
+                fontWeight: 700,
+                letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-                color: 'rgb(176, 180, 192)',
+                color: 'rgb(247, 244, 239)',
               }}
             >
-              DARSHAN PATEL // PORTFOLIO 2026
+              DARSHAN PATEL
             </span>
           </div>
           <span
             style={{
               fontSize: 18,
-              color: 'rgb(96, 165, 250)',
-              letterSpacing: '0.1em',
+              color: 'rgb(226, 154, 59)',
+              letterSpacing: '0.12em',
               textTransform: 'uppercase',
             }}
           >
-            {PROFILE.role}
+            SENIOR QA ANALYST &amp; AUTOMATION
           </span>
         </div>
 
@@ -83,25 +94,25 @@ export default async function OpenGraphImage() {
             gap: '40px',
           }}
         >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', maxWidth: '820px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', maxWidth: '810px' }}>
             <div
               style={{
-                fontSize: 76,
-                fontWeight: 800,
-                lineHeight: 1.02,
-                letterSpacing: '-0.03em',
+                fontSize: 70,
+                fontWeight: 700,
+                lineHeight: 1.04,
+                letterSpacing: '-0.025em',
               }}
             >
-              Precision In Quality.
+              Turning ambiguous specs into bulletproof releases.
             </div>
             <div
               style={{
-                fontSize: 26,
-                color: 'rgb(176, 180, 192)',
+                fontSize: 25,
+                color: 'rgb(184, 178, 170)',
                 lineHeight: 1.4,
               }}
             >
-              Structured QA automation, test strategy, Selenium, Katalon, and Postman API validation for reliable production releases.
+              Test strategy, Selenium &amp; Katalon automation, and Postman API validation for reliable production software.
             </div>
           </div>
 
@@ -112,9 +123,9 @@ export default async function OpenGraphImage() {
               alignItems: 'center',
               gap: '10px',
               padding: '14px',
-              borderRadius: '16px',
-              border: '1px solid rgba(245, 246, 248, 0.14)',
-              backgroundColor: 'rgb(18, 20, 26)',
+              borderRadius: '18px',
+              border: '1px solid rgba(247, 244, 239, 0.14)',
+              backgroundColor: 'rgba(32, 29, 26, 0.82)',
             }}
           >
             <img
@@ -124,7 +135,7 @@ export default async function OpenGraphImage() {
               alt="QR code linking to darshanpatel.com"
               style={{ borderRadius: '8px' }}
             />
-            <span style={{ fontSize: 13, color: 'rgb(148, 154, 168)', letterSpacing: '0.08em' }}>
+            <span style={{ fontSize: 13, color: 'rgb(184, 178, 170)', letterSpacing: '0.1em' }}>
               DARSHANPATEL.COM
             </span>
           </div>
@@ -135,14 +146,14 @@ export default async function OpenGraphImage() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            borderTop: '1px solid rgba(245, 246, 248, 0.14)',
+            borderTop: '1px solid rgba(247, 244, 239, 0.12)',
             paddingTop: '22px',
             fontSize: 18,
-            color: 'rgb(138, 144, 158)',
+            color: 'rgb(156, 150, 142)',
           }}
         >
           <span>AHMEDABAD, GUJARAT, INDIA</span>
-          <span style={{ color: 'rgb(96, 165, 250)' }}>2+ YRS EXP · 20+ RELEASES VALIDATED</span>
+          <span style={{ color: 'rgb(226, 154, 59)' }}>2+ YRS EXP · 20+ RELEASES VALIDATED</span>
         </div>
       </div>
     ),

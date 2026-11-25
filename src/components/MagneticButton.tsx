@@ -8,6 +8,7 @@ import {
   type AnchorHTMLAttributes,
   type ButtonHTMLAttributes,
 } from 'react';
+import { m, useMotionValue, useSpring } from 'framer-motion';
 
 type BaseProps = {
   children: ReactNode;
@@ -31,28 +32,21 @@ export type MagneticButtonProps = AnchorMagneticProps | ButtonMagneticProps;
 export default function MagneticButton(props: MagneticButtonProps) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const rectRef = useRef<DOMRect | null>(null);
-  const animateFnRef = useRef<
-    ((el: HTMLElement, keyframes: { x: number; y: number }, options: Record<string, unknown>) => void) | null
-  >(null);
   const canMagnetRef = useRef(false);
-  const [isActive, setIsActive] = useState(false);
+  const [hovered, setHovered] = useState(false);
+
+  const xRaw = useMotionValue(0);
+  const yRaw = useMotionValue(0);
+  const x = useSpring(xRaw, { stiffness: 165, damping: 16 });
+  const y = useSpring(yRaw, { stiffness: 165, damping: 16 });
 
   useEffect(() => {
     const finePointer = window.matchMedia('(pointer: fine)').matches;
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (!finePointer || reducedMotion) return;
-
-    canMagnetRef.current = true;
-    let active = true;
-
-    import('framer-motion').then(({ animate }) => {
-      if (active) {
-        animateFnRef.current = animate as unknown as typeof animateFnRef.current;
-      }
-    });
+    canMagnetRef.current = finePointer && !reducedMotion;
 
     let resizeTimer: ReturnType<typeof setTimeout> | null = null;
-    const invalidateRect = () => {
+    const invalidate = () => {
       if (resizeTimer) clearTimeout(resizeTimer);
       resizeTimer = setTimeout(() => {
         rectRef.current = null;
@@ -61,15 +55,11 @@ export default function MagneticButton(props: MagneticButtonProps) {
 
     const observer =
       typeof ResizeObserver !== 'undefined' && wrapperRef.current
-        ? new ResizeObserver(invalidateRect)
+        ? new ResizeObserver(invalidate)
         : null;
-
-    if (observer && wrapperRef.current) {
-      observer.observe(wrapperRef.current);
-    }
+    if (observer && wrapperRef.current) observer.observe(wrapperRef.current);
 
     return () => {
-      active = false;
       if (resizeTimer) clearTimeout(resizeTimer);
       observer?.disconnect();
     };
@@ -80,26 +70,21 @@ export default function MagneticButton(props: MagneticButtonProps) {
   const handleMouseEnter = () => {
     if (!canMagnetRef.current || !wrapperRef.current) return;
     rectRef.current = wrapperRef.current.getBoundingClientRect();
-    setIsActive(true);
+    setHovered(true);
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const el = wrapperRef.current;
-    const animateFn = animateFnRef.current;
     const rect = rectRef.current;
-    if (!canMagnetRef.current || !el || !animateFn || !rect) return;
-    const x = (e.clientX - (rect.left + rect.width / 2)) * strength;
-    const y = (e.clientY - (rect.top + rect.height / 2)) * strength;
-    animateFn(el, { x, y }, { type: 'spring', stiffness: 320, damping: 24, mass: 0.4 });
+    if (!canMagnetRef.current || !rect) return;
+    xRaw.set((e.clientX - (rect.left + rect.width / 2)) * strength);
+    yRaw.set((e.clientY - (rect.top + rect.height / 2)) * strength);
   };
 
   const handleMouseLeave = () => {
-    setIsActive(false);
+    setHovered(false);
     rectRef.current = null;
-    const el = wrapperRef.current;
-    const animateFn = animateFnRef.current;
-    if (!el || !animateFn) return;
-    animateFn(el, { x: 0, y: 0 }, { type: 'spring', stiffness: 280, damping: 22 });
+    xRaw.set(0);
+    yRaw.set(0);
   };
 
   const innerElement =
@@ -110,7 +95,7 @@ export default function MagneticButton(props: MagneticButtonProps) {
           delete anchorProps.strength;
           delete anchorProps.as;
           return (
-            <a className={className} {...anchorProps}>
+            <a className={`group ${className}`} {...anchorProps}>
               {children}
             </a>
           );
@@ -121,22 +106,26 @@ export default function MagneticButton(props: MagneticButtonProps) {
           delete buttonProps.strength;
           delete buttonProps.as;
           return (
-            <button className={className} {...buttonProps}>
+            <button className={`group ${className}`} {...buttonProps}>
               {children}
             </button>
           );
         })();
 
   return (
-    <div
+    <m.div
       ref={wrapperRef}
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={isActive ? { transform: 'translateZ(0)', willChange: 'transform' } : undefined}
+      style={
+        hovered
+          ? { x, y, transform: 'translateZ(0)', willChange: 'transform' }
+          : { x, y }
+      }
       className="inline-flex"
     >
       {innerElement}
-    </div>
+    </m.div>
   );
 }

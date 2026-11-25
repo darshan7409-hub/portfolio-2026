@@ -1,50 +1,40 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
-import { Menu, X, ArrowUpRight } from 'lucide-react';
-import MagneticButton from './MagneticButton';
+import { useState, useEffect, useRef } from 'react';
+import { Menu, X } from 'lucide-react';
+import BrandMark from './BrandMark';
 import ThemeToggle from './ThemeToggle';
 import SocialLinks from './SocialLinks';
+import MobileNavDrawer from './MobileNavDrawer';
+import { NavbarScrollProgress, NavActivePill } from './NavbarMotionExtras';
 import { PROFILE } from '@/data/portfolio';
 
-const NavbarScrollProgress = dynamic(
-  () => import('./NavbarMotionExtras').then((mod) => mod.NavbarScrollProgress),
-  { ssr: false }
-);
-
-const NavActivePill = dynamic(
-  () => import('./NavbarMotionExtras').then((mod) => mod.NavActivePill),
-  {
-    ssr: false,
-    loading: () => (
-      <span className="absolute inset-x-1 inset-y-1.5 rounded-[8px] bg-surface-2 border border-border -z-10" />
-    ),
-  }
-);
-
-const MobileNavDrawer = dynamic(() => import('./MobileNavDrawer'), {
-  ssr: false,
-});
-
 const navLinks = [
-  { id: 'projects', label: 'Work', href: '#projects' },
-  { id: 'profile', label: 'Profile', href: '#profile' },
+  { id: 'work', label: 'Work', href: '#work' },
   { id: 'experience', label: 'Experience', href: '#experience' },
-  { id: 'stack', label: 'Stack', href: '#stack' },
+  { id: 'skills', label: 'Skills', href: '#skills' },
+  { id: 'about', label: 'About', href: '#about' },
   { id: 'contact', label: 'Contact', href: '#contact' },
 ];
 
-const observedSectionIds = ['top', 'projects', 'profile', 'experience', 'stack', 'contact'];
+const observedSectionIds = ['top', 'work', 'experience', 'skills', 'about', 'contact'];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeId, setActiveId] = useState<string>('top');
+  const surfaceRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => {
-      setScrolled(window.scrollY > 40);
+      const el = surfaceRef.current;
+      if (!el) return;
+      const isScrolled = window.scrollY > 48;
+      el.classList.toggle('h-14', isScrolled);
+      el.classList.toggle('nav-surface-scrolled', isScrolled);
+      el.classList.toggle('border-glass-border', isScrolled);
+      el.classList.toggle('h-16', !isScrolled);
+      el.classList.toggle('nav-surface-top', !isScrolled);
+      el.classList.toggle('border-transparent', !isScrolled);
     };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -69,22 +59,38 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
+    if (window.innerWidth < 768) return;
+
     const elements = observedSectionIds
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => Boolean(el));
 
     if (elements.length === 0) return;
 
+    const visibleHeights = new Map<string, number>();
+
     const observer = new IntersectionObserver(
       (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
-        if (visible.length > 0 && visible[0].target.id) {
-          setActiveId(visible[0].target.id);
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            visibleHeights.set(entry.target.id, entry.intersectionRect.height);
+          } else {
+            visibleHeights.delete(entry.target.id);
+          }
+        }
+        let bestId = '';
+        let bestHeight = -1;
+        for (const [id, height] of visibleHeights.entries()) {
+          if (height > bestHeight) {
+            bestHeight = height;
+            bestId = id;
+          }
+        }
+        if (bestId) {
+          setActiveId(bestId);
         }
       },
-      { rootMargin: '-28% 0px -52% 0px', threshold: [0.1, 0.35, 0.6] }
+      { rootMargin: '-18% 0px -60% 0px', threshold: 0 }
     );
 
     elements.forEach((el) => observer.observe(el));
@@ -106,26 +112,22 @@ export default function Navbar() {
       <NavbarScrollProgress />
 
       <div
-        className={`pointer-events-auto transition-[height,background-color,border-color] duration-200 border-b ${
-          scrolled
-            ? 'h-14 bg-surface-1/90 nav-blur border-border'
-            : 'h-16 bg-transparent border-transparent'
-        }`}
+        ref={surfaceRef}
+        className="pointer-events-auto transition-[height,background-color,border-color,backdrop-filter] duration-300 border-b h-16 nav-surface-top border-transparent"
       >
         <div className="max-w-7xl mx-auto h-full safe-x flex items-center justify-between gap-4">
-          {/* Brand Logo */}
+          {/* Brand Logo + Wordmark */}
           <a
             href="#top"
             className="min-h-[44px] min-w-[44px] inline-flex items-center gap-3 group transition-transform duration-200 hover:scale-[1.04]"
           >
-            <span
-              aria-hidden="true"
-              className="relative w-8 h-8 rounded-[8px] bg-accent text-accent-ink mono-meta font-semibold text-xs inline-flex items-center justify-center"
-            >
-              {PROFILE.initials}
-              <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-accent shadow-[0_0_8px_var(--token-accent)]" />
-            </span>
-            <span className="mono-meta text-xs tracking-[0.14em] uppercase text-ink-primary">
+            <BrandMark
+              size={38}
+              color="var(--token-accent)"
+              notchColor="var(--token-ink-primary)"
+              className="shrink-0"
+            />
+            <span className="mono-meta font-bold text-[14px] tracking-[0.15em] uppercase text-ink-primary whitespace-nowrap">
               {PROFILE.name}
               <span className="sr-only"> — Back to top</span>
             </span>
@@ -139,8 +141,10 @@ export default function Navbar() {
                 <a
                   key={item.id}
                   href={item.href}
-                  className={`relative min-h-[44px] px-3.5 inline-flex items-center mono-meta text-xs uppercase tracking-[0.12em] transition-colors ${
-                    isActive ? 'text-ink-primary' : 'text-ink-secondary hover:text-ink-primary'
+                  onClick={() => setActiveId(item.id)}
+                  data-active={isActive ? 'true' : 'false'}
+                  className={`link-draw relative min-h-[44px] px-3.5 inline-flex items-center mono-meta text-xs uppercase tracking-[0.12em] transition-colors duration-300 ${
+                    isActive ? 'text-accent' : 'text-ink-secondary hover:text-accent'
                   }`}
                 >
                   {isActive && <NavActivePill />}
@@ -154,16 +158,6 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-2">
             <SocialLinks variant="header" compactIds={['github', 'linkedin', 'whatsapp']} />
             <ThemeToggle />
-            <MagneticButton
-              as="a"
-              href={PROFILE.cvUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="min-h-[44px] inline-flex items-center gap-1.5 px-4 rounded-[8px] border border-border bg-surface-1 hover:border-border-strong text-ink-primary mono-meta text-xs uppercase tracking-[0.12em] transition-colors"
-            >
-              <span>CV</span>
-              <ArrowUpRight size={14} aria-hidden="true" />
-            </MagneticButton>
           </div>
 
           {/* Mobile Controls */}
@@ -175,7 +169,7 @@ export default function Navbar() {
               aria-expanded={mobileOpen}
               aria-controls="mobile-nav-drawer"
               aria-label={mobileOpen ? 'Close navigation menu' : 'Open navigation menu'}
-              className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-[8px] border border-border bg-surface-1 text-ink-primary hover:border-border-strong transition-colors cursor-pointer"
+              className="glass-panel min-h-[44px] min-w-[44px] !rounded-[12px] inline-flex items-center justify-center text-ink-primary hover:text-accent cursor-pointer"
             >
               {mobileOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
             </button>
