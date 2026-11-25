@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
+import { PROFILE } from '@/data/portfolio';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://krunalchaudhari.dev';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PROFILE.siteUrl;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -8,8 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: siteUrl,
       lastModified: new Date(),
       changeFrequency: 'monthly',
-      priority: 1,
+      priority: 1.0,
     },
   ];
 }
-

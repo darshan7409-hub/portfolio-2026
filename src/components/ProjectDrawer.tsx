@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { X, ArrowUpRight, CheckCircle2 } from 'lucide-react';
@@ -15,6 +15,27 @@ interface ProjectDrawerProps {
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
+function getDrawerVars(project: ProjectCaseStudy): CSSProperties {
+  return {
+    '--cd-bg': project.darkTheme.bg,
+    '--cd-surface': project.darkTheme.surface,
+    '--cd-ink': project.darkTheme.ink,
+    '--cd-muted': project.darkTheme.muted,
+    '--cd-divider': project.darkTheme.divider,
+    '--cd-accent': project.darkTheme.accent,
+    '--cd-accent-ink': project.darkTheme.accentInk,
+    '--cd-plate': project.darkTheme.plateBg,
+    '--cl-bg': project.lightTheme.bg,
+    '--cl-surface': project.lightTheme.surface,
+    '--cl-ink': project.lightTheme.ink,
+    '--cl-muted': project.lightTheme.muted,
+    '--cl-divider': project.lightTheme.divider,
+    '--cl-accent': project.lightTheme.accent,
+    '--cl-accent-ink': project.lightTheme.accentInk,
+    '--cl-plate': project.lightTheme.plateBg,
+  } as CSSProperties;
+}
+
 export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectDrawerProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
@@ -26,7 +47,6 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
     const triggerEl = triggerRef.current;
     document.body.style.overflow = 'hidden';
 
-    // Focus the close button on mount
     const frameId = requestAnimationFrame(() => {
       closeButtonRef.current?.focus();
     });
@@ -74,7 +94,7 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[90] flex justify-end bg-canvas/80 backdrop-blur-md"
+      className="fixed inset-0 z-[90] flex justify-end bg-canvas/80 nav-blur"
       onClick={onClose}
     >
       <div
@@ -84,26 +104,28 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
         aria-labelledby={`drawer-title-${project.id}`}
         onClick={(e) => e.stopPropagation()}
         style={{
-          backgroundColor: project.theme.bg,
-          color: project.theme.ink,
-          borderColor: project.theme.divider,
+          ...getDrawerVars(project),
+          backgroundColor: 'var(--card-bg)',
+          color: 'var(--card-ink)',
+          borderColor: 'var(--card-divider)',
+          boxShadow: 'var(--shadow-elevated)',
         }}
-        className="relative w-full max-w-2xl h-full overflow-y-auto border-l p-6 sm:p-10 shadow-2xl flex flex-col gap-7"
+        className="project-themed relative w-screen sm:w-full sm:max-w-2xl h-full overflow-y-auto sm:border-l p-6 sm:p-10 flex flex-col gap-7"
       >
         <div
           className="flex items-start justify-between gap-4 pb-6 border-b"
-          style={{ borderColor: project.theme.divider }}
+          style={{ borderColor: 'var(--card-divider)' }}
         >
           <div className="space-y-1.5">
             <p
-              className="font-mono text-xs uppercase tracking-[0.2em]"
-              style={{ color: project.theme.accent }}
+              className="mono-meta text-xs uppercase tracking-[0.18em]"
+              style={{ color: 'var(--card-accent)' }}
             >
               {project.index} · {project.domain}
             </p>
             <h2
               id={`drawer-title-${project.id}`}
-              className="text-3xl sm:text-4xl font-bold tracking-tight"
+              className="heading-sub text-3xl sm:text-4xl font-bold"
             >
               {project.title}
             </h2>
@@ -115,64 +137,64 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
             onClick={onClose}
             aria-label={`Close ${project.title} case study`}
             style={{
-              backgroundColor: project.theme.surface,
-              borderColor: project.theme.divider,
-              color: project.theme.ink,
+              backgroundColor: 'var(--card-surface)',
+              borderColor: 'var(--card-divider)',
+              color: 'var(--card-ink)',
             }}
-            className="shrink-0 w-10 h-10 rounded-full border inline-flex items-center justify-center hover:opacity-85 transition-opacity cursor-pointer"
+            className="shrink-0 min-h-[44px] min-w-[44px] rounded-[8px] border inline-flex items-center justify-center hover:opacity-85 transition-opacity cursor-pointer"
           >
             <X size={18} aria-hidden="true" />
           </button>
         </div>
 
         <div
-          className="rounded-2xl p-6 sm:p-8 flex items-center justify-center border"
+          className="rounded-[16px] p-6 sm:p-8 flex items-center justify-center border"
           style={{
-            backgroundColor: project.theme.plateBg,
-            borderColor: project.theme.divider,
+            backgroundColor: 'var(--card-plate)',
+            borderColor: 'var(--card-divider)',
           }}
         >
           <Image
             src={project.imageSrc}
-            alt={`${project.title} brand visual`}
+            alt={`${project.title} case study brand visual`}
             width={project.imageWidth}
             height={project.imageHeight}
             placeholder="blur"
             blurDataURL={project.blurDataURL}
-            sizes="(max-width: 640px) 82vw, 480px"
+            sizes="(max-width: 640px) 86vw, 480px"
             className="max-h-28 w-auto object-contain"
           />
         </div>
 
         <dl
-          className="grid grid-cols-2 sm:grid-cols-3 gap-4 py-4 border-y font-mono text-xs"
-          style={{ borderColor: project.theme.divider }}
+          className="grid grid-cols-2 sm:grid-cols-3 gap-4 py-4 border-y mono-meta text-xs"
+          style={{ borderColor: 'var(--card-divider)' }}
         >
           <div>
-            <dt style={{ color: project.theme.muted }}>ROLE</dt>
+            <dt style={{ color: 'var(--card-muted)' }}>ROLE</dt>
             <dd className="mt-1 font-semibold">{project.role}</dd>
           </div>
           <div>
-            <dt style={{ color: project.theme.muted }}>YEAR</dt>
+            <dt style={{ color: 'var(--card-muted)' }}>YEAR</dt>
             <dd className="mt-1 font-semibold">{project.year}</dd>
           </div>
           <div className="col-span-2 sm:col-span-1">
-            <dt style={{ color: project.theme.muted }}>DOMAIN</dt>
+            <dt style={{ color: 'var(--card-muted)' }}>DOMAIN</dt>
             <dd className="mt-1 font-semibold">{project.domain}</dd>
           </div>
         </dl>
 
         <div className="space-y-3">
-          <h3 className="font-mono text-xs uppercase tracking-[0.18em]" style={{ color: project.theme.accent }}>
+          <h3 className="mono-meta text-xs uppercase tracking-[0.18em]" style={{ color: 'var(--card-accent)' }}>
             Case Study Overview
           </h3>
-          <p className="text-base leading-relaxed" style={{ color: project.theme.muted }}>
+          <p className="text-base leading-relaxed" style={{ color: 'var(--card-muted)' }}>
             {project.longDescription}
           </p>
         </div>
 
         <div className="space-y-3">
-          <h3 className="font-mono text-xs uppercase tracking-[0.18em]" style={{ color: project.theme.accent }}>
+          <h3 className="mono-meta text-xs uppercase tracking-[0.18em]" style={{ color: 'var(--card-accent)' }}>
             Key QA Deliverables
           </h3>
           <ul className="space-y-2.5">
@@ -182,7 +204,7 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
                   size={17}
                   aria-hidden="true"
                   className="shrink-0 mt-1"
-                  style={{ color: project.theme.accent }}
+                  style={{ color: 'var(--card-accent)' }}
                 />
                 <span>{item}</span>
               </li>
@@ -191,7 +213,7 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
         </div>
 
         <div className="space-y-3">
-          <h3 className="font-mono text-xs uppercase tracking-[0.18em]" style={{ color: project.theme.accent }}>
+          <h3 className="mono-meta text-xs uppercase tracking-[0.18em]" style={{ color: 'var(--card-accent)' }}>
             Verification Stack
           </h3>
           <div className="flex flex-wrap gap-2">
@@ -199,11 +221,11 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
               <span
                 key={tag}
                 style={{
-                  backgroundColor: project.theme.surface,
-                  borderColor: project.theme.divider,
-                  color: project.theme.ink,
+                  backgroundColor: 'var(--card-surface)',
+                  borderColor: 'var(--card-divider)',
+                  color: 'var(--card-ink)',
                 }}
-                className="px-3 py-1.5 rounded-full border font-mono text-xs"
+                className="px-3 py-1.5 rounded-[8px] border mono-meta text-xs"
               >
                 {tag}
               </span>
@@ -218,10 +240,10 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                backgroundColor: project.theme.accent,
-                color: project.theme.accentInk,
+                backgroundColor: 'var(--card-accent)',
+                color: 'var(--card-accent-ink)',
               }}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-full font-mono text-xs font-semibold uppercase tracking-wider hover:opacity-90 transition-opacity"
+              className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2.5 rounded-[8px] mono-meta text-xs font-semibold uppercase tracking-wider hover:opacity-90 transition-opacity"
             >
               Visit Live Product <ArrowUpRight size={15} aria-hidden="true" />
             </a>
@@ -230,11 +252,11 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
             type="button"
             onClick={onClose}
             style={{
-              backgroundColor: project.theme.surface,
-              borderColor: project.theme.divider,
-              color: project.theme.ink,
+              backgroundColor: 'var(--card-surface)',
+              borderColor: 'var(--card-divider)',
+              color: 'var(--card-ink)',
             }}
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-full border font-mono text-xs uppercase tracking-wider hover:opacity-85 transition-opacity cursor-pointer"
+            className="min-h-[44px] inline-flex items-center gap-2 px-5 py-2.5 rounded-[8px] border mono-meta text-xs uppercase tracking-wider hover:opacity-85 transition-opacity cursor-pointer"
           >
             Close Case Study
           </button>
@@ -244,4 +266,3 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
     document.body
   );
 }
-

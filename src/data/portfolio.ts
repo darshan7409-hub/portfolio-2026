@@ -1,4 +1,4 @@
-export interface ProjectTheme {
+export interface CardPalette {
   bg: string;
   surface: string;
   ink: string;
@@ -25,7 +25,8 @@ export interface ProjectCaseStudy {
   imageHeight: number;
   blurDataURL: string;
   demoLink?: string;
-  theme: ProjectTheme;
+  darkTheme: CardPalette;
+  lightTheme: CardPalette;
 }
 
 export interface ExperienceEntry {
@@ -66,43 +67,40 @@ function makeBlurDataUrl(fillCss: string): string {
 
 export const PORTRAIT_ASSET = {
   src: '/My_image.png',
-  alt: 'Krunal Chaudhari — QA Analyst and Automation Specialist',
+  alt: 'Darshan Patel — Senior QA Analyst and Automation Specialist portrait',
   width: 928,
   height: 1136,
-  blurDataURL: makeBlurDataUrl('oklch(0.20 0.01 260)'),
+  blurDataURL: makeBlurDataUrl('oklch(0.18 0.008 258)'),
 };
 
 export const PROFILE = {
-  name: 'Krunal Chaudhari',
-  shortName: 'Krunal',
-  role: 'QA Analyst & Automation Specialist',
+  name: 'Darshan Patel',
+  shortName: 'Darshan',
+  initials: 'DP',
+  role: 'Senior QA Analyst & Automation Specialist',
   location: 'Ahmedabad, Gujarat, India',
-  email: 'krunalchaudhari1008@gmail.com',
+  email: 'darshan7409@gmail.com',
   phone: '+91 8000456527',
   phoneHref: 'tel:+918000456527',
-  cvUrl: '/Krunal_Chaudhari_CV.pdf',
-  availability: 'Available for QA & Automation roles',
+  whatsappHref: 'https://wa.me/918000456527',
+  cvUrl: '/Darshan_Patel_CV.pdf',
+  siteUrl: 'https://darshanpatel.com',
+  availability: 'Available for Senior QA & Automation roles',
   tagline:
-    'Delivering reliable software releases through structured test architecture, API sanity verification, and cross-platform quality assurance.',
+    'Engineering reliable software releases through structured test architecture, Selenium and Katalon automation, and Postman API verification.',
   bioPrimary:
-    'Dedicated Quality Assurance engineer focused on turning complex product specifications into repeatable verification suites across web and mobile ecosystems.',
+    'Dedicated Quality Assurance engineer focused on turning complex product specifications into deterministic verification suites across web and mobile ecosystems.',
   bioSecondary:
-    'From exploratory edge-case hunting and Jira defect triage to Playwright UI automation and Postman API pipelines, every release ships with measurable confidence.',
+    'From exploratory edge-case hunting and Jira defect triage to Katalon, Playwright, and Postman API pipelines, every release ships with measurable confidence.',
   metrics: [
     { value: '2+', label: 'Years Experience' },
     { value: '20+', label: 'Projects Validated' },
     { value: '07', label: 'Featured Case Studies' },
   ],
   socials: [
-    { label: 'GitHub', href: 'https://github.com/krunalchaudhari' },
-    {
-      label: 'LinkedIn',
-      href: 'https://www.linkedin.com/in/chaudharikrunal?utm_source=share_via&utm_content=profile&utm_medium=member_android',
-    },
-    {
-      label: 'Instagram',
-      href: 'https://www.instagram.com/invites/contact/?utm_source=ig_contact_invite&utm_medium=copy_link&utm_content=yykwwq',
-    },
+    { id: 'github' as const, label: 'GitHub', href: 'https://github.com/darshan7409-hub' },
+    { id: 'linkedin' as const, label: 'LinkedIn', href: 'https://www.linkedin.com/in/darshanpatel' },
+    { id: 'instagram' as const, label: 'Instagram', href: 'https://www.instagram.com/darshanpatel' },
   ],
 };
 
@@ -127,17 +125,27 @@ export const PROJECTS: ProjectCaseStudy[] = [
     imageSrc: '/projects/captainup-dark.svg',
     imageWidth: 440,
     imageHeight: 128,
-    blurDataURL: makeBlurDataUrl('oklch(0.20 0.035 162)'),
+    blurDataURL: makeBlurDataUrl('oklch(0.18 0.02 162)'),
     demoLink: 'https://captainup.com/',
-    theme: {
-      bg: 'oklch(0.20 0.035 162)',
-      surface: 'oklch(0.24 0.04 162)',
-      ink: 'oklch(0.96 0.01 162)',
-      muted: 'oklch(0.76 0.025 162)',
-      divider: 'oklch(0.96 0.01 162 / 0.14)',
-      accent: 'oklch(0.84 0.18 152)',
-      accentInk: 'oklch(0.16 0.03 152)',
-      plateBg: 'oklch(0.15 0.025 162)',
+    darkTheme: {
+      bg: 'oklch(0.18 0.025 162)',
+      surface: 'oklch(0.22 0.03 162)',
+      ink: 'oklch(0.96 0.008 162)',
+      muted: 'oklch(0.76 0.02 162)',
+      divider: 'oklch(0.96 0.008 162 / 0.14)',
+      accent: 'oklch(0.76 0.14 156)',
+      accentInk: 'oklch(0.14 0.02 156)',
+      plateBg: 'oklch(0.14 0.02 162)',
+    },
+    lightTheme: {
+      bg: 'oklch(0.955 0.018 162)',
+      surface: 'oklch(0.915 0.024 162)',
+      ink: 'oklch(0.20 0.035 162)',
+      muted: 'oklch(0.38 0.028 162)',
+      divider: 'oklch(0.20 0.035 162 / 0.14)',
+      accent: 'oklch(0.42 0.13 156)',
+      accentInk: 'oklch(0.98 0.005 162)',
+      plateBg: 'oklch(0.16 0.025 162)',
     },
   },
   {
@@ -160,16 +168,26 @@ export const PROJECTS: ProjectCaseStudy[] = [
     imageSrc: '/projects/challenge-entertainment.png',
     imageWidth: 456,
     imageHeight: 136,
-    blurDataURL: makeBlurDataUrl('oklch(0.21 0.045 268)'),
-    theme: {
-      bg: 'oklch(0.21 0.045 268)',
-      surface: 'oklch(0.25 0.05 268)',
-      ink: 'oklch(0.96 0.01 268)',
-      muted: 'oklch(0.76 0.03 268)',
-      divider: 'oklch(0.96 0.01 268 / 0.14)',
-      accent: 'oklch(0.80 0.16 250)',
-      accentInk: 'oklch(0.16 0.03 250)',
-      plateBg: 'oklch(0.95 0.005 268)',
+    blurDataURL: makeBlurDataUrl('oklch(0.19 0.03 268)'),
+    darkTheme: {
+      bg: 'oklch(0.185 0.03 268)',
+      surface: 'oklch(0.225 0.036 268)',
+      ink: 'oklch(0.96 0.008 268)',
+      muted: 'oklch(0.76 0.022 268)',
+      divider: 'oklch(0.96 0.008 268 / 0.14)',
+      accent: 'oklch(0.74 0.16 258)',
+      accentInk: 'oklch(0.14 0.02 258)',
+      plateBg: 'oklch(0.95 0.004 268)',
+    },
+    lightTheme: {
+      bg: 'oklch(0.955 0.018 268)',
+      surface: 'oklch(0.915 0.024 268)',
+      ink: 'oklch(0.20 0.045 268)',
+      muted: 'oklch(0.38 0.035 268)',
+      divider: 'oklch(0.20 0.045 268 / 0.14)',
+      accent: 'oklch(0.44 0.16 260)',
+      accentInk: 'oklch(0.98 0.005 268)',
+      plateBg: 'oklch(0.98 0.003 268)',
     },
   },
   {
@@ -192,16 +210,26 @@ export const PROJECTS: ProjectCaseStudy[] = [
     imageSrc: '/projects/selloctave.png',
     imageWidth: 680,
     imageHeight: 148,
-    blurDataURL: makeBlurDataUrl('oklch(0.21 0.035 45)'),
-    theme: {
-      bg: 'oklch(0.21 0.035 45)',
-      surface: 'oklch(0.25 0.04 45)',
-      ink: 'oklch(0.96 0.01 60)',
-      muted: 'oklch(0.78 0.025 55)',
-      divider: 'oklch(0.96 0.01 60 / 0.14)',
-      accent: 'oklch(0.83 0.16 68)',
-      accentInk: 'oklch(0.18 0.03 50)',
-      plateBg: 'oklch(0.95 0.008 60)',
+    blurDataURL: makeBlurDataUrl('oklch(0.19 0.025 45)'),
+    darkTheme: {
+      bg: 'oklch(0.19 0.025 45)',
+      surface: 'oklch(0.23 0.03 45)',
+      ink: 'oklch(0.96 0.008 60)',
+      muted: 'oklch(0.77 0.02 55)',
+      divider: 'oklch(0.96 0.008 60 / 0.14)',
+      accent: 'oklch(0.79 0.14 64)',
+      accentInk: 'oklch(0.16 0.03 50)',
+      plateBg: 'oklch(0.95 0.006 60)',
+    },
+    lightTheme: {
+      bg: 'oklch(0.96 0.016 55)',
+      surface: 'oklch(0.92 0.022 55)',
+      ink: 'oklch(0.22 0.04 45)',
+      muted: 'oklch(0.40 0.03 50)',
+      divider: 'oklch(0.22 0.04 45 / 0.14)',
+      accent: 'oklch(0.46 0.13 52)',
+      accentInk: 'oklch(0.98 0.005 55)',
+      plateBg: 'oklch(0.985 0.004 55)',
     },
   },
   {
@@ -224,16 +252,26 @@ export const PROJECTS: ProjectCaseStudy[] = [
     imageSrc: '/projects/clientnotes-dark.png',
     imageWidth: 768,
     imageHeight: 512,
-    blurDataURL: makeBlurDataUrl('oklch(0.21 0.042 325)'),
-    theme: {
-      bg: 'oklch(0.21 0.042 325)',
-      surface: 'oklch(0.25 0.048 325)',
-      ink: 'oklch(0.96 0.01 325)',
-      muted: 'oklch(0.78 0.03 325)',
-      divider: 'oklch(0.96 0.01 325 / 0.14)',
-      accent: 'oklch(0.82 0.16 335)',
-      accentInk: 'oklch(0.18 0.04 330)',
-      plateBg: 'oklch(0.16 0.03 325)',
+    blurDataURL: makeBlurDataUrl('oklch(0.19 0.03 325)'),
+    darkTheme: {
+      bg: 'oklch(0.19 0.03 325)',
+      surface: 'oklch(0.23 0.036 325)',
+      ink: 'oklch(0.96 0.008 325)',
+      muted: 'oklch(0.77 0.024 325)',
+      divider: 'oklch(0.96 0.008 325 / 0.14)',
+      accent: 'oklch(0.78 0.14 335)',
+      accentInk: 'oklch(0.16 0.03 330)',
+      plateBg: 'oklch(0.15 0.025 325)',
+    },
+    lightTheme: {
+      bg: 'oklch(0.955 0.018 325)',
+      surface: 'oklch(0.915 0.024 325)',
+      ink: 'oklch(0.21 0.045 325)',
+      muted: 'oklch(0.39 0.032 325)',
+      divider: 'oklch(0.21 0.045 325 / 0.14)',
+      accent: 'oklch(0.45 0.15 330)',
+      accentInk: 'oklch(0.98 0.005 325)',
+      plateBg: 'oklch(0.16 0.028 325)',
     },
   },
   {
@@ -256,16 +294,26 @@ export const PROJECTS: ProjectCaseStudy[] = [
     imageSrc: '/projects/DateCheck.png',
     imageWidth: 919,
     imageHeight: 428,
-    blurDataURL: makeBlurDataUrl('oklch(0.21 0.045 18)'),
-    theme: {
-      bg: 'oklch(0.21 0.045 18)',
-      surface: 'oklch(0.25 0.05 18)',
-      ink: 'oklch(0.96 0.01 20)',
-      muted: 'oklch(0.78 0.03 20)',
-      divider: 'oklch(0.96 0.01 20 / 0.14)',
-      accent: 'oklch(0.80 0.17 22)',
-      accentInk: 'oklch(0.18 0.04 18)',
-      plateBg: 'oklch(0.95 0.008 20)',
+    blurDataURL: makeBlurDataUrl('oklch(0.19 0.032 18)'),
+    darkTheme: {
+      bg: 'oklch(0.19 0.032 18)',
+      surface: 'oklch(0.23 0.038 18)',
+      ink: 'oklch(0.96 0.008 20)',
+      muted: 'oklch(0.77 0.024 20)',
+      divider: 'oklch(0.96 0.008 20 / 0.14)',
+      accent: 'oklch(0.76 0.15 22)',
+      accentInk: 'oklch(0.16 0.03 18)',
+      plateBg: 'oklch(0.95 0.006 20)',
+    },
+    lightTheme: {
+      bg: 'oklch(0.955 0.018 20)',
+      surface: 'oklch(0.915 0.024 20)',
+      ink: 'oklch(0.21 0.045 18)',
+      muted: 'oklch(0.39 0.032 20)',
+      divider: 'oklch(0.21 0.045 18 / 0.14)',
+      accent: 'oklch(0.46 0.16 20)',
+      accentInk: 'oklch(0.98 0.005 20)',
+      plateBg: 'oklch(0.985 0.004 20)',
     },
   },
   {
@@ -288,16 +336,26 @@ export const PROJECTS: ProjectCaseStudy[] = [
     imageSrc: '/projects/gg_logo.png',
     imageWidth: 360,
     imageHeight: 165,
-    blurDataURL: makeBlurDataUrl('oklch(0.22 0.038 82)'),
-    theme: {
-      bg: 'oklch(0.22 0.038 82)',
-      surface: 'oklch(0.26 0.044 82)',
-      ink: 'oklch(0.96 0.01 85)',
-      muted: 'oklch(0.79 0.025 85)',
-      divider: 'oklch(0.96 0.01 85 / 0.14)',
-      accent: 'oklch(0.85 0.15 88)',
-      accentInk: 'oklch(0.18 0.04 82)',
-      plateBg: 'oklch(0.95 0.01 85)',
+    blurDataURL: makeBlurDataUrl('oklch(0.20 0.028 82)'),
+    darkTheme: {
+      bg: 'oklch(0.195 0.028 82)',
+      surface: 'oklch(0.235 0.034 82)',
+      ink: 'oklch(0.96 0.008 85)',
+      muted: 'oklch(0.78 0.022 85)',
+      divider: 'oklch(0.96 0.008 85 / 0.14)',
+      accent: 'oklch(0.80 0.14 86)',
+      accentInk: 'oklch(0.16 0.03 82)',
+      plateBg: 'oklch(0.95 0.008 85)',
+    },
+    lightTheme: {
+      bg: 'oklch(0.96 0.018 85)',
+      surface: 'oklch(0.92 0.024 85)',
+      ink: 'oklch(0.22 0.04 82)',
+      muted: 'oklch(0.40 0.028 82)',
+      divider: 'oklch(0.22 0.04 82 / 0.14)',
+      accent: 'oklch(0.45 0.12 78)',
+      accentInk: 'oklch(0.98 0.005 85)',
+      plateBg: 'oklch(0.985 0.005 85)',
     },
   },
   {
@@ -320,16 +378,26 @@ export const PROJECTS: ProjectCaseStudy[] = [
     imageSrc: '/projects/auto-aviso.png',
     imageWidth: 500,
     imageHeight: 190,
-    blurDataURL: makeBlurDataUrl('oklch(0.20 0.038 208)'),
-    theme: {
-      bg: 'oklch(0.20 0.038 208)',
-      surface: 'oklch(0.24 0.044 208)',
-      ink: 'oklch(0.96 0.01 205)',
-      muted: 'oklch(0.78 0.025 205)',
-      divider: 'oklch(0.96 0.01 205 / 0.14)',
-      accent: 'oklch(0.83 0.15 198)',
-      accentInk: 'oklch(0.16 0.03 205)',
-      plateBg: 'oklch(0.95 0.008 205)',
+    blurDataURL: makeBlurDataUrl('oklch(0.185 0.028 208)'),
+    darkTheme: {
+      bg: 'oklch(0.185 0.028 208)',
+      surface: 'oklch(0.225 0.034 208)',
+      ink: 'oklch(0.96 0.008 205)',
+      muted: 'oklch(0.77 0.022 205)',
+      divider: 'oklch(0.96 0.008 205 / 0.14)',
+      accent: 'oklch(0.78 0.13 200)',
+      accentInk: 'oklch(0.14 0.03 205)',
+      plateBg: 'oklch(0.95 0.006 205)',
+    },
+    lightTheme: {
+      bg: 'oklch(0.955 0.018 205)',
+      surface: 'oklch(0.915 0.024 205)',
+      ink: 'oklch(0.20 0.04 208)',
+      muted: 'oklch(0.38 0.03 205)',
+      divider: 'oklch(0.20 0.04 208 / 0.14)',
+      accent: 'oklch(0.43 0.12 202)',
+      accentInk: 'oklch(0.98 0.005 205)',
+      plateBg: 'oklch(0.985 0.004 205)',
     },
   },
 ];
@@ -412,4 +480,3 @@ export const TECH_TOOLS: TechToolItem[] = [
   { name: 'ClickUp', icon: '/tech/clickup.svg', width: 32, height: 32 },
   { name: 'Trello', icon: '/tech/trello.svg', width: 32, height: 32 },
 ];
-

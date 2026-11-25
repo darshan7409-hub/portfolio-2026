@@ -3,9 +3,9 @@ import { ArrowLeft } from 'lucide-react';
 
 export default function NotFound() {
   return (
-    <section className="min-h-[82vh] flex items-center justify-center px-6 py-24">
-      <div className="max-w-2xl w-full bento-glass rounded-3xl p-8 md:p-12 text-center">
-        <p className="font-mono text-xs uppercase tracking-[0.25em] text-accent mb-4">
+    <section className="min-h-[82dvh] flex items-center justify-center safe-x py-24">
+      <div className="max-w-2xl w-full swiss-panel rounded-[24px] p-8 md:p-12 text-center">
+        <p className="mono-meta text-xs uppercase tracking-[0.22em] text-accent-text mb-4">
           ERR_404 // ROUTE_NOT_FOUND
         </p>
         <h1 className="section-display font-bold uppercase text-ink-primary mb-5">
@@ -16,7 +16,7 @@ export default function NotFound() {
         </p>
         <Link
           href="/"
-          className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-accent text-accent-ink font-mono text-sm font-semibold uppercase tracking-wider hover:bg-accent-hover transition-colors"
+          className="min-h-[44px] inline-flex items-center gap-2.5 px-6 py-3 rounded-[8px] bg-accent text-accent-ink mono-meta text-sm font-semibold uppercase tracking-wider hover:bg-accent-hover transition-colors"
         >
           <ArrowLeft size={16} aria-hidden="true" />
           Back to Portfolio
@@ -25,4 +25,3 @@ export default function NotFound() {
     </section>
   );
 }
-

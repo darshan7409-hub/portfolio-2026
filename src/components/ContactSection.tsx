@@ -18,7 +18,6 @@ export default function ContactSection() {
 
     const formData = new FormData(formRef.current);
 
-    // Honeypot check: silently ignore automated bot fills
     if (String(formData.get('website') || '').trim().length > 0) {
       setStatus('success');
       setFeedback('Message received. Thank you for reaching out.');
@@ -52,11 +51,11 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="py-20 sm:py-28 px-5 sm:px-8 lg:px-12 max-w-7xl mx-auto">
-      <div className="bento-glass rounded-3xl p-6 sm:p-10 lg:p-14 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start scroll-reveal">
+    <section id="contact" className="py-24 sm:py-32 safe-x max-w-7xl mx-auto">
+      <div className="swiss-panel rounded-[24px] p-6 sm:p-10 lg:p-14 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start scroll-reveal">
         {/* Left CTA copy */}
         <div className="lg:col-span-5 space-y-6">
-          <p className="font-mono text-xs uppercase tracking-[0.22em] text-accent">
+          <p className="mono-meta text-xs uppercase tracking-[0.2em] text-accent-text">
             03 // Initiate Collaboration
           </p>
           <h2 className="section-display font-bold uppercase text-ink-primary">
@@ -66,27 +65,27 @@ export default function ContactSection() {
             Looking for a dedicated QA specialist to audit a product release, stabilize regression suites, or join an engineering team? Let’s connect.
           </p>
 
-          <ul className="space-y-4 pt-2 font-mono text-xs sm:text-sm">
+          <ul className="space-y-2 pt-2 mono-meta text-xs sm:text-sm">
             <li>
               <a
                 href={`mailto:${PROFILE.email}`}
-                className="inline-flex items-center gap-3 text-ink-primary hover:text-accent transition-colors break-all"
+                className="min-h-[44px] inline-flex items-center gap-3 text-ink-primary hover:text-accent-text transition-colors break-all"
               >
-                <Mail size={16} className="text-accent shrink-0" aria-hidden="true" />
+                <Mail size={16} className="text-accent-text shrink-0" aria-hidden="true" />
                 <span>{PROFILE.email}</span>
               </a>
             </li>
             <li>
               <a
                 href={PROFILE.phoneHref}
-                className="inline-flex items-center gap-3 text-ink-primary hover:text-accent transition-colors"
+                className="min-h-[44px] inline-flex items-center gap-3 text-ink-primary hover:text-accent-text transition-colors"
               >
-                <Phone size={16} className="text-accent shrink-0" aria-hidden="true" />
+                <Phone size={16} className="text-accent-text shrink-0" aria-hidden="true" />
                 <span>{PROFILE.phone}</span>
               </a>
             </li>
-            <li className="inline-flex items-center gap-3 text-ink-secondary">
-              <MapPin size={16} className="text-secondary shrink-0" aria-hidden="true" />
+            <li className="min-h-[44px] inline-flex items-center gap-3 text-ink-secondary">
+              <MapPin size={16} className="text-accent-text shrink-0" aria-hidden="true" />
               <span>{PROFILE.location}</span>
             </li>
           </ul>
@@ -95,12 +94,12 @@ export default function ContactSection() {
         {/* Right Form */}
         <div className="lg:col-span-7 w-full">
           {!WEB3FORMS_KEY ? (
-            <div className="rounded-2xl bg-surface-2/85 border border-border-strong p-6 sm:p-8 space-y-4">
-              <div className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-secondary">
+            <div className="rounded-[16px] bg-surface-2 border border-border p-6 sm:p-8 space-y-4">
+              <div className="inline-flex items-center gap-2 mono-meta text-xs uppercase tracking-wider text-accent-text">
                 <AlertCircle size={16} aria-hidden="true" />
                 <span>Direct Contact Mode</span>
               </div>
-              <h3 className="text-xl font-bold text-ink-primary">
+              <h3 className="heading-sub text-xl font-bold text-ink-primary">
                 Contact Form Temporarily Unavailable
               </h3>
               <p className="text-sm text-ink-secondary leading-relaxed">
@@ -109,7 +108,7 @@ export default function ContactSection() {
               <MagneticButton
                 as="a"
                 href={`mailto:${PROFILE.email}`}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-accent-ink font-mono text-xs font-semibold uppercase tracking-wider hover:bg-accent-hover transition-colors"
+                className="min-h-[44px] inline-flex items-center gap-2 px-6 py-3 rounded-[8px] bg-accent text-accent-ink mono-meta text-xs font-semibold uppercase tracking-wider hover:bg-accent-hover transition-colors"
               >
                 <Mail size={15} aria-hidden="true" />
                 <span>Email {PROFILE.shortName}</span>
@@ -119,7 +118,7 @@ export default function ContactSection() {
             <form
               ref={formRef}
               onSubmit={handleSubmit}
-              className="rounded-2xl bg-surface-2/85 border border-border p-6 sm:p-8 space-y-5"
+              className="rounded-[16px] bg-surface-2 border border-border p-6 sm:p-8 space-y-5"
             >
               {/* Visually hidden honeypot field */}
               <div
@@ -140,7 +139,7 @@ export default function ContactSection() {
                 <div className="space-y-2">
                   <label
                     htmlFor="contact-name"
-                    className="block font-mono text-xs uppercase tracking-wider text-ink-secondary"
+                    className="block mono-meta text-xs uppercase tracking-wider text-ink-secondary"
                   >
                     Name
                   </label>
@@ -150,14 +149,14 @@ export default function ContactSection() {
                     type="text"
                     required
                     placeholder="Your name"
-                    className="w-full rounded-xl bg-canvas/80 border border-border-strong px-4 py-3 text-sm text-ink-primary placeholder:text-ink-muted focus:border-accent focus:outline-none"
+                    className="min-h-[44px] w-full rounded-[4px] bg-canvas border border-border-strong px-4 py-2.5 text-sm text-ink-primary placeholder:text-ink-muted focus:border-accent focus:outline-none"
                   />
                 </div>
 
                 <div className="space-y-2">
                   <label
                     htmlFor="contact-email"
-                    className="block font-mono text-xs uppercase tracking-wider text-ink-secondary"
+                    className="block mono-meta text-xs uppercase tracking-wider text-ink-secondary"
                   >
                     Email
                   </label>
@@ -167,7 +166,7 @@ export default function ContactSection() {
                     type="email"
                     required
                     placeholder="you@company.com"
-                    className="w-full rounded-xl bg-canvas/80 border border-border-strong px-4 py-3 text-sm text-ink-primary placeholder:text-ink-muted focus:border-accent focus:outline-none"
+                    className="min-h-[44px] w-full rounded-[4px] bg-canvas border border-border-strong px-4 py-2.5 text-sm text-ink-primary placeholder:text-ink-muted focus:border-accent focus:outline-none"
                   />
                 </div>
               </div>
@@ -175,7 +174,7 @@ export default function ContactSection() {
               <div className="space-y-2">
                 <label
                   htmlFor="contact-subject"
-                  className="block font-mono text-xs uppercase tracking-wider text-ink-secondary"
+                  className="block mono-meta text-xs uppercase tracking-wider text-ink-secondary"
                 >
                   Subject
                 </label>
@@ -185,14 +184,14 @@ export default function ContactSection() {
                   type="text"
                   required
                   placeholder="QA Audit / Full-Time Role / Automation Consultation"
-                  className="w-full rounded-xl bg-canvas/80 border border-border-strong px-4 py-3 text-sm text-ink-primary placeholder:text-ink-muted focus:border-accent focus:outline-none"
+                  className="min-h-[44px] w-full rounded-[4px] bg-canvas border border-border-strong px-4 py-2.5 text-sm text-ink-primary placeholder:text-ink-muted focus:border-accent focus:outline-none"
                 />
               </div>
 
               <div className="space-y-2">
                 <label
                   htmlFor="contact-message"
-                  className="block font-mono text-xs uppercase tracking-wider text-ink-secondary"
+                  className="block mono-meta text-xs uppercase tracking-wider text-ink-secondary"
                 >
                   Message
                 </label>
@@ -202,7 +201,7 @@ export default function ContactSection() {
                   rows={4}
                   required
                   placeholder="Share project scope, timeline, or role details..."
-                  className="w-full rounded-xl bg-canvas/80 border border-border-strong px-4 py-3 text-sm text-ink-primary placeholder:text-ink-muted focus:border-accent focus:outline-none resize-y"
+                  className="min-h-[112px] w-full rounded-[4px] bg-canvas border border-border-strong px-4 py-3 text-sm text-ink-primary placeholder:text-ink-muted focus:border-accent focus:outline-none resize-y"
                 />
               </div>
 
@@ -211,7 +210,7 @@ export default function ContactSection() {
                   as="button"
                   type="submit"
                   disabled={status === 'submitting'}
-                  className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-full bg-accent text-accent-ink font-mono text-xs font-semibold uppercase tracking-[0.14em] hover:bg-accent-hover transition-colors disabled:opacity-60 cursor-pointer"
+                  className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center gap-2.5 px-7 py-3 rounded-[8px] bg-accent text-accent-ink mono-meta text-xs font-semibold uppercase tracking-[0.12em] hover:bg-accent-hover transition-colors disabled:opacity-60 cursor-pointer"
                 >
                   <Send size={14} aria-hidden="true" />
                   <span>{status === 'submitting' ? 'Sending...' : 'Send Message'}</span>
@@ -220,7 +219,7 @@ export default function ContactSection() {
                 {feedback && (
                   <p
                     role="status"
-                    className={`inline-flex items-center gap-2 font-mono text-xs ${
+                    className={`inline-flex items-center gap-2 mono-meta text-xs ${
                       status === 'success' ? 'text-success' : 'text-danger'
                     }`}
                   >
@@ -240,4 +239,3 @@ export default function ContactSection() {
     </section>
   );
 }
-

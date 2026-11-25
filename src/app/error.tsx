@@ -11,16 +11,17 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    console.error('Application route error:', error);
+    // Surface digest only to error boundary diagnostics
+    void error.digest;
   }, [error]);
 
   return (
-    <section className="min-h-[82vh] flex items-center justify-center px-6 py-24">
-      <div className="max-w-xl w-full bento-glass rounded-3xl p-8 md:p-12 text-center">
-        <p className="font-mono text-xs uppercase tracking-[0.25em] text-danger mb-4">
+    <section className="min-h-[82dvh] flex items-center justify-center safe-x py-24">
+      <div className="max-w-xl w-full swiss-panel rounded-[24px] p-8 md:p-12 text-center">
+        <p className="mono-meta text-xs uppercase tracking-[0.22em] text-danger mb-4">
           RUNTIME_EXCEPTION // RECOVERABLE
         </p>
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-ink-primary mb-4">
+        <h1 className="heading-sub text-3xl md:text-4xl font-bold text-ink-primary mb-4">
           Unexpected Interface Fault
         </h1>
         <p className="text-ink-secondary text-sm md:text-base leading-relaxed mb-8">
@@ -29,7 +30,7 @@ export default function Error({
         <button
           type="button"
           onClick={() => reset()}
-          className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-accent text-accent-ink font-mono text-sm font-semibold uppercase tracking-wider hover:bg-accent-hover transition-colors cursor-pointer"
+          className="min-h-[44px] inline-flex items-center gap-2.5 px-6 py-3 rounded-[8px] bg-accent text-accent-ink mono-meta text-sm font-semibold uppercase tracking-wider hover:bg-accent-hover transition-colors cursor-pointer"
         >
           <RotateCcw size={16} aria-hidden="true" />
           Retry View
@@ -38,4 +39,3 @@ export default function Error({
     </section>
   );
 }
-

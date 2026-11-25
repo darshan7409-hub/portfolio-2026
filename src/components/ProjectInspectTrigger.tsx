@@ -20,10 +20,10 @@ export default function ProjectInspectTrigger({ project }: { project: ProjectCas
         type="button"
         onClick={() => setOpen(true)}
         style={{
-          backgroundColor: project.theme.accent,
-          color: project.theme.accentInk,
+          backgroundColor: 'var(--card-accent)',
+          color: 'var(--card-accent-ink)',
         }}
-        className="shrink-0 self-start sm:self-auto inline-flex items-center gap-2 px-5 py-3 rounded-full font-mono text-xs font-semibold uppercase tracking-[0.14em] hover:opacity-90 transition-opacity cursor-pointer"
+        className="min-h-[44px] min-w-[44px] shrink-0 self-start sm:self-auto inline-flex items-center gap-2 px-5 py-2.5 rounded-[8px] mono-meta text-xs font-semibold uppercase tracking-[0.12em] hover:opacity-90 transition-opacity cursor-pointer"
       >
         <span>Inspect Case</span>
         <ArrowUpRight size={15} aria-hidden="true" />
@@ -39,4 +39,3 @@ export default function ProjectInspectTrigger({ project }: { project: ProjectCas
     </>
   );
 }
-

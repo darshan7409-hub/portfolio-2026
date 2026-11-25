@@ -7,8 +7,7 @@ export default function SmoothScrollClient() {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (mediaQuery.matches) return;
 
-    let lenisInstance: { raf: (time: number) => void; destroy: () => void } | null = null;
-    let rafId = 0;
+    let lenisInstance: { destroy: () => void } | null = null;
     let cancelled = false;
 
     const initLenis = async () => {
@@ -16,25 +15,19 @@ export default function SmoothScrollClient() {
       if (cancelled) return;
 
       lenisInstance = new Lenis({
-        duration: 1.05,
-        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
+        lerp: 0.09,
+        wheelMultiplier: 1.0,
         touchMultiplier: 1.5,
+        smoothWheel: true,
+        syncTouch: false,
+        autoRaf: true,
       });
-
-      const raf = (time: number) => {
-        lenisInstance?.raf(time);
-        rafId = requestAnimationFrame(raf);
-      };
-
-      rafId = requestAnimationFrame(raf);
     };
 
     void initLenis();
 
     const handleMotionChange = (e: MediaQueryListEvent) => {
       if (e.matches) {
-        cancelAnimationFrame(rafId);
         lenisInstance?.destroy();
         lenisInstance = null;
       }
@@ -45,7 +38,6 @@ export default function SmoothScrollClient() {
     return () => {
       cancelled = true;
       mediaQuery.removeEventListener('change', handleMotionChange);
-      cancelAnimationFrame(rafId);
       lenisInstance?.destroy();
     };
   }, []);
