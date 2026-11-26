@@ -77,7 +77,7 @@ export default function ExperienceTimeline() {
         title="Experience & Education"
         description={
           <>
-            Two+ years validating production software releases across QA teams — open to discussing full-time QA roles via{' '}
+            8+ years validating production software releases across QA teams — open to discussing full-time QA roles via{' '}
             <a
               href="#contact"
               className="link-draw text-accent hover:text-accent-hover transition-colors"
@@ -138,7 +138,6 @@ export default function ExperienceTimeline() {
                       {edu.degree}
                     </h3>
                     <p className="mono-meta text-xs text-ink-secondary">{edu.institution}</p>
-                    <p className="text-xs text-ink-muted leading-relaxed pt-1">{edu.description}</p>
                   </div>
                 ))}
               </div>

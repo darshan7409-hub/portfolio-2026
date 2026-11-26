@@ -11,12 +11,15 @@ import {
 
 interface LenisLike {
   scrollTo: (target: number | string | HTMLElement, options?: { duration?: number }) => void;
+  stop: () => void;
+  start: () => void;
   destroy: () => void;
 }
 
 interface SmoothScrollContextValue {
   scrollToTop: () => void;
   scrollToTarget: (selector: string) => void;
+  setScrollLocked: (locked: boolean) => void;
 }
 
 const SmoothScrollContext = createContext<SmoothScrollContextValue>({
@@ -26,6 +29,7 @@ const SmoothScrollContext = createContext<SmoothScrollContextValue>({
   scrollToTarget: (selector: string) => {
     document.querySelector(selector)?.scrollIntoView({ behavior: 'smooth' });
   },
+  setScrollLocked: () => {},
 });
 
 export function useSmoothScroll() {
@@ -97,8 +101,16 @@ export default function SmoothScrollProvider({ children }: { children: ReactNode
     }
   }, []);
 
+  const setScrollLocked = useCallback((locked: boolean) => {
+    if (locked) {
+      lenisRef.current?.stop();
+    } else {
+      lenisRef.current?.start();
+    }
+  }, []);
+
   return (
-    <SmoothScrollContext.Provider value={{ scrollToTop, scrollToTarget }}>
+    <SmoothScrollContext.Provider value={{ scrollToTop, scrollToTarget, setScrollLocked }}>
       {children}
     </SmoothScrollContext.Provider>
   );

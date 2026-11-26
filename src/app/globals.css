@@ -447,6 +447,13 @@ body {
   color: #ffffff !important;
   box-shadow: 0 8px 20px -6px rgba(5, 150, 105, 0.5);
 }
+.social-brand-whatsapp:hover,
+.social-brand-whatsapp:focus-visible {
+  background: #25d366 !important;
+  border-color: #25d366 !important;
+  color: #ffffff !important;
+  box-shadow: 0 8px 20px -6px rgba(37, 211, 102, 0.5);
+}
 
 /* Theme-switched SVG logos without client JS re-renders */
 :root[data-theme="light"] .theme-dark-only {

@@ -27,11 +27,7 @@ export default function AboutSection() {
                 <p className="text-sm sm:text-base text-ink-muted">
                   Explore how this approach translates into{' '}
                   <a href="#work" className="link-draw text-accent hover:text-accent-hover transition-colors">
-                    shipped QA case studies
-                  </a>{' '}
-                  or{' '}
-                  <a href="#more-work" className="link-draw text-accent hover:text-accent-hover transition-colors">
-                    additional platform audits
+                    featured QA projects
                   </a>
                   .
                 </p>

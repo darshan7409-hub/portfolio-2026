@@ -76,7 +76,7 @@ export default function Footer() {
 
             <SocialLinks
               variant="footer"
-              compactIds={['github', 'linkedin']}
+              compactIds={['github', 'linkedin', 'whatsapp']}
             />
           </div>
 

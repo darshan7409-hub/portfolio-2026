@@ -4,6 +4,7 @@ import { useEffect, useRef, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { X, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { useSmoothScroll } from './SmoothScrollProvider';
 import type { ProjectCaseStudy } from '@/data/portfolio';
 
 interface ProjectDrawerProps {
@@ -18,13 +19,17 @@ const FOCUSABLE_SELECTOR =
 export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectDrawerProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const { setScrollLocked } = useSmoothScroll();
 
   useEffect(() => {
     if (!project) return;
 
-    const previousOverflow = document.body.style.overflow;
+    const previousBodyOverflow = document.body.style.overflow;
+    const previousHtmlOverflow = document.documentElement.style.overflow;
     const triggerEl = triggerRef.current;
     document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+    setScrollLocked(true);
 
     const frameId = requestAnimationFrame(() => {
       closeButtonRef.current?.focus();
@@ -63,11 +68,13 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
 
     return () => {
       cancelAnimationFrame(frameId);
-      document.body.style.overflow = previousOverflow;
+      document.body.style.overflow = previousBodyOverflow;
+      document.documentElement.style.overflow = previousHtmlOverflow;
+      setScrollLocked(false);
       window.removeEventListener('keydown', handleKeyDown);
       triggerEl?.focus();
     };
-  }, [project, onClose, triggerRef]);
+  }, [project, onClose, triggerRef, setScrollLocked]);
 
   if (!project || typeof document === 'undefined') return null;
 
@@ -78,11 +85,13 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
 
   return createPortal(
     <div
+      data-lenis-prevent
       className="fixed inset-0 z-[90] flex justify-end bg-canvas/80 backdrop-blur-md"
       onClick={onClose}
     >
       <div
         ref={dialogRef}
+        data-lenis-prevent
         role="dialog"
         aria-modal="true"
         aria-labelledby={`drawer-title-${project.id}`}
@@ -92,7 +101,7 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
           backgroundColor: 'var(--token-surface-2)',
           color: 'var(--token-ink-primary)',
         }}
-        className="card-accent-scope glass-panel !rounded-none sm:!rounded-l-[24px] relative w-screen sm:w-full sm:max-w-2xl h-full overflow-y-auto p-6 sm:p-10 flex flex-col gap-7"
+        className="card-accent-scope glass-panel !rounded-none sm:!rounded-l-[24px] relative w-screen sm:w-full sm:max-w-2xl h-full overflow-y-auto overscroll-contain p-6 sm:p-10 flex flex-col gap-7"
       >
         <div className="flex items-start justify-between gap-4 pb-6 border-b border-border">
           <div className="space-y-1.5">

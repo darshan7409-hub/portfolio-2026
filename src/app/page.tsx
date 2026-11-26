@@ -6,7 +6,6 @@ import FeaturedWork from '@/components/FeaturedWork';
 import ExperienceTimeline from '@/components/ExperienceTimeline';
 import SkillsMatrix from '@/components/SkillsMatrix';
 import AboutSection from '@/components/AboutSection';
-import MoreWorkSection from '@/components/MoreWorkSection';
 import ContactSection from '@/components/ContactSection';
 import { PROJECTS } from '@/data/portfolio';
 
@@ -21,18 +20,15 @@ function checkHasRealCv(): boolean {
 
 export default function HomePage() {
   const hasRealCv = checkHasRealCv();
-  const featuredProjects = PROJECTS.filter((p) => p.featured);
-  const archiveProjects = PROJECTS.filter((p) => !p.featured);
 
   return (
     <>
       <Hero hasRealCv={hasRealCv} />
       <RecentProjectsStrip />
-      <FeaturedWork projects={featuredProjects} />
+      <FeaturedWork projects={PROJECTS} />
       <ExperienceTimeline />
       <SkillsMatrix />
       <AboutSection />
-      <MoreWorkSection projects={archiveProjects} />
       <ContactSection />
     </>
   );

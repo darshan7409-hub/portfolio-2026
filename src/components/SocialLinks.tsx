@@ -3,7 +3,7 @@ import { PROFILE } from '@/data/portfolio';
 type SocialVariant = 'header' | 'hero' | 'contact' | 'footer';
 
 interface SocialItem {
-  id: 'github' | 'linkedin' | 'email' | 'phone';
+  id: 'github' | 'linkedin' | 'whatsapp' | 'email' | 'phone';
   label: string;
   shortLabel: string;
   href: string;
@@ -27,6 +27,14 @@ const SOCIAL_ITEMS: SocialItem[] = [
     href: PROFILE.socials.find((s) => s.id === 'linkedin')?.href || 'https://www.linkedin.com/in/darshan-patel-619901106',
     external: true,
     brandClass: 'social-brand-linkedin',
+  },
+  {
+    id: 'whatsapp',
+    label: 'Chat on WhatsApp',
+    shortLabel: 'WhatsApp',
+    href: PROFILE.whatsappHref,
+    external: true,
+    brandClass: 'social-brand-whatsapp',
   },
   {
     id: 'email',
@@ -58,6 +66,12 @@ function BrandIcon({ id }: { id: SocialItem['id'] }) {
       return (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
           <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+        </svg>
+      );
+    case 'whatsapp':
+      return (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M12.031 2c-5.516 0-9.969 4.453-9.969 9.969 0 1.766.469 3.484 1.344 5l-1.406 5.156 5.281-1.375c1.469.797 3.109 1.219 4.75 1.219 5.516 0 9.969-4.453 9.969-9.969S17.547 2 12.031 2zm5.813 14.125c-.25.703-1.438 1.344-2 1.422-.516.078-1.172.109-1.891-.125-.438-.141-1-.328-1.719-.641-3.031-1.313-5-4.375-5.156-4.578-.156-.203-1.234-1.641-1.234-3.125s.781-2.219 1.063-2.516c.281-.297.609-.375.813-.375.203 0 .406 0 .578.016.188.016.438-.078.688.516.25.609.859 2.094.938 2.25.078.156.125.344.016.547-.109.203-.156.328-.313.516-.156.188-.328.406-.469.547-.156.156-.313.328-.141.641.172.313.781 1.281 1.672 2.078 1.156 1.031 2.125 1.344 2.438 1.5.313.156.484.125.672-.078.188-.203.781-.906.984-1.219.203-.313.406-.266.688-.156.281.109 1.797.844 2.109 1 .313.156.516.234.594.359.078.125.078.734-.172 1.438z" />
         </svg>
       );
     case 'email':

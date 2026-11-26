@@ -9,9 +9,10 @@ interface TechTool {
 }
 
 const TECH_TOOLS: TechTool[] = [
+  { name: 'JIRA', icon: '/tech/jira.svg' },
+  { name: 'AWS SERVICES', icon: '/tech/aws-light.svg', darkIcon: '/tech/aws-dark.svg' },
   { name: 'BROWSERSTACK', icon: '/tech/browserstack-light.svg', darkIcon: '/tech/browserstack-dark.svg' },
   { name: 'KATALON', icon: '/tech/katalon-light.svg', darkIcon: '/tech/katalon-dark.svg' },
-  { name: 'JIRA', icon: '/tech/jira.svg' },
   { name: 'FIGMA', icon: '/tech/figma.svg' },
   { name: 'GOOGLE SHEETS', icon: '/tech/googlesheets.svg' },
   { name: 'TRELLO', icon: '/tech/trello.svg' },
@@ -27,7 +28,7 @@ const SKILL_PILLARS = [
     id: 'qa-strategy',
     title: 'Quality Assurance',
     icon: ShieldCheck,
-    items: ['Test Planning', 'Test Design', 'Requirement Analysis', 'Risk Assessment', 'API Testing'],
+    items: ['Test Planning', 'Test Design', 'Regression Suites', 'API Testing', 'Release Gates'],
   },
   {
     id: 'qa-validation',
@@ -36,16 +37,23 @@ const SKILL_PILLARS = [
     items: ['Functional Testing', 'Regression Testing', 'Cross-Browser Testing', 'Smoke & Sanity Gates', 'Mobile App QA'],
   },
   {
-    id: 'automation-tooling',
-    title: 'Automation & Tools',
+    id: 'analysis-ownership',
+    title: 'QA Analysis & Strategy',
     icon: Cpu,
-    items: ['Selenium WebDriver', 'Katalon Studio', 'Playwright', 'Postman', 'JMeter', 'BrowserStack', 'Sentry'],
+    items: [
+      'Product Understanding',
+      'Defect Tracking',
+      'Risk Assessment',
+      'Root Cause Analysis',
+      'Test Sign-off',
+      'Stakeholder Alignment',
+    ],
   },
   {
-    id: 'delivery-code',
-    title: 'Delivery & Languages',
+    id: 'delivery-ecosystem',
+    title: 'Delivery & Ecosystem',
     icon: Users,
-    items: ['Agile', 'Jira', 'Git & CI/CD', 'TypeScript / JS', 'Python', 'SQL', 'PHP'],
+    items: ['Jira', 'AWS Services', 'Agile / Scrum', 'Postman', 'BrowserStack', 'Release Governance', 'SQL'],
   },
 ];
 

@@ -45,7 +45,7 @@ export interface EducationEntry {
   degree: string;
   duration: string;
   location: string;
-  description: string;
+  description?: string;
 }
 
 export interface SkillColumn {
@@ -76,6 +76,7 @@ export const PROFILE = {
   email: 'darshan7409@gmail.com',
   phone: '+91 9687940988',
   phoneHref: 'tel:+919687940988',
+  whatsappHref: 'https://wa.me/919687940988',
   cvPath: 'public/Darshan_Patel_CV.pdf',
   cvUrl: '/Darshan_Patel_CV.pdf',
   siteUrl: 'https://darshanpatel.com',
@@ -102,6 +103,7 @@ export const PROFILE = {
   socials: [
     { id: 'github' as const, label: 'GitHub', href: 'https://github.com/darshan7409-hub' },
     { id: 'linkedin' as const, label: 'LinkedIn', href: 'https://www.linkedin.com/in/darshan-patel-619901106' },
+    { id: 'whatsapp' as const, label: 'WhatsApp', href: 'https://wa.me/919687940988' },
   ],
 };
 
@@ -383,22 +385,25 @@ export const EXPERIENCES: ExperienceEntry[] = [
 
 export const EDUCATION: EducationEntry[] = [
   {
-    id: 'mca',
-    institution: 'GLS University',
-    degree: 'Master of Computer Application (MCA)',
-    duration: '2022 – 2024',
-    location: 'Ahmedabad, Gujarat',
-    description:
-      'Specialized in Software Engineering, AI/ML, and Cloud Computing with practical focus on application testing, Python, and deployment workflows.',
+    id: 'be',
+    duration: 'July 2015',
+    degree: 'Bachelor of Computer Engineering',
+    institution: 'Universal College of Engineering & Technology (GTU)',
+    location: 'Ahmedabad',
   },
   {
-    id: 'bca',
-    institution: 'SomLalit Institute of Computer Application, Gujarat University',
-    degree: 'Bachelor of Computer Application (BCA)',
-    duration: '2019 – 2022',
-    location: 'Ahmedabad, Gujarat',
-    description:
-      'Core foundation in programming, relational databases, OOP architecture, SQL, and web application fundamentals.',
+    id: 'hsc',
+    duration: 'May 2009',
+    degree: 'HSC',
+    institution: 'Vishwa Vidhyalaya Higher Secondary School',
+    location: 'Ahmedabad',
+  },
+  {
+    id: 'ssc',
+    duration: 'May 2007',
+    degree: 'SSC',
+    institution: 'Vishwa Vidhyalaya High School',
+    location: 'Ahmedabad',
   },
 ];
 
@@ -408,7 +413,6 @@ export const SKILL_COLUMNS: SkillColumn[] = [
     title: 'Test Strategy',
     items: [
       { name: 'Test Planning', iconKey: 'target' },
-      { name: 'Requirement Analysis', iconKey: 'file' },
       { name: 'Risk Assessment', iconKey: 'shield' },
       { name: 'Regression Suites', iconKey: 'layers' },
       { name: 'Smoke & Sanity Gates', iconKey: 'check' },

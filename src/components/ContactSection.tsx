@@ -143,7 +143,7 @@ export default function ContactSection() {
 
             <SocialLinks
               variant="contact"
-              compactIds={['github', 'linkedin']}
+              compactIds={['github', 'linkedin', 'whatsapp']}
             />
           </div>
 
