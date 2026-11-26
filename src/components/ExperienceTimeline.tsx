@@ -102,13 +102,13 @@ export default function ExperienceTimeline() {
                     type="button"
                     onClick={() => setShowEarlier((prev) => !prev)}
                     aria-expanded={showEarlier}
-                    className="glass-panel min-h-[44px] !rounded-[12px] px-4 py-2 inline-flex items-center gap-2 mono-meta text-xs uppercase tracking-[0.14em] text-ink-primary hover:text-accent cursor-pointer"
+                    className="glass-panel glass-interactive min-h-[44px] !rounded-[12px] px-4 py-2 inline-flex items-center gap-2 mono-meta text-xs uppercase tracking-[0.14em] text-ink-primary hover:text-accent cursor-pointer"
                   >
                     <span>{showEarlier ? 'Hide earlier roles' : `Earlier roles (${earlierRoles.length})`}</span>
                     <ChevronDown
                       size={15}
                       aria-hidden="true"
-                      className={`transition-transform duration-300 ${showEarlier ? 'rotate-180' : ''}`}
+                      className={`transition-transform duration-300 ${showEarlier ? 'rotate-180' : 'animate-bounce'}`}
                     />
                   </button>
                 </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, type FormEvent } from 'react';
+import { useState, useRef, useEffect, type FormEvent } from 'react';
 import {
   Mail,
   MapPin,
@@ -15,12 +15,66 @@ import { ScrollReveal, TypeInEyebrow } from './MotionPrimitives';
 import { PROFILE } from '@/data/portfolio';
 
 const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY?.trim() || '';
+const RATE_STORAGE_KEY = 'dp_contact_tx_v1';
+const COOLDOWN_MS = 60_000;
+const WINDOW_MS = 3_600_000;
+const MAX_PER_HOUR = 3;
+const MIN_INTERACTION_MS = 2_500;
+
+function readRecentSubmissions(): number[] {
+  try {
+    const raw = window.localStorage.getItem(RATE_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw) as unknown;
+    if (!Array.isArray(parsed)) return [];
+    const cutoff = Date.now() - WINDOW_MS;
+    return parsed.filter((ts): ts is number => typeof ts === 'number' && ts > cutoff);
+  } catch {
+    return [];
+  }
+}
+
+function recordSubmission(ts: number): void {
+  try {
+    const recent = readRecentSubmissions();
+    recent.push(ts);
+    window.localStorage.setItem(RATE_STORAGE_KEY, JSON.stringify(recent));
+  } catch {
+    // Ignore storage errors in restricted browsing modes
+  }
+}
 
 export default function ContactSection() {
   const formRef = useRef<HTMLFormElement>(null);
+  const firstInteractionRef = useRef<number | null>(null);
+  const lastDigestRef = useRef<string>('');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [feedback, setFeedback] = useState('');
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [cooldownSec, setCooldownSec] = useState(0);
+
+  useEffect(() => {
+    const syncCooldown = () => {
+      const recent = readRecentSubmissions();
+      const latest = recent[recent.length - 1];
+      if (!latest) {
+        setCooldownSec(0);
+        return;
+      }
+      const remaining = Math.ceil((latest + COOLDOWN_MS - Date.now()) / 1000);
+      setCooldownSec(remaining > 0 ? remaining : 0);
+    };
+
+    syncCooldown();
+    const timer = setInterval(syncCooldown, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const markInteraction = () => {
+    if (!firstInteractionRef.current) {
+      firstInteractionRef.current = Date.now();
+    }
+  };
 
   const handleCopy = async (id: string, value: string) => {
     try {
@@ -34,29 +88,95 @@ export default function ContactSection() {
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!formRef.current || !WEB3FORMS_KEY) return;
+    if (!formRef.current || !WEB3FORMS_KEY || status === 'submitting') return;
 
     const formData = new FormData(formRef.current);
 
-    if (String(formData.get('website') || '').trim().length > 0) {
+    // 1. Official Web3Forms botcheck honeypot (silent fake success for bots)
+    if (formData.get('botcheck') === 'on') {
       setStatus('success');
       setFeedback('Message sent successfully! I will get back to you soon.');
       formRef.current.reset();
       return;
     }
 
-    formData.append('access_key', WEB3FORMS_KEY);
+    const name = String(formData.get('name') || '').trim();
+    const email = String(formData.get('email') || '').trim();
+    const subject = String(formData.get('subject') || '').trim();
+    const message = String(formData.get('message') || '').trim();
+
+    // 2. Minimum human interaction timing check (blocks instant script auto-fills)
+    const elapsed = firstInteractionRef.current ? Date.now() - firstInteractionRef.current : 0;
+    if (elapsed < MIN_INTERACTION_MS) {
+      setStatus('error');
+      setFeedback('Please take a brief moment to complete your message before submitting.');
+      return;
+    }
+
+    // 3. Cooldown & hourly burst rate limit (stops continuous repeat messaging)
+    const recent = readRecentSubmissions();
+    const latest = recent[recent.length - 1];
+    if (latest && Date.now() - latest < COOLDOWN_MS) {
+      const waitSec = Math.ceil((latest + COOLDOWN_MS - Date.now()) / 1000);
+      setCooldownSec(waitSec);
+      setStatus('error');
+      setFeedback(`Please wait ${waitSec}s before sending another message.`);
+      return;
+    }
+    if (recent.length >= MAX_PER_HOUR) {
+      setStatus('error');
+      setFeedback(`Hourly message limit reached. For urgent inquiries, email ${PROFILE.email} directly.`);
+      return;
+    }
+
+    // 4. Content sanity & duplicate / URL-flood guard
+    if (name.length < 2 || subject.length < 3 || message.length < 10) {
+      setStatus('error');
+      setFeedback('Please enter a valid name, subject, and a message of at least 10 characters.');
+      return;
+    }
+    const urlCount = (message.match(/https?:\/\/|www\./gi) || []).length;
+    if (urlCount >= 3) {
+      setStatus('error');
+      setFeedback('Too many links in message. Please share details in plain text or email directly.');
+      return;
+    }
+    const digest = `${email.toLowerCase()}|${subject.toLowerCase()}|${message}`;
+    if (digest === lastDigestRef.current) {
+      setStatus('error');
+      setFeedback('This exact message was already sent.');
+      return;
+    }
+
     setStatus('submitting');
     setFeedback('');
 
     try {
       const response = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          from_name: `${PROFILE.name} Portfolio`,
+          replyto: email,
+          name,
+          email,
+          subject,
+          message,
+          botcheck: false,
+        }),
       });
       const result = (await response.json()) as { success?: boolean; message?: string };
 
       if (result.success) {
+        const now = Date.now();
+        recordSubmission(now);
+        lastDigestRef.current = digest;
+        firstInteractionRef.current = null;
+        setCooldownSec(Math.ceil(COOLDOWN_MS / 1000));
         setStatus('success');
         setFeedback('Message sent successfully! I will get back to you soon.');
         formRef.current.reset();
@@ -192,19 +312,14 @@ export default function ContactSection() {
                 onSubmit={handleSubmit}
                 className="glass-panel rounded-2xl p-7 sm:p-9 md:p-10 flex flex-col gap-4"
               >
-                <div
+                <input
+                  type="checkbox"
+                  name="botcheck"
+                  tabIndex={-1}
+                  autoComplete="off"
                   aria-hidden="true"
-                  className="absolute left-[-9999px] top-auto w-px h-px overflow-hidden"
-                >
-                  <label htmlFor="contact-website">Website</label>
-                  <input
-                    id="contact-website"
-                    name="website"
-                    type="text"
-                    tabIndex={-1}
-                    autoComplete="off"
-                  />
-                </div>
+                  className="hidden"
+                />
 
                 <div>
                   <label htmlFor="contact-name" className="sr-only">
@@ -215,6 +330,9 @@ export default function ContactSection() {
                     name="name"
                     type="text"
                     required
+                    minLength={2}
+                    maxLength={80}
+                    onFocus={markInteraction}
                     placeholder="Your Name"
                     className="min-h-[48px] w-full rounded-lg bg-surface-1 border border-border-strong px-4 py-3 text-[15px] text-ink-primary placeholder:text-ink-muted focus:border-accent focus:outline-none transition-colors"
                   />
@@ -229,6 +347,8 @@ export default function ContactSection() {
                     name="email"
                     type="email"
                     required
+                    maxLength={120}
+                    onFocus={markInteraction}
                     placeholder="Your Email"
                     className="min-h-[48px] w-full rounded-lg bg-surface-1 border border-border-strong px-4 py-3 text-[15px] text-ink-primary placeholder:text-ink-muted focus:border-accent focus:outline-none transition-colors"
                   />
@@ -243,6 +363,9 @@ export default function ContactSection() {
                     name="subject"
                     type="text"
                     required
+                    minLength={3}
+                    maxLength={140}
+                    onFocus={markInteraction}
                     placeholder="Subject"
                     className="min-h-[48px] w-full rounded-lg bg-surface-1 border border-border-strong px-4 py-3 text-[15px] text-ink-primary placeholder:text-ink-muted focus:border-accent focus:outline-none transition-colors"
                   />
@@ -257,6 +380,9 @@ export default function ContactSection() {
                     name="message"
                     rows={5}
                     required
+                    minLength={10}
+                    maxLength={2000}
+                    onFocus={markInteraction}
                     placeholder="Message"
                     className="min-h-[132px] w-full rounded-lg bg-surface-1 border border-border-strong px-4 py-3 text-[15px] text-ink-primary placeholder:text-ink-muted focus:border-accent focus:outline-none resize-none transition-colors"
                   />
@@ -264,11 +390,17 @@ export default function ContactSection() {
 
                 <button
                   type="submit"
-                  disabled={status === 'submitting'}
-                  className="mt-1 min-h-[48px] w-full py-3.5 px-6 rounded-lg bg-accent text-accent-ink font-bold text-sm tracking-wide inline-flex items-center justify-center gap-2 hover:bg-accent-hover transition-all duration-200 hover:scale-[1.01] disabled:opacity-70 cursor-pointer"
+                  disabled={status === 'submitting' || cooldownSec > 0}
+                  className="mt-1 min-h-[48px] w-full py-3.5 px-6 rounded-lg bg-accent text-accent-ink font-bold text-sm tracking-wide inline-flex items-center justify-center gap-2 hover:bg-accent-hover transition-all duration-200 hover:scale-[1.01] disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
                 >
                   <Send size={15} aria-hidden="true" />
-                  <span>{status === 'submitting' ? 'Sending...' : 'Submit Message'}</span>
+                  <span>
+                    {status === 'submitting'
+                      ? 'Sending...'
+                      : cooldownSec > 0
+                        ? `Wait ${cooldownSec}s to send again`
+                        : 'Submit Message'}
+                  </span>
                 </button>
 
                 {feedback && status === 'error' && (

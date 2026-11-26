@@ -80,9 +80,9 @@ export const PROFILE = {
   cvPath: 'public/Darshan_Patel_CV.pdf',
   cvUrl: '/Darshan_Patel_CV.pdf',
   siteUrl: 'https://darshanpatel.com',
-  positioning: 'QA Lead & Analyst turning ambiguous requirements into bulletproof releases.',
+  positioning: 'QA Lead & Analyst leading quality strategy that turns product risk into release confidence.',
   subpositioning:
-    'Focused on aligning product clarity, quality strategy, and risk-aware validation so every web and mobile release ships with confidence.',
+    '8+ years guiding cross-functional engineering and product teams through clear test governance, early risk discovery, and decisive release sign-off across web and mobile.',
   responseSignal: 'Usually responds within 24 hours',
   aboutPullQuote: 'Quality is designed in, not tested in.',
   aboutParagraphs: [
@@ -354,32 +354,46 @@ export const PROJECTS: ProjectCaseStudy[] = [
 
 export const EXPERIENCES: ExperienceEntry[] = [
   {
-    id: 'polyxer',
-    company: 'Polyxer Systems Pvt Ltd',
-    role: 'Junior QA Analyst',
-    duration: 'Dec 2024 – Jun 2025',
-    location: 'Ahmedabad, India',
-    current: true,
-    responsibilities: [
-      'Executed end-to-end functional and regression cycles across [metric] production web releases to safeguard launch stability.',
-      'Authored and maintained [metric] structured test cases, verifying defect patches in tight loops with engineering.',
-      'Reduced release sign-off bottlenecks by [metric] through standardized smoke validation gates prior to deployment.',
-    ],
-    tags: ['End-to-End QA', 'Regression', 'Release Gates', 'Jira'],
-  },
-  {
     id: 'rayo',
     company: 'Rayo Innovations',
-    role: 'QA Tester',
-    duration: 'Jan 2023 – Dec 2024',
-    location: 'Ahmedabad, India',
+    role: 'QA Lead & Analyst',
+    duration: 'September 2022 – Present',
+    location: 'Ahmedabad, Gujarat',
+    current: true,
+    responsibilities: [
+      'Lead end-to-end quality strategy, test planning, and release sign-off across web and mobile applications in Agile sprints.',
+      'Partner closely with product owners and engineering teams during requirement reviews to catch ambiguity and edge-case risks early.',
+      'Oversee defect triage and closure in Jira while balancing exploratory, functional, regression, API, and cross-platform validation.',
+    ],
+    tags: ['QA Leadership', 'Test Strategy', 'Requirement Analysis', 'Jira'],
+  },
+  {
+    id: 'joyall',
+    company: 'Joyall – UK',
+    role: 'QA Analyst',
+    duration: 'April 2022 – August 2022',
+    location: 'Ahmedabad, Gujarat',
     current: false,
     responsibilities: [
-      'Validated cross-browser and multi-device interfaces across [metric] browser/viewport combinations via BrowserStack.',
-      'Verified REST API contracts and sanity payloads in Postman ahead of [metric] frontend integration milestones.',
-      'Tracked [metric] reproducible regressions in Jira while transitioning repetitive UI flows into Playwright and Katalon.',
+      'Created structured test plans, scenarios, and test cases for web and mobile product workflows prior to release cycles.',
+      'Identified, logged, and tracked defects through verification and closure in close collaboration with developers and QA peers.',
+      'Executed smoke, sanity, integration, and regression cycles to safeguard build stability across releases.',
     ],
-    tags: ['Cross-Browser', 'Postman API', 'Playwright', 'BrowserStack'],
+    tags: ['Test Plans', 'Functional QA', 'Regression', 'Defect Tracking'],
+  },
+  {
+    id: 'vihaa',
+    company: 'Vihaa Technologies LLP',
+    role: 'QA Engineer',
+    duration: 'August 2019 – March 2022',
+    location: 'Ahmedabad, Gujarat',
+    current: false,
+    responsibilities: [
+      'Validated games and multi-platform applications across iOS, Android, Amazon, Windows, and macOS environments.',
+      'Performed GUI, functional, compatibility, BVA, load, and performance testing across the full SDLC, STLC, and Defect Life Cycle.',
+      'Collaborated with engineering teams to reproduce issues, verify fixes, and maintain consistent product quality.',
+    ],
+    tags: ['Multi-Platform QA', 'Games & Apps', 'Compatibility', 'STLC'],
   },
 ];
 

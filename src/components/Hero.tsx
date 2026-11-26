@@ -19,8 +19,8 @@ export default function Hero({ hasRealCv }: { hasRealCv: boolean }) {
         {/* Left Editorial Column */}
         <div className="lg:col-span-8 space-y-6 relative z-10 pt-6 lg:pt-4">
           <HeroTextReveal
-            lines={['QA Lead & Analyst', 'turning ambiguous specs', 'into bulletproof releases.']}
-            highlightWord="ambiguous"
+            lines={['Leading quality strategy', 'turning product risk', 'into release confidence.']}
+            highlightWord="confidence."
           />
 
           <p className="mono-meta text-xs sm:text-sm uppercase tracking-[0.16em] text-accent">
