@@ -35,7 +35,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || PROFILE.siteUrl;
 const seoDescription =
-  'QA Lead & Analyst in Ahmedabad specializing in QA automation, test strategy, Selenium, Katalon, and Postman API validation for reliable production releases.';
+  'QA Lead & Analyst in Ahmedabad focused on quality strategy, risk clarity, and dependable web and mobile software delivery.';
 
 export const viewport: Viewport = {
   themeColor: [
@@ -111,7 +111,7 @@ export default function RootLayout({
         addressRegion: 'Gujarat',
         addressCountry: 'IN',
       },
-      sameAs: [...PROFILE.socials.map((s) => s.href), PROFILE.whatsappHref],
+      sameAs: PROFILE.socials.map((s) => s.href),
     },
   };
 

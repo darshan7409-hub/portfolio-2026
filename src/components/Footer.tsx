@@ -55,7 +55,8 @@ export default function Footer() {
                 <BrandMark
                   size={28}
                   color="oklch(0.74 0.14 68)"
-                  notchColor="#ffffff"
+                  notchColor="#141210"
+                  rimColor="rgba(255,255,255,0.22)"
                 />
               </div>
               <div>
@@ -70,12 +71,12 @@ export default function Footer() {
             </div>
 
             <p className="text-stone-400 text-sm leading-relaxed max-w-xs">
-              Crafting reliable software through precision testing, automation, and a passion for quality assurance.
+              Driving end-to-end quality strategy, risk clarity, and dependable software delivery across engineering teams.
             </p>
 
             <SocialLinks
               variant="footer"
-              compactIds={['github', 'linkedin', 'instagram']}
+              compactIds={['github', 'linkedin']}
             />
           </div>
 

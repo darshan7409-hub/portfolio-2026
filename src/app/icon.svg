@@ -1,16 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <rect width="64" height="64" rx="14" fill="#141210" />
+  <rect width="64" height="64" rx="14" fill="#181716" />
   <path
-    d="M10 14H22C33 14 39 21 39 32C39 43 33 50 22 50H10V14Z"
-    stroke="#e29a3b"
-    stroke-width="5.8"
+    d="M17.5 48H13V11H32.5C45.5 11 53.5 19 53.5 29.5C53.5 40 45.5 48 32.5 48H28.5"
+    stroke="#d85d0d"
+    stroke-width="5.6"
     stroke-linecap="round"
     stroke-linejoin="round"
   />
   <path
-    d="M27 50V14H42C50 14 55 18.8 55 26C55 33.2 50 38 42 38H27"
-    stroke="#f7f4ef"
-    stroke-width="5.8"
+    d="M23 56V17.5H33C40.2 17.5 44.5 21.8 44.5 27.75C44.5 33.7 40.2 38 33 38H17.5"
+    stroke="#383532"
+    stroke-width="7.8"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  />
+  <path
+    d="M23 56V17.5H33C40.2 17.5 44.5 21.8 44.5 27.75C44.5 33.7 40.2 38 33 38H17.5"
+    stroke="#0c0b0a"
+    stroke-width="5.2"
     stroke-linecap="round"
     stroke-linejoin="round"
   />

@@ -433,33 +433,6 @@ body {
   color: #ffffff !important;
   box-shadow: 0 8px 20px -6px rgba(10, 102, 194, 0.5);
 }
-.social-brand-instagram::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285aeb 90%);
-  transition: opacity 240ms ease;
-  pointer-events: none;
-  z-index: 0;
-}
-.social-brand-instagram:hover::before,
-.social-brand-instagram:focus-visible::before {
-  opacity: 1;
-}
-.social-brand-instagram:hover,
-.social-brand-instagram:focus-visible {
-  border-color: transparent !important;
-  color: #ffffff !important;
-  box-shadow: 0 8px 22px -6px rgba(214, 36, 159, 0.55);
-}
-.social-brand-whatsapp:hover,
-.social-brand-whatsapp:focus-visible {
-  background: #128c7e !important;
-  border-color: #128c7e !important;
-  color: #ffffff !important;
-  box-shadow: 0 8px 20px -6px rgba(18, 140, 126, 0.5);
-}
 .social-brand-email:hover,
 .social-brand-email:focus-visible {
   background: #d93025 !important;

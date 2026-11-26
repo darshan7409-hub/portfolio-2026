@@ -48,15 +48,22 @@ export default async function OpenGraphImage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
             <svg width="40" height="40" viewBox="0 0 64 64" fill="none">
               <path
-                d="M10 14H22C33 14 39 21 39 32C39 43 33 50 22 50H10V14Z"
-                stroke="rgb(226, 154, 59)"
-                strokeWidth="5"
+                d="M17.5 48H13V11H32.5C45.5 11 53.5 19 53.5 29.5C53.5 40 45.5 48 32.5 48H28.5"
+                stroke="rgb(216, 93, 13)"
+                strokeWidth="5.4"
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
               <path
-                d="M27 50V14H42C50 14 55 18.8 55 26C55 33.2 50 38 42 38H27"
-                stroke="rgb(247, 244, 239)"
+                d="M23 56V17.5H33C40.2 17.5 44.5 21.8 44.5 27.75C44.5 33.7 40.2 38 33 38H17.5"
+                stroke="rgb(68, 63, 58)"
+                strokeWidth="7.4"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M23 56V17.5H33C40.2 17.5 44.5 21.8 44.5 27.75C44.5 33.7 40.2 38 33 38H17.5"
+                stroke="rgb(15, 14, 13)"
                 strokeWidth="5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -112,7 +119,7 @@ export default async function OpenGraphImage() {
                 lineHeight: 1.4,
               }}
             >
-              Test strategy, Selenium &amp; Katalon automation, and Postman API validation for reliable production software.
+              Leading end-to-end quality strategy, risk clarity, and dependable software delivery across web and mobile releases.
             </div>
           </div>
 

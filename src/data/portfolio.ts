@@ -76,18 +76,17 @@ export const PROFILE = {
   email: 'darshan7409@gmail.com',
   phone: '+91 9687940988',
   phoneHref: 'tel:+919687940988',
-  whatsappHref: 'https://wa.me/919687940988',
   cvPath: 'public/Darshan_Patel_CV.pdf',
   cvUrl: '/Darshan_Patel_CV.pdf',
   siteUrl: 'https://darshanpatel.com',
   positioning: 'QA Lead & Analyst turning ambiguous requirements into bulletproof releases.',
   subpositioning:
-    'Grounded in test strategy, Selenium & Katalon automation, and Postman API verification across fast-shipping web and mobile teams.',
+    'Focused on aligning product clarity, quality strategy, and risk-aware validation so every web and mobile release ships with confidence.',
   responseSignal: 'Usually responds within 24 hours',
   aboutPullQuote: 'Quality is designed in, not tested in.',
   aboutParagraphs: [
-    '[Philosophy paragraph 1: Replace with Darshan’s own first-person perspective on how he approaches ambiguity, requirement risk, and early defect prevention across development cycles.]',
-    '[Philosophy paragraph 2: Replace with Darshan’s own first-person note on balancing structured manual exploratory testing, API contract verification, and automated regression safety nets.]',
+    'Great quality leadership starts long before a build reaches staging — by asking the right questions during requirement reviews, spotting edge-case risks early, and keeping product and engineering aligned on what done really means.',
+    'Rather than treating QA as a late sign-off gate or siloing manual exploration from automated checks, I pair structured exploratory judgment, contract verification, and repeatable regression safety nets so teams ship faster without eroding user trust.',
   ],
   metrics: [
     { value: 8, suffix: '+', label: 'Years Exp' },
@@ -103,7 +102,6 @@ export const PROFILE = {
   socials: [
     { id: 'github' as const, label: 'GitHub', href: 'https://github.com/darshan7409-hub' },
     { id: 'linkedin' as const, label: 'LinkedIn', href: 'https://www.linkedin.com/in/darshan-patel-619901106' },
-    { id: 'instagram' as const, label: 'Instagram', href: 'https://www.instagram.com/darshanpatel' },
   ],
 };
 

@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { ArrowUpRight, ChevronDown, FileText, Mail } from 'lucide-react';
-import BrandMark from './BrandMark';
 import GlassPanel from './GlassPanel';
 import HeroSpotlight from './HeroSpotlight';
 import MagneticButton from './MagneticButton';
@@ -17,21 +16,8 @@ export default function Hero({ hasRealCv }: { hasRealCv: boolean }) {
       <HeroSpotlight />
 
       <div className="max-w-7xl mx-auto w-full my-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center relative">
-        {/* Large animated BrandMark anchor behind left column */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -top-6 left-0 sm:-left-2 opacity-20 select-none"
-        >
-          <BrandMark
-            size={140}
-            color="var(--token-accent)"
-            notchColor="var(--token-ink-primary)"
-            animated
-          />
-        </div>
-
         {/* Left Editorial Column */}
-        <div className="lg:col-span-8 space-y-6 relative z-10 pt-8 lg:pt-4">
+        <div className="lg:col-span-8 space-y-6 relative z-10 pt-6 lg:pt-4">
           <HeroTextReveal
             lines={['QA Lead & Analyst', 'turning ambiguous specs', 'into bulletproof releases.']}
             highlightWord="ambiguous"
@@ -45,41 +31,56 @@ export default function Hero({ hasRealCv }: { hasRealCv: boolean }) {
             {PROFILE.subpositioning}
           </p>
 
-          {/* 2 CTAs + Conditional CV File Size Gate */}
+          {/* Clean balanced Hero CTAs (View Projects + Get in Touch / Download CV when >50KB) */}
           <div className="flex flex-wrap items-center gap-4 pt-1">
-            <MagneticButton
-              as="a"
-              href="#work"
-              className="min-h-[44px] inline-flex items-center gap-2.5 px-6 py-3 rounded-[12px] bg-accent text-accent-ink mono-meta text-xs sm:text-sm font-bold uppercase tracking-[0.12em] transition-[background-color,transform,box-shadow] duration-200 hover:bg-accent-hover hover:scale-[1.03] hover:shadow-[0_0_0_4px_var(--token-accent-muted),0_12px_28px_-8px_var(--token-accent)]"
-            >
-              <span>See case studies</span>
-              <ArrowUpRight
-                size={16}
-                aria-hidden="true"
-                className="transition-transform duration-200 group-hover:rotate-45"
-              />
-            </MagneticButton>
-
             {hasRealCv ? (
-              <MagneticButton
-                as="a"
-                href={PROFILE.cvUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="glass-panel glass-interactive min-h-[44px] !rounded-[12px] inline-flex items-center gap-2.5 px-6 py-3 mono-meta text-xs sm:text-sm uppercase tracking-[0.12em] text-ink-primary"
-              >
-                <FileText size={15} aria-hidden="true" />
-                <span>Download CV</span>
-              </MagneticButton>
+              <>
+                <MagneticButton
+                  as="a"
+                  href={PROFILE.cvUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="min-h-[44px] inline-flex items-center gap-2.5 px-7 py-3.5 rounded-[12px] bg-accent text-accent-ink mono-meta text-xs sm:text-sm font-bold uppercase tracking-[0.12em] transition-[background-color,transform,box-shadow] duration-200 hover:bg-accent-hover hover:scale-[1.03] hover:shadow-[0_0_0_4px_var(--token-accent-muted),0_12px_28px_-8px_var(--token-accent)]"
+                >
+                  <FileText size={16} aria-hidden="true" />
+                  <span>Download CV</span>
+                </MagneticButton>
+                <MagneticButton
+                  as="a"
+                  href="#work"
+                  className="glass-panel glass-interactive min-h-[44px] !rounded-[12px] inline-flex items-center gap-2.5 px-7 py-3.5 mono-meta text-xs sm:text-sm uppercase tracking-[0.12em] text-ink-primary"
+                >
+                  <span>View Projects</span>
+                  <ArrowUpRight
+                    size={16}
+                    aria-hidden="true"
+                    className="transition-transform duration-200 group-hover:rotate-45"
+                  />
+                </MagneticButton>
+              </>
             ) : (
-              <MagneticButton
-                as="a"
-                href={`mailto:${PROFILE.email}`}
-                className="glass-panel glass-interactive min-h-[44px] !rounded-[12px] inline-flex items-center gap-2.5 px-6 py-3 mono-meta text-xs sm:text-sm tracking-[0.06em] text-ink-primary"
-              >
-                <Mail size={15} aria-hidden="true" className="text-accent" />
-                <span>Email me instead → {PROFILE.email}</span>
-              </MagneticButton>
+              <>
+                <MagneticButton
+                  as="a"
+                  href="#work"
+                  className="min-h-[44px] inline-flex items-center gap-2.5 px-7 py-3.5 rounded-[12px] bg-accent text-accent-ink mono-meta text-xs sm:text-sm font-bold uppercase tracking-[0.12em] transition-[background-color,transform,box-shadow] duration-200 hover:bg-accent-hover hover:scale-[1.03] hover:shadow-[0_0_0_4px_var(--token-accent-muted),0_12px_28px_-8px_var(--token-accent)]"
+                >
+                  <span>View Projects</span>
+                  <ArrowUpRight
+                    size={16}
+                    aria-hidden="true"
+                    className="transition-transform duration-200 group-hover:rotate-45"
+                  />
+                </MagneticButton>
+                <MagneticButton
+                  as="a"
+                  href="#contact"
+                  className="glass-panel glass-interactive min-h-[44px] !rounded-[12px] inline-flex items-center gap-2.5 px-7 py-3.5 mono-meta text-xs sm:text-sm uppercase tracking-[0.12em] text-ink-primary"
+                >
+                  <Mail size={15} aria-hidden="true" className="text-accent" />
+                  <span>Get in Touch</span>
+                </MagneticButton>
+              </>
             )}
           </div>
 

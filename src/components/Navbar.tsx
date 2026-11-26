@@ -162,7 +162,7 @@ export default function Navbar() {
 
           {/* Desktop Right Controls */}
           <div className="hidden md:flex items-center gap-2">
-            <SocialLinks variant="header" compactIds={['github', 'linkedin', 'whatsapp']} />
+            <SocialLinks variant="header" compactIds={['github', 'linkedin']} />
             <ThemeToggle />
           </div>
 
