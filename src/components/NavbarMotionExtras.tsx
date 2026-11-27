@@ -10,9 +10,14 @@ export function NavbarScrollProgress() {
     if (!bar) return;
 
     let rafId = 0;
+    let max = document.documentElement.scrollHeight - window.innerHeight;
+
+    const onResize = () => {
+      max = document.documentElement.scrollHeight - window.innerHeight;
+    };
+
     const update = () => {
       rafId = 0;
-      const max = document.documentElement.scrollHeight - window.innerHeight;
       const progress = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
       bar.style.transform = `scaleX(${progress.toFixed(4)})`;
     };
@@ -24,9 +29,11 @@ export function NavbarScrollProgress() {
     };
 
     update();
+    window.addEventListener('resize', onResize, { passive: true });
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => {
       if (rafId) cancelAnimationFrame(rafId);
+      window.removeEventListener('resize', onResize);
       window.removeEventListener('scroll', onScroll);
     };
   }, []);

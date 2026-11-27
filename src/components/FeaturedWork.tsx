@@ -113,7 +113,7 @@ export default function FeaturedWork({ projects }: { projects: ProjectCaseStudy[
           onScroll={updateScrollButtons}
           className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {projects.map((project, idx) => {
+          {projects.map((project) => {
             const accentVars = {
               '--ca-dark': project.accent.dark,
               '--ca-light': project.accent.light,
@@ -150,10 +150,9 @@ export default function FeaturedWork({ projects }: { projects: ProjectCaseStudy[
                       title={`${project.title} — QA Case Study by Darshan Patel`}
                       width={project.imageWidth}
                       height={project.imageHeight}
-                      priority={idx === 0}
-                      placeholder="blur"
-                      blurDataURL={project.blurDataURL}
-                      sizes="170px"
+                      priority
+                      loading="eager"
+                      unoptimized
                       className="max-h-14 max-w-[165px] w-auto h-auto object-contain transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
                     />
                   </div>

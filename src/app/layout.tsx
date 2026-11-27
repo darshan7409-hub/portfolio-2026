@@ -6,6 +6,7 @@ import SmoothScrollProvider from '@/components/SmoothScrollProvider';
 import Navbar from '@/components/Navbar';
 import BackToTop from '@/components/BackToTop';
 import Footer from '@/components/Footer';
+import ImagePrewarmer from '@/components/ImagePrewarmer';
 import { PROFILE, PROJECTS } from '@/data/portfolio';
 
 const instrumentSerif = Instrument_Serif({
@@ -348,6 +349,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <SmoothScrollProvider>
+            <ImagePrewarmer />
             <Navbar />
             <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
               {children}

@@ -88,9 +88,9 @@ export default function SkillsMatrix() {
           </svg>
         </div>
 
-        {/* Continuous Tech Tools Ticker on tablet/desktop, crisp wrap grid on mobile */}
-        <div className="relative w-full overflow-hidden py-4 mb-10">
-          <div className="tech-marquee-track flex whitespace-nowrap gap-12 sm:gap-20 items-center w-max">
+        {/* Continuous Tech Tools Ticker across all screens with edge gradient masks */}
+        <div className="relative w-full overflow-hidden py-4 mb-10 [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)] [-webkit-mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+          <div className="tech-marquee-track flex whitespace-nowrap gap-10 sm:gap-20 items-center w-max">
             {TECH_TOOLS.map((tool) => (
               <div
                 key={`primary-${tool.name}`}
@@ -137,7 +137,7 @@ export default function SkillsMatrix() {
               <div
                 key={`dup-${tool.name}`}
                 aria-hidden="true"
-                className="hidden md:flex flex-col items-center gap-2.5 px-2 group select-none"
+                className="flex flex-col items-center gap-2.5 px-2 group select-none"
               >
                 <div className="w-9 h-9 sm:w-11 sm:h-11 flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
                   {tool.darkIcon ? (

@@ -176,9 +176,9 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
               title={`${project.title} — QA Case Study`}
               width={project.imageWidth}
               height={project.imageHeight}
-              placeholder="blur"
-              blurDataURL={project.blurDataURL}
-              sizes="(max-width: 640px) 86vw, 480px"
+              priority
+              loading="eager"
+              unoptimized
               className="max-h-28 w-auto object-contain"
             />
           )}

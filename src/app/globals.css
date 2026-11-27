@@ -136,6 +136,8 @@ html {
   background-color: var(--token-canvas);
   color: var(--token-ink-primary);
   scroll-padding-top: 5rem;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
@@ -397,21 +399,22 @@ body {
   100% { transform: translate3d(-50%, 0, 0); }
 }
 .tech-marquee-track {
-  animation: tech-marquee 55s linear infinite;
+  animation: tech-marquee 45s linear infinite;
   transform: translate3d(0, 0, 0);
+  will-change: transform;
 }
-.tech-marquee-track:hover {
+.tech-marquee-track:hover,
+.tech-marquee-track:active {
   animation-play-state: paused;
 }
-@media (max-width: 767px) {
+@media (max-width: 640px) {
   .tech-marquee-track {
-    animation: none;
-    transform: none;
-    width: 100% !important;
-    white-space: normal !important;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1.5rem 1.75rem !important;
+    animation-duration: 32s;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tech-marquee-track {
+    animation-play-state: paused;
   }
 }
 
