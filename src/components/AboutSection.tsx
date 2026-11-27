@@ -43,7 +43,8 @@ export default function AboutSection() {
                 <div className="aspect-[4/5] rounded-[12px] overflow-hidden bg-surface-2">
                   <Image
                     src={PORTRAIT_ASSET.src}
-                    alt={`${PROFILE.name} small editorial portrait`}
+                    alt="Darshan Patel — Senior QA Lead & Analyst (Ahmedabad, India)"
+                    title="Darshan Patel — Senior QA Lead & Analyst"
                     width={PORTRAIT_ASSET.width}
                     height={PORTRAIT_ASSET.height}
                     placeholder="blur"

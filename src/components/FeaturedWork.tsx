@@ -146,7 +146,8 @@ export default function FeaturedWork({ projects }: { projects: ProjectCaseStudy[
                   <div className="w-[170px] h-16 flex items-center justify-center">
                     <Image
                       src={project.imageSrc}
-                      alt={`${project.title} project visual`}
+                      alt={`${project.title} — Verified QA Case Study & Testing Architecture`}
+                      title={`${project.title} — QA Case Study by Darshan Patel`}
                       width={project.imageWidth}
                       height={project.imageHeight}
                       priority={idx === 0}

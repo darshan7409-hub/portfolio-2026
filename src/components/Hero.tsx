@@ -106,6 +106,7 @@ export default function Hero({ hasRealCv }: { hasRealCv: boolean }) {
                 <Image
                   src={PORTRAIT_ASSET.src}
                   alt={PORTRAIT_ASSET.alt}
+                  title="Darshan Patel — Senior QA Lead & Analyst (Official Portrait)"
                   width={PORTRAIT_ASSET.width}
                   height={PORTRAIT_ASSET.height}
                   priority

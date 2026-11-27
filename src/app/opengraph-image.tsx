@@ -139,11 +139,11 @@ export default async function OpenGraphImage() {
               src={qrDataUrl}
               width={140}
               height={140}
-              alt="QR code linking to darshanpatel.com"
+              alt="QR code linking to darshanpatelqa.com"
               style={{ borderRadius: '8px' }}
             />
             <span style={{ fontSize: 13, color: 'rgb(184, 178, 170)', letterSpacing: '0.1em' }}>
-              DARSHANPATEL.COM
+              DARSHANPATELQA.COM
             </span>
           </div>
         </div>
@@ -160,7 +160,7 @@ export default async function OpenGraphImage() {
           }}
         >
           <span>AHMEDABAD, GUJARAT, INDIA</span>
-          <span style={{ color: 'rgb(226, 154, 59)' }}>2+ YRS EXP · 20+ RELEASES VALIDATED</span>
+          <span style={{ color: 'rgb(226, 154, 59)' }}>8+ YRS EXP · 30+ RELEASES VALIDATED</span>
         </div>
       </div>
     ),

@@ -172,7 +172,8 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
           ) : (
             <Image
               src={project.imageSrc}
-              alt={`${project.title} case study brand visual`}
+              alt={`${project.title} — Verified Quality Assurance Case Study`}
+              title={`${project.title} — QA Case Study`}
               width={project.imageWidth}
               height={project.imageHeight}
               placeholder="blur"

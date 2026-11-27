@@ -61,8 +61,8 @@ function makeBlurDataUrl(fillCss: string): string {
 }
 
 export const PORTRAIT_ASSET = {
-  src: '/My_image.png',
-  alt: 'Darshan Patel — QA Lead & Analyst portrait',
+  src: '/darshan-patel-qa-lead.png',
+  alt: 'Darshan Patel — QA Lead & Analyst in Ahmedabad, India (Official Portrait)',
   width: 1000,
   height: 1250,
   blurDataURL: makeBlurDataUrl('oklch(0.21 0.008 60)'),
@@ -80,7 +80,7 @@ export const PROFILE = {
   whatsappHref: 'https://wa.me/919687940988',
   cvPath: 'public/Darshan_Patel_CV.pdf',
   cvUrl: '/Darshan_Patel_CV.pdf',
-  siteUrl: 'https://darshanpatel.com',
+  siteUrl: 'https://www.darshanpatelqa.com',
   positioning: 'QA Lead & Analyst leading quality assurance and precision testing for release confidence.',
   subpositioning:
     'QA Lead & Analyst with 8+ years of experience delivering reliable, high-performing software through structured test planning, early defect discovery, and decisive release validation across web and mobile.',
