@@ -7,7 +7,7 @@ import SocialLinks from './SocialLinks';
 import { HeroTextReveal, ParallaxFrame, StatCounter } from './MotionPrimitives';
 import { PORTRAIT_ASSET, PROFILE } from '@/data/portfolio';
 
-export default function Hero({ hasRealCv }: { hasRealCv: boolean }) {
+export default function Hero({ hasRealCv = true }: { hasRealCv?: boolean }) {
   return (
     <section
       id="top"
@@ -31,57 +31,38 @@ export default function Hero({ hasRealCv }: { hasRealCv: boolean }) {
             {PROFILE.subpositioning}
           </p>
 
-          {/* Clean balanced Hero CTAs (View Projects + Get in Touch / Download CV when >50KB) */}
-          <div className="flex flex-wrap items-center gap-4 pt-1">
-            {hasRealCv ? (
-              <>
-                <MagneticButton
-                  as="a"
-                  href={PROFILE.cvUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="min-h-[44px] inline-flex items-center gap-2.5 px-7 py-3.5 rounded-[12px] bg-accent text-accent-ink mono-meta text-xs sm:text-sm font-bold uppercase tracking-[0.12em] transition-[background-color,transform,box-shadow] duration-200 hover:bg-accent-hover hover:scale-[1.03] hover:shadow-[0_0_0_4px_var(--token-accent-muted),0_12px_28px_-8px_var(--token-accent)]"
-                >
-                  <FileText size={16} aria-hidden="true" />
-                  <span>Download CV</span>
-                </MagneticButton>
-                <MagneticButton
-                  as="a"
-                  href="#work"
-                  className="glass-panel glass-interactive min-h-[44px] !rounded-[12px] inline-flex items-center gap-2.5 px-7 py-3.5 mono-meta text-xs sm:text-sm uppercase tracking-[0.12em] text-ink-primary"
-                >
-                  <span>View Projects</span>
-                  <ArrowUpRight
-                    size={16}
-                    aria-hidden="true"
-                    className="transition-transform duration-200 group-hover:rotate-45"
-                  />
-                </MagneticButton>
-              </>
-            ) : (
-              <>
-                <MagneticButton
-                  as="a"
-                  href="#work"
-                  className="min-h-[44px] inline-flex items-center gap-2.5 px-7 py-3.5 rounded-[12px] bg-accent text-accent-ink mono-meta text-xs sm:text-sm font-bold uppercase tracking-[0.12em] transition-[background-color,transform,box-shadow] duration-200 hover:bg-accent-hover hover:scale-[1.03] hover:shadow-[0_0_0_4px_var(--token-accent-muted),0_12px_28px_-8px_var(--token-accent)]"
-                >
-                  <span>View Projects</span>
-                  <ArrowUpRight
-                    size={16}
-                    aria-hidden="true"
-                    className="transition-transform duration-200 group-hover:rotate-45"
-                  />
-                </MagneticButton>
-                <MagneticButton
-                  as="a"
-                  href="#contact"
-                  className="glass-panel glass-interactive min-h-[44px] !rounded-[12px] inline-flex items-center gap-2.5 px-7 py-3.5 mono-meta text-xs sm:text-sm uppercase tracking-[0.12em] text-ink-primary"
-                >
-                  <Mail size={15} aria-hidden="true" className="text-accent" />
-                  <span>Get in Touch</span>
-                </MagneticButton>
-              </>
-            )}
+          {/* Hero CTAs */}
+          <div className="flex flex-wrap items-center gap-3.5 pt-1">
+            <MagneticButton
+              as="a"
+              href={PROFILE.cvUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="min-h-[44px] inline-flex items-center gap-2.5 px-6 sm:px-7 py-3.5 rounded-[12px] bg-accent text-accent-ink mono-meta text-xs sm:text-sm font-bold uppercase tracking-[0.12em] transition-[background-color,transform,box-shadow] duration-200 hover:bg-accent-hover hover:scale-[1.03] hover:shadow-[0_0_0_4px_var(--token-accent-muted),0_12px_28px_-8px_var(--token-accent)]"
+            >
+              <FileText size={16} aria-hidden="true" />
+              <span>Download CV</span>
+            </MagneticButton>
+            <MagneticButton
+              as="a"
+              href="#work"
+              className="glass-panel glass-interactive min-h-[44px] !rounded-[12px] inline-flex items-center gap-2.5 px-6 sm:px-7 py-3.5 mono-meta text-xs sm:text-sm uppercase tracking-[0.12em] text-ink-primary"
+            >
+              <span>View Projects</span>
+              <ArrowUpRight
+                size={16}
+                aria-hidden="true"
+                className="transition-transform duration-200 group-hover:rotate-45"
+              />
+            </MagneticButton>
+            <MagneticButton
+              as="a"
+              href="#contact"
+              className="glass-panel glass-interactive min-h-[44px] !rounded-[12px] inline-flex items-center gap-2.5 px-5 sm:px-6 py-3.5 mono-meta text-xs sm:text-sm uppercase tracking-[0.12em] text-ink-secondary hover:text-ink-primary"
+            >
+              <Mail size={15} aria-hidden="true" className="text-accent" />
+              <span>Get in Touch</span>
+            </MagneticButton>
           </div>
 
           <SocialLinks variant="hero" />
