@@ -191,7 +191,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="contact" className="pt-12 pb-20 sm:pt-16 sm:pb-24 safe-x max-w-7xl mx-auto">
+    <section id="contact" className="pt-10 pb-16 sm:pt-12 sm:pb-20 safe-x max-w-7xl mx-auto">
       <ScrollReveal>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center max-w-5xl mx-auto">
           {/* Left Column — Exact reference layout lifted cleanly in single view */}

@@ -6,7 +6,7 @@ import { PORTRAIT_ASSET, PROFILE } from '@/data/portfolio';
 
 export default function AboutSection() {
   return (
-    <section id="about" className="py-24 sm:py-32 safe-x max-w-7xl mx-auto">
+    <section id="about" className="py-14 sm:py-16 safe-x max-w-7xl mx-auto">
       <SectionHeader eyebrow="04 // Philosophy" title="How I Think About Quality" />
 
       <ScrollReveal>
@@ -28,6 +28,10 @@ export default function AboutSection() {
                   Explore how this approach translates into{' '}
                   <a href="#work" className="link-draw text-accent hover:text-accent-hover transition-colors">
                     featured QA projects
+                  </a>{' '}
+                  and our{' '}
+                  <a href="#skills" className="link-draw text-accent hover:text-accent-hover transition-colors">
+                    verification matrix
                   </a>
                   .
                 </p>

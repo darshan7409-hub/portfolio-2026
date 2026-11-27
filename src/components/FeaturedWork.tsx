@@ -52,16 +52,30 @@ export default function FeaturedWork({ projects }: { projects: ProjectCaseStudy[
     if (!el) return;
     const firstCard = el.firstElementChild as HTMLElement | null;
     const step = firstCard ? firstCard.offsetWidth + 24 : 380;
+    if (direction === -1 && el.scrollLeft <= step + 24) {
+      el.scrollTo({ left: 0, behavior: 'smooth' });
+      return;
+    }
+    if (direction === 1 && el.scrollLeft + el.clientWidth + step + 24 >= el.scrollWidth) {
+      el.scrollTo({ left: el.scrollWidth - el.clientWidth, behavior: 'smooth' });
+      return;
+    }
     el.scrollBy({ left: direction * step, behavior: 'smooth' });
   };
 
   return (
-    <section id="work" className="py-20 sm:py-28 safe-x max-w-7xl mx-auto">
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12">
+    <section id="work" className="pt-8 pb-14 sm:pt-10 sm:pb-16 safe-x max-w-7xl mx-auto">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-10">
         <SectionHeader
           eyebrow="01 // Featured Projects"
           title="Featured Projects"
-          description="A robust portfolio of scalable QA architectures and automation solutions. Swipe through to discover case studies."
+          descriptionClassName="max-w-xl"
+          description={
+            <>
+              Proven QA leadership across 30+ commercial projects — driving rigorous test governance and defect prevention.
+              <br className="hidden sm:inline" /> Swipe through to discover case studies across web and mobile.
+            </>
+          }
           className="!mb-0"
         />
 
@@ -71,11 +85,10 @@ export default function FeaturedWork({ projects }: { projects: ProjectCaseStudy[
             onClick={() => scrollByCard(-1)}
             disabled={!canScrollLeft}
             aria-label="Scroll projects left"
-            className={`glass-panel !rounded-full min-h-[44px] min-w-[44px] inline-flex items-center justify-center transition-colors ${
-              canScrollLeft
+            className={`glass-panel !rounded-full min-h-[44px] min-w-[44px] inline-flex items-center justify-center transition-colors ${canScrollLeft
                 ? 'text-ink-primary hover:text-accent cursor-pointer'
                 : 'text-ink-muted/40 opacity-50 cursor-not-allowed'
-            }`}
+              }`}
           >
             <ChevronLeft size={20} aria-hidden="true" />
           </button>
@@ -84,11 +97,10 @@ export default function FeaturedWork({ projects }: { projects: ProjectCaseStudy[
             onClick={() => scrollByCard(1)}
             disabled={!canScrollRight}
             aria-label="Scroll projects right"
-            className={`glass-panel !rounded-full min-h-[44px] min-w-[44px] inline-flex items-center justify-center transition-colors ${
-              canScrollRight
+            className={`glass-panel !rounded-full min-h-[44px] min-w-[44px] inline-flex items-center justify-center transition-colors ${canScrollRight
                 ? 'text-ink-primary hover:text-accent cursor-pointer'
                 : 'text-ink-muted/40 opacity-50 cursor-not-allowed'
-            }`}
+              }`}
           >
             <ChevronRight size={20} aria-hidden="true" />
           </button>
@@ -113,34 +125,42 @@ export default function FeaturedWork({ projects }: { projects: ProjectCaseStudy[
                 as="article"
                 tilt
                 style={accentVars}
-                className="card-accent-scope group snap-center shrink-0 w-[85vw] sm:w-[22rem] md:w-[24rem] lg:w-[26rem] min-h-[27.5rem] flex flex-col overflow-hidden max-md:!backdrop-blur-none"
+                className="card-accent-scope group snap-start shrink-0 w-[85vw] sm:w-[22rem] md:w-[24rem] lg:w-[25rem] h-[28.5rem] flex flex-col overflow-hidden max-md:!backdrop-blur-none"
               >
-                {/* Compact Visual Header */}
-                <div
-                  className="h-40 w-full shrink-0 relative overflow-hidden flex items-center justify-center border-b border-border p-5"
+                {/* Visual Header */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    triggerRef.current = e.currentTarget;
+                    setActiveProject(project);
+                  }}
+                  aria-label={`View details for ${project.title}`}
+                  className="h-44 w-full shrink-0 relative overflow-hidden flex items-center justify-center border-b border-border p-6 cursor-pointer text-left"
                   style={{
                     backgroundColor:
                       project.plateMode === 'dark'
-                        ? 'oklch(0.155 0.008 60)'
+                        ? 'oklch(0.24 0.01 60)'
                         : 'oklch(0.955 0.005 60)',
                   }}
                 >
-                  <Image
-                    src={project.imageSrc}
-                    alt={`${project.title} project visual`}
-                    width={project.imageWidth}
-                    height={project.imageHeight}
-                    priority={idx === 0}
-                    placeholder="blur"
-                    blurDataURL={project.blurDataURL}
-                    sizes="(max-width: 640px) 80vw, 380px"
-                    className="max-h-20 w-auto object-contain transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
-                  />
+                  <div className="w-[170px] h-16 flex items-center justify-center">
+                    <Image
+                      src={project.imageSrc}
+                      alt={`${project.title} project visual`}
+                      width={project.imageWidth}
+                      height={project.imageHeight}
+                      priority={idx === 0}
+                      placeholder="blur"
+                      blurDataURL={project.blurDataURL}
+                      sizes="170px"
+                      className="max-h-14 max-w-[165px] w-auto h-auto object-contain transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                    />
+                  </div>
 
                   <span
                     className="absolute left-3.5 bottom-3 px-2.5 py-1 rounded-[8px] mono-meta text-[10px] uppercase tracking-wider border"
                     style={{
-                      backgroundColor: 'oklch(0.14 0.006 60 / 0.84)',
+                      backgroundColor: 'oklch(0.18 0.008 60 / 0.88)',
                       borderColor: 'color-mix(in oklch, var(--card-accent) 40%, transparent)',
                       color: project.accent.dark,
                     }}
@@ -148,54 +168,56 @@ export default function FeaturedWork({ projects }: { projects: ProjectCaseStudy[
                     {project.domain}
                   </span>
 
-                  <div className="absolute inset-0 bg-canvas/45 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                  <div className="absolute inset-0 bg-canvas/45 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                     <span className="glass-panel !rounded-full px-4 py-1.5 mono-meta text-[11px] font-semibold uppercase tracking-wider text-ink-primary translate-y-2 group-hover:translate-y-0 transition-transform duration-300">
                       View Details
                     </span>
                   </div>
-                </div>
+                </button>
 
-                {/* Compact Card Body */}
-                <div className="p-5 sm:p-6 flex flex-col flex-1">
-                  <div className="flex items-baseline justify-between gap-2 mb-2">
-                    <h3 className="font-serif text-2xl leading-tight text-ink-primary group-hover:text-accent transition-colors line-clamp-1">
-                      {project.title}
-                    </h3>
-                    <span
-                      className="mono-meta text-[11px] shrink-0"
-                      style={{ color: 'var(--card-accent)' }}
-                    >
-                      {project.index}
-                    </span>
-                  </div>
-
-                  <p className="text-sm text-ink-secondary leading-relaxed line-clamp-3 mb-4">
-                    {project.shortDescription}
-                  </p>
-
-                  {/* Tech / Scope Chips (max 3) */}
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {project.techStack.slice(0, 3).map((tech) => (
+                {/* Card Body */}
+                <div className="p-5 sm:p-6 flex flex-col flex-1 justify-between">
+                  <div>
+                    <div className="flex items-baseline justify-between gap-2 mb-2">
+                      <h3 className="font-serif text-2xl leading-tight text-ink-primary group-hover:text-accent transition-colors line-clamp-1">
+                        {project.title}
+                      </h3>
                       <span
-                        key={tech}
-                        className="px-2.5 py-1 rounded-[8px] border mono-meta text-[11px]"
-                        style={{
-                          borderColor: 'color-mix(in oklch, var(--card-accent) 30%, transparent)',
-                          color: 'var(--card-accent)',
-                          backgroundColor: 'color-mix(in oklch, var(--card-accent) 9%, transparent)',
-                        }}
+                        className="mono-meta text-[11px] shrink-0"
+                        style={{ color: 'var(--card-accent)' }}
                       >
-                        {tech}
+                        {project.index}
                       </span>
-                    ))}
-                    {project.techStack.length > 3 && (
-                      <span className="px-2.5 py-1 rounded-[8px] border border-border mono-meta text-[11px] text-ink-muted">
-                        +{project.techStack.length - 3}
-                      </span>
-                    )}
+                    </div>
+
+                    <p className="text-sm text-ink-secondary leading-relaxed line-clamp-3 mb-4">
+                      {project.shortDescription}
+                    </p>
+
+                    {/* Tech / Scope Chips (max 3) */}
+                    <div className="flex flex-wrap gap-1.5 mb-2">
+                      {project.techStack.slice(0, 3).map((tech) => (
+                        <span
+                          key={tech}
+                          className="px-2.5 py-1 rounded-[8px] border mono-meta text-[11px]"
+                          style={{
+                            borderColor: 'color-mix(in oklch, var(--card-accent) 30%, transparent)',
+                            color: 'var(--card-accent)',
+                            backgroundColor: 'color-mix(in oklch, var(--card-accent) 9%, transparent)',
+                          }}
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                      {project.techStack.length > 3 && (
+                        <span className="px-2.5 py-1 rounded-[8px] border border-border mono-meta text-[11px] text-ink-muted">
+                          +{project.techStack.length - 3}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
-                  <div className="mt-auto pt-2 border-t border-border flex items-center justify-between">
+                  <div className="pt-3 border-t border-border flex items-center justify-between">
                     <button
                       type="button"
                       onClick={(e) => {

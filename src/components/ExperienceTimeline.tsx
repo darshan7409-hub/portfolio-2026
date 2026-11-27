@@ -71,7 +71,7 @@ export default function ExperienceTimeline() {
   );
 
   return (
-    <section id="experience" className="py-24 sm:py-32 safe-x max-w-7xl mx-auto">
+    <section id="experience" className="py-14 sm:py-16 safe-x max-w-7xl mx-auto">
       <SectionHeader
         eyebrow="02 // Career Timeline"
         title="Experience & Education"

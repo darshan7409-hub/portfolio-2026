@@ -1,4 +1,5 @@
 'use client';
+'use client';
 
 import { useEffect, useRef, type CSSProperties } from 'react';
 import { createPortal } from 'react-dom';
@@ -19,15 +20,31 @@ const FOCUSABLE_SELECTOR =
 export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectDrawerProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const storedScrollYRef = useRef(0);
   const { setScrollLocked } = useSmoothScroll();
 
   useEffect(() => {
     if (!project) return;
 
-    const previousBodyOverflow = document.body.style.overflow;
-    const previousHtmlOverflow = document.documentElement.style.overflow;
-    const triggerEl = triggerRef.current;
+    const scrollY = window.scrollY;
+    storedScrollYRef.current = scrollY;
+
+    const prevBodyOverflow = document.body.style.overflow;
+    const prevBodyPaddingRight = document.body.style.paddingRight;
+    const prevBodyPosition = document.body.style.position;
+    const prevBodyTop = document.body.style.top;
+    const prevBodyWidth = document.body.style.width;
+    const prevHtmlOverflow = document.documentElement.style.overflow;
+
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
     document.body.style.overflow = 'hidden';
+    if (scrollbarWidth > 0) {
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+    }
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
     document.documentElement.style.overflow = 'hidden';
     setScrollLocked(true);
 
@@ -68,11 +85,17 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
 
     return () => {
       cancelAnimationFrame(frameId);
-      document.body.style.overflow = previousBodyOverflow;
-      document.documentElement.style.overflow = previousHtmlOverflow;
+      document.body.style.overflow = prevBodyOverflow;
+      document.body.style.paddingRight = prevBodyPaddingRight;
+      document.body.style.position = prevBodyPosition || 'static';
+      document.body.style.top = prevBodyTop || '0';
+      document.body.style.width = prevBodyWidth;
+      document.documentElement.style.overflow = prevHtmlOverflow;
       setScrollLocked(false);
+      window.scrollTo(0, storedScrollYRef.current);
       window.removeEventListener('keydown', handleKeyDown);
-      triggerEl?.focus();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      triggerRef.current?.focus();
     };
   }, [project, onClose, triggerRef, setScrollLocked]);
 
@@ -100,8 +123,10 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
           ...accentVars,
           backgroundColor: 'var(--token-surface-2)',
           color: 'var(--token-ink-primary)',
+          overflowY: 'auto',
+          overscrollBehavior: 'contain',
         }}
-        className="card-accent-scope glass-panel !rounded-none sm:!rounded-l-[24px] relative w-screen sm:w-full sm:max-w-2xl h-full overflow-y-auto overscroll-contain p-6 sm:p-10 flex flex-col gap-7"
+        className="card-accent-scope glass-panel !rounded-none sm:!rounded-l-[24px] relative w-screen sm:w-full sm:max-w-2xl h-full !overflow-y-auto overscroll-contain p-6 sm:p-10 flex flex-col gap-7"
       >
         <div className="flex items-start justify-between gap-4 pb-6 border-b border-border">
           <div className="space-y-1.5">
@@ -137,36 +162,37 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
               project.plateMode === 'dark' ? 'oklch(0.15 0.006 60)' : 'oklch(0.96 0.004 60)',
           }}
         >
-          <Image
-            src={project.imageSrc}
-            alt={`${project.title} case study brand visual`}
-            width={project.imageWidth}
-            height={project.imageHeight}
-            placeholder="blur"
-            blurDataURL={project.blurDataURL}
-            sizes="(max-width: 640px) 86vw, 480px"
-            className="max-h-28 w-auto object-contain"
-          />
+          {project.logoNeedsManual ? (
+            <div
+              aria-label={`${project.title} manual logo pending`}
+              className="w-24 h-24 rounded-xl border border-border-strong bg-surface-2 flex items-center justify-center mono-meta text-[10px] uppercase tracking-wider text-ink-muted text-center p-2"
+            >
+              Logo Pending
+            </div>
+          ) : (
+            <Image
+              src={project.imageSrc}
+              alt={`${project.title} case study brand visual`}
+              width={project.imageWidth}
+              height={project.imageHeight}
+              placeholder="blur"
+              blurDataURL={project.blurDataURL}
+              sizes="(max-width: 640px) 86vw, 480px"
+              className="max-h-28 w-auto object-contain"
+            />
+          )}
         </div>
 
-        <dl className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-4 border-y border-border mono-meta text-xs">
+        <dl className="py-4 border-y border-border mono-meta text-xs">
           <div>
             <dt className="text-ink-muted">ROLE SCOPE</dt>
             <dd className="mt-1 text-ink-primary">{project.roleScope}</dd>
-          </div>
-          <div>
-            <dt className="text-ink-muted">YEAR</dt>
-            <dd className="mt-1 text-ink-primary">{project.year}</dd>
-          </div>
-          <div>
-            <dt className="text-ink-muted">DOMAIN</dt>
-            <dd className="mt-1 text-ink-primary">{project.domain}</dd>
           </div>
         </dl>
 
         <div className="space-y-3">
           <h3 className="mono-meta text-xs uppercase tracking-[0.18em]" style={{ color: 'var(--card-accent)' }}>
-            Problem &amp; Context
+            Project Overview
           </h3>
           <p className="text-base italic text-ink-secondary leading-relaxed">
             {project.problemStatement}
@@ -216,22 +242,6 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
           </ul>
         </div>
 
-        <div className="space-y-3">
-          <h3 className="mono-meta text-xs uppercase tracking-[0.18em]" style={{ color: 'var(--card-accent)' }}>
-            Verification Stack
-          </h3>
-          <div className="flex flex-wrap gap-2">
-            {project.techStack.map((tag) => (
-              <span
-                key={tag}
-                className="glass-panel !rounded-[10px] px-3 py-1.5 mono-meta text-xs text-ink-primary"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-
         <div className="mt-auto pt-4 flex flex-wrap items-center gap-3">
           {project.demoLink && (
             <a
@@ -248,7 +258,7 @@ export default function ProjectDrawer({ project, onClose, triggerRef }: ProjectD
             onClick={onClose}
             className="glass-panel min-h-[44px] !rounded-[12px] inline-flex items-center gap-2 px-5 py-2.5 mono-meta text-xs uppercase tracking-wider text-ink-primary hover:text-accent cursor-pointer"
           >
-            Close Case Study
+            Close Details
           </button>
         </div>
       </div>

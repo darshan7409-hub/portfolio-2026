@@ -59,8 +59,8 @@ const SKILL_PILLARS = [
 
 export default function SkillsMatrix() {
   return (
-    <section id="skills" className="py-24 sm:py-32 safe-x max-w-7xl mx-auto overflow-hidden">
-      <ScrollReveal className="mb-16 sm:mb-20 text-center">
+    <section id="skills" className="py-14 sm:py-16 safe-x max-w-7xl mx-auto overflow-hidden">
+      <ScrollReveal className="mb-10 sm:mb-12 text-center">
         <div className="flex justify-center mb-3">
           <TypeInEyebrow text="03 // Capabilities Matrix" />
         </div>

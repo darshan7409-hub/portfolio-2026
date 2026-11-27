@@ -19,7 +19,7 @@ export default function Hero({ hasRealCv }: { hasRealCv: boolean }) {
         {/* Left Editorial Column */}
         <div className="lg:col-span-8 space-y-6 relative z-10 pt-6 lg:pt-4">
           <HeroTextReveal
-            lines={['Leading quality strategy', 'turning product risk', 'into release confidence.']}
+            lines={['Leading quality assurance', 'and precision testing', 'for release confidence.']}
             highlightWord="confidence."
           />
 
@@ -27,7 +27,7 @@ export default function Hero({ hasRealCv }: { hasRealCv: boolean }) {
             {PROFILE.name} · {PROFILE.role}
           </p>
 
-          <p className="text-base sm:text-lg text-ink-secondary max-w-2xl leading-relaxed">
+          <p className="text-base sm:text-lg text-ink-secondary max-w-2xl leading-relaxed [text-wrap:pretty]">
             {PROFILE.subpositioning}
           </p>
 
@@ -115,11 +115,12 @@ export default function Hero({ hasRealCv }: { hasRealCv: boolean }) {
                 />
                 <figcaption
                   style={{
-                    backgroundColor: 'oklch(0.14 0.006 60 / 0.84)',
+                    background:
+                      'linear-gradient(135deg, oklch(0.16 0.006 60 / 0.92) 0%, oklch(0.12 0.005 60 / 0.92) 100%)',
                     color: 'oklch(0.97 0.005 60)',
                     borderColor: 'oklch(0.97 0.005 60 / 0.16)',
                   }}
-                  className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-[12px] backdrop-blur-md border"
+                  className="absolute inset-x-3 bottom-3 flex items-center justify-between gap-2 px-3.5 py-2.5 rounded-[12px] border"
                 >
                   <div>
                     <p

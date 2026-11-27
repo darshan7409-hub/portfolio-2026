@@ -2,7 +2,6 @@
 
 import type { CSSProperties } from 'react';
 import Image from 'next/image';
-import { m } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import GlassPanel from './GlassPanel';
 import type { ProjectCaseStudy } from '@/data/portfolio';
@@ -15,7 +14,7 @@ export default function MoreWorkGrid({
   onSelect: (project: ProjectCaseStudy, trigger: HTMLButtonElement) => void;
 }) {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {projects.map((project, idx) => {
         const accentVars = {
           '--ca-dark': project.accent.dark,
@@ -23,11 +22,10 @@ export default function MoreWorkGrid({
         } as CSSProperties;
 
         return (
-          <m.div
+          <div
             key={project.id}
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35, delay: idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
+            style={{ animationDelay: `${idx * 40}ms` }}
+            className="hero-word-in"
           >
             <GlassPanel
               as="article"
@@ -44,16 +42,25 @@ export default function MoreWorkGrid({
                       : 'oklch(0.955 0.005 60)',
                 }}
               >
-                <Image
-                  src={project.imageSrc}
-                  alt={`${project.title} logo`}
-                  width={project.imageWidth}
-                  height={project.imageHeight}
-                  placeholder="blur"
-                  blurDataURL={project.blurDataURL}
-                  sizes="(max-width: 768px) 84vw, 42vw"
-                  className="max-h-20 w-auto object-contain transition-transform duration-400 group-hover:scale-[1.04]"
-                />
+                {project.logoNeedsManual ? (
+                  <div
+                    aria-label={`${project.title} manual logo pending`}
+                    className="w-20 h-20 rounded-xl border border-border-strong bg-surface-2 flex items-center justify-center mono-meta text-[10px] uppercase tracking-wider text-ink-muted text-center p-2"
+                  >
+                    Logo Pending
+                  </div>
+                ) : (
+                  <Image
+                    src={project.imageSrc}
+                    alt={`${project.title} logo`}
+                    width={project.imageWidth}
+                    height={project.imageHeight}
+                    placeholder="blur"
+                    blurDataURL={project.blurDataURL}
+                    sizes="(max-width: 768px) 84vw, (max-width: 1024px) 42vw, 28vw"
+                    className="max-h-20 w-auto object-contain transition-transform duration-400 group-hover:scale-[1.04]"
+                  />
+                )}
               </div>
 
               <div className="space-y-3">
@@ -96,7 +103,7 @@ export default function MoreWorkGrid({
                 </button>
               </div>
             </GlassPanel>
-          </m.div>
+          </div>
         );
       })}
     </div>

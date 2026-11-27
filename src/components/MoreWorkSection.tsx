@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import dynamic from 'next/dynamic';
 import { ChevronDown } from 'lucide-react';
 import SectionHeader from './SectionHeader';
@@ -13,6 +13,7 @@ export default function MoreWorkSection({ projects }: { projects: ProjectCaseStu
   const [expanded, setExpanded] = useState(false);
   const [activeProject, setActiveProject] = useState<ProjectCaseStudy | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
+  const handleClose = useCallback(() => setActiveProject(null), []);
 
   return (
     <section id="more-work" className="py-24 sm:py-32 safe-x max-w-7xl mx-auto">
@@ -50,7 +51,7 @@ export default function MoreWorkSection({ projects }: { projects: ProjectCaseStu
 
       <ProjectDrawer
         project={activeProject}
-        onClose={() => setActiveProject(null)}
+        onClose={handleClose}
         triggerRef={triggerRef}
       />
     </section>
