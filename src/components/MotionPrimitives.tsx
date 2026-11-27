@@ -224,7 +224,7 @@ function DesktopParallaxInner({
 
   return (
     <LazyMotion features={loadFeatures} strict>
-      <m.div style={{ y }}>{children}</m.div>
+      <m.div style={{ y, position: 'relative' }}>{children}</m.div>
     </LazyMotion>
   );
 }
@@ -250,13 +250,13 @@ export function ParallaxFrame({
   }, []);
 
   return (
-    <div ref={ref} className={`relative ${className}`}>
+    <div ref={ref} className={`relative ${className}`} style={{ position: 'relative' }}>
       {isDesktop ? (
         <DesktopParallaxInner targetRef={ref} range={range}>
           {children}
         </DesktopParallaxInner>
       ) : (
-        <div>{children}</div>
+        <div style={{ position: 'relative' }}>{children}</div>
       )}
     </div>
   );

@@ -71,7 +71,7 @@ export default function Footer() {
             </div>
 
             <p className="text-stone-400 text-sm leading-relaxed max-w-xs">
-              Driving end-to-end quality strategy, risk clarity, and dependable software delivery across engineering teams.
+              Darshan Patel — Senior QA Lead &amp; Analyst delivering precision quality assurance, test strategy, and release governance across 30+ web and mobile software projects.
             </p>
 
             <SocialLinks

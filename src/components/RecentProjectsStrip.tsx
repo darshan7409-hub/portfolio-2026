@@ -15,7 +15,12 @@ export default function RecentProjectsStrip() {
         <ul className="flex flex-wrap items-center gap-3">
           {PROFILE.recentProjectChips.map((chip) => (
             <li key={chip.targetId}>
-              <a href="#work" className="inline-flex">
+              <a
+                href="#work"
+                className="inline-flex"
+                title={`View ${chip.label} case study in Featured Projects`}
+                aria-label={`View ${chip.label} case study in Featured Projects`}
+              >
                 <GlassPanel className="!rounded-[12px] px-4 py-2.5 min-h-[44px] inline-flex items-center mono-meta text-xs sm:text-sm text-ink-secondary hover:text-accent transition-colors">
                   {chip.label}
                 </GlassPanel>
